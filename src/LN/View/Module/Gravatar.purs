@@ -10,8 +10,8 @@ module LN.View.Module.Gravatar (
 
 import Data.Maybe                         (Maybe(..))
 import Halogen                            (ComponentHTML)
-import Halogen.HTML.Indexed               as H
-import Halogen.HTML.Properties.Indexed    as P
+import Halogen.HTML               as H
+import Halogen.HTML.Properties    as P
 import Prelude                            (show, ($), (<>))
 
 import LN.Input.Types                     (Input)

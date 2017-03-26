@@ -23,10 +23,10 @@ import Data.Int                        (fromString)
 import Data.Maybe                      (Maybe(..), maybe)
 import Data.Tuple                      (Tuple(..))
 import Halogen.HTML.Core               as C
-import Halogen.HTML.Indexed            as H
-import Halogen.HTML.Events.Indexed     as E
+import Halogen.HTML            as H
+import Halogen.HTML.Events     as E
 import Halogen.HTML.Properties         as Pr
-import Halogen.HTML.Properties.Indexed as P
+import Halogen.HTML.Properties as P
 import Halogen.Themes.Bootstrap3       as B
 import Prelude                         (id, show, map, ($), (==), (<<<))
 
@@ -105,7 +105,7 @@ internalTagsField label tags current_tag set_tag add_tag delete_tag clear_tags =
       H.input [
         formControlClasses,
         P.value current_tag,
-        P.inputType P.InputText,
+        P.type_ P.InputText,
         E.onValueChange $ E.input set_tag,
         E.onKeyUp $ E.input (\ev -> if ev.keyCode == 13.0 then add_tag else Nop)
       ],
@@ -146,7 +146,7 @@ mandatoryIntegerField label value default min max step set_cb =
       H.input [
         formControlClasses,
         P.value $ show value,
-        P.inputType P.InputNumber,
+        P.type_ P.InputNumber,
 --        P.min min,
 --        P.max max,
 --        P.step step,

@@ -1,6 +1,5 @@
 module LN.Sort (
-  sortThreadPostPacks,
-  sortThreadPacks
+  sortMapBy
 ) where
 
 
@@ -12,20 +11,6 @@ import Prelude      (compare, ($), (<<<))
 
 import LN.ArrayList (listToArray)
 import LN.T
-
-
-
-sortThreadPostPacks SortOrderBy_Dsc = A.reverse <<< sortMapBy (_sortThreadPostPack createdAt_)
-sortThreadPostPacks _               = sortMapBy (_sortThreadPostPack createdAt_)
-
-_sortThreadPostPack by pack = (pack ^. _ThreadPostPackResponse .. threadPost_ ^. _ThreadPostResponse .. by)
-
-
-
-sortThreadPacks SortOrderBy_Dsc = A.reverse <<< sortMapBy (_sortThreadPack activityAt_)
-sortThreadPacks _               = sortMapBy (_sortThreadPack activityAt_)
-
-_sortThreadPack by pack = (pack ^. _ThreadPackResponse .. thread_ ^. _ThreadResponse .. by)
 
 
 

@@ -24,11 +24,6 @@ import LN.Input.Forum           as Forum
 import LN.Input.Board           as Board
 import LN.Input.Thread          as Thread
 import LN.Input.ThreadPost      as ThreadPost
-import LN.Internal.Organization (defaultOrganizationRequest)
-import LN.Internal.Forum        (defaultForumRequest)
-import LN.Internal.Board        (defaultBoardRequest)
-import LN.Internal.Thread       (defaultThreadRequest)
-import LN.Internal.ThreadPost   (defaultThreadPostRequest)
 import LN.Internal.Leuron       (defaultLeuronRequest, leuronToTyLeuron)
 import LN.Internal.Resource     (defaultResourceRequest, resourceTypeToTyResourceType)
 import LN.Router.Link           (updateUrl)

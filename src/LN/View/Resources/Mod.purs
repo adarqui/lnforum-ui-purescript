@@ -10,9 +10,9 @@ module LN.View.Resources.Mod (
 import Data.Maybe                      (Maybe(..), maybe)
 import Data.Tuple                      (Tuple(..))
 import Halogen                         (ComponentHTML)
-import Halogen.HTML.Indexed            as H
+import Halogen.HTML            as H
 import Halogen.HTML.Events             as E
-import Halogen.HTML.Properties.Indexed as P
+import Halogen.HTML.Properties as P
 import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
 import Prelude                         (id, map, show, const, ($), (<<<))

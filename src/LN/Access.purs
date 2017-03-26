@@ -16,15 +16,7 @@ module LN.Access (
   ifte_Self,
   ifte_NotSelf,
   self,
-  notSelf,
-  ifte_OrgMember,
-  orgMember,
-  orgMemberHTML,
-  orgMemberHTML',
-  ifte_OrgOwner,
-  orgOwner,
-  orgOwnerHTML,
-  orgOwnerHTML'
+  notSelf
 ) where
 
 
@@ -32,8 +24,8 @@ module LN.Access (
 -- import Data.Array                      (elem)
 import Data.Foldable (elem)
 import Halogen                         (ComponentHTML, HTML)
-import Halogen.HTML.Indexed            as H
-import Halogen.HTML.Properties.Indexed as P
+import Halogen.HTML            as H
+import Halogen.HTML.Properties as P
 import Halogen.Themes.Bootstrap3       as B
 import Prelude                         (Unit, unit, (==), (/=))
 
@@ -155,63 +147,3 @@ self my_id questionable_id = my_id == questionable_id
 
 notSelf :: Int -> Int -> Boolean
 notSelf my_id questionable_id = my_id /= questionable_id
-
-
-
---
--- Owner Helpers
---
-
-ifte_OrgOwner :: forall a. OrganizationPackResponse -> a -> a -> a
-ifte_OrgOwner pack t e =
-  if orgOwner pack
-     then t
-     else e
-
-
-
-orgOwner :: OrganizationPackResponse -> Boolean
-orgOwner (OrganizationPackResponse pack) = Team_Owners `elem` pack.teams
-
-
-
-orgOwnerHTML :: OrganizationPackResponse -> (Unit -> HTML _ _) -> (Unit -> HTML _ _) -> HTML _ _
-orgOwnerHTML pack owner_cb no_owner_cb =
-  if orgOwner pack
-    then owner_cb unit
-    else no_owner_cb unit
-
-
-
-orgOwnerHTML' :: OrganizationPackResponse -> (Unit -> HTML _ _) -> HTML _ _
-orgOwnerHTML' pack owner_cb = orgOwnerHTML pack owner_cb unitDiv
-
-
-
---
--- Member helpers
---
-
-ifte_OrgMember :: forall a. OrganizationPackResponse -> a -> a -> a
-ifte_OrgMember pack t e =
-  if orgMember pack
-     then t
-     else e
-
-
-
-orgMember :: OrganizationPackResponse -> Boolean
-orgMember (OrganizationPackResponse pack) = Team_Members `elem` pack.teams
-
-
-
-orgMemberHTML :: OrganizationPackResponse -> (Unit -> HTML _ _) -> (Unit -> HTML _ _) -> HTML _ _
-orgMemberHTML pack member_cb no_member_cb =
-  if orgMember pack
-    then member_cb unit
-    else no_member_cb unit
-
-
-
-orgMemberHTML' :: OrganizationPackResponse -> (Unit -> HTML _ _) -> HTML _ _
-orgMemberHTML' pack member_cb = orgMemberHTML pack member_cb unitDiv

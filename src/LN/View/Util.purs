@@ -7,7 +7,7 @@ module LN.View.Util (
 
 import Data.Maybe           (Maybe(..))
 import Halogen              (HTML)
-import Halogen.HTML.Indexed as H
+import Halogen.HTML as H
 import Optic.Core           ((^.), (..))
 import Prelude              ((==))
 

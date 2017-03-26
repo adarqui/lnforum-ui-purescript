@@ -6,9 +6,9 @@ module LN.Layout (
 
 import Data.Array                      ((:), length, concat)
 import Data.Maybe                      (Maybe(..))
-import Halogen.HTML.Indexed            (HTML(), ClassName())
-import Halogen.HTML.Indexed            as H
-import Halogen.HTML.Properties.Indexed as P
+import Halogen.HTML            (HTML(), ClassName())
+import Halogen.HTML            as H
+import Halogen.HTML.Properties as P
 import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
 import Prelude                         (map, show, ($), (<>))
@@ -112,7 +112,7 @@ header muser n_errors =
 
 footer :: forall a b. HTML a b
 footer =
-  H.footer [P.class_ (H.className "footer")] [
+  H.footer [P.class_ (P.class_ "footer")] [
     H.text "LN",
     H.ul [] (map (\s -> H.li [] [H.text s]) ["About", "Contact"])
   ]

@@ -9,7 +9,7 @@ import Control.Monad.Eff.Exception (throwException)
 import Control.Monad.Rec.Class     (forever)
 import Data.Maybe                  (Maybe(..))
 import Halogen                     (runUI, action)
-import Halogen.Util                (awaitLoad, awaitBody, selectElement)
+-- import Halogen.Util                (awaitLoad, awaitBody, selectElement)
 import Prelude                     (Unit, unit, const, pure, bind, ($), (>>=))
 import Router                      as R
 

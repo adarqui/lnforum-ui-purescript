@@ -1,9 +1,9 @@
-# ln-ui
+# lnotes-ui-purescripts
 
-***DEPRECATED***
+Resurrecting this somewhat, just want to see my old notes projects.
 
-## Old
+## WARNING
 
-***LN Project: MAJOR Work in progress***
+Purescript compilation is beyond slow with large code bases. GHCJS is beyond buggy and you need to be a genius to fix it. *Stick with javascript*.
 
-Purescript ui for the forum/site i'm building. Uses a godlike state type.
+My 2cents.

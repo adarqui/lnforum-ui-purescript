@@ -12,13 +12,13 @@ module LN.Component.Types (
 import Control.Monad.Aff         (Aff())
 import Control.Monad.Eff.Console (CONSOLE())
 import Data.Date                 (Now())
-import Data.Date.Locale          (Locale())
+-- import Data.Date.Locale          (Locale())
 import Data.NaturalTransformation (Natural(..))
 import Halogen                   (HalogenEffects, Component, ComponentDSL)
 import Network.HTTP.Affjax       (AJAX())
 import Prelude                   (Unit)
 import WebSocket                 (WEBSOCKET())
-import Browser.WebStorage        (WebStorage())
+-- import Browser.WebStorage        (WebStorage())
 
 import LN.Input.Types            (Input)
 import LN.State.Types            (State)
@@ -41,10 +41,10 @@ type EvalEff = CompEff -> CompEff
 type LNEff eff = Aff (LN eff)
 type LN eff =
   HalogenEffects
-    (webStorage :: WebStorage
-    , ajax      :: AJAX
+  ( {-webStorage :: WebStorage -}
+    ajax      :: AJAX
     , now       :: Now
-    , locale    :: Locale
+--    , locale    :: Locale
     , ws        :: WEBSOCKET
     , console   :: CONSOLE | eff
     )

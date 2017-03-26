@@ -12,16 +12,16 @@ import Data.Either (Either(..))
 import Data.Foldable (foldMap)
 import Data.Foreign.Class (readProp)
 import Data.Functor (($>))
-import Data.JSON (eitherDecode, decode, encode)
+-- import Data.JSON (eitherDecode, decode, encode)
 import Data.Maybe (Maybe(..), maybe, fromMaybe)
 import Data.Tuple
 
 import Halogen
 import Halogen.HTML.Core as H
-import Halogen.HTML.Indexed as H
-import Halogen.HTML.Events.Indexed as E
+import Halogen.HTML as H
+import Halogen.HTML.Events as E
 import Halogen.HTML.Properties as PX
-import Halogen.HTML.Properties.Indexed as P
+import Halogen.HTML.Properties as P
 
 import Network.HTTP.Affjax (AJAX(), post, affjax, defaultRequest)
 --import Network.HTTP.MimeType
@@ -46,23 +46,23 @@ import Control.Monad.Eff.Console (CONSOLE())
 buttonInfoClasses = buttonClasses "btn-info"
 buttonDangerClasses = buttonClasses "btn-danger"
 
-buttonClasses button_type = P.classes [H.className "btn", H.className button_type]
+buttonClasses button_type = P.classes [ClassName "btn",  ClassName button_type]
 
 
 -- Forms
 
-formGroupClasses = P.classes [H.className "form-group"]
-formControlClasses = P.classes [H.className "form-control"]
+formGroupClasses = P.classes [ClassName "form-group"]
+formControlClasses = P.classes [ClassName "form-control"]
 
 
 -- Radio
 
-radioInlineClasses = P.classes [H.className "radio-inline"]
+radioInlineClasses = P.classes [ClassName "radio-inline"]
 
 
 -- Class Helpers
-_class = P.class_ <<< H.className
-_classes classes = P.classes $ map H.className classes
+_class = P.class_ <<< ClassName
+_classes classes = P.classes $ map ClassName classes
 
 
 
@@ -77,11 +77,11 @@ _classes classes = P.classes $ map H.className classes
 
 input_DeleteEdit input_type value edit_cb delete_cb =
   H.div
-    [P.class_ (H.className "input-group")]
+    [P.class_ (ClassName "input-group")]
     [
-      H.input [formControlClasses, P.value value, E.onValueChange edit_cb, P.inputType input_type],
+      H.input [formControlClasses, P.value value, E.onValueChange edit_cb, P.type_ input_type],
       H.span
-        [P.class_ (H.className "input-group-btn")]
+        [P.class_ (ClassName "input-group-btn")]
         [
           H.button [
             buttonInfoClasses,
@@ -102,9 +102,9 @@ input_DeleteEditLabel input_type label value edit_cb delete_cb =
         [H.text label]
 
     , H.div [_class "form-group"] [
-        H.input [formControlClasses, _class "col-sm-6", P.value value, E.onValueChange edit_cb, P.inputType input_type],
+        H.input [formControlClasses, _class "col-sm-6", P.value value, E.onValueChange edit_cb, P.type_ input_type],
           H.span
-            [P.class_ (H.className "input-group-btn")]
+            [P.class_ (ClassName "input-group-btn")]
             [
               H.button [
                 buttonDangerClasses,
@@ -128,7 +128,7 @@ input_Label label placeholder value input_type setter =
       H.label_ [H.text label],
       H.input [
         formControlClasses,
-        P.inputType input_type,
+        P.type_ input_type,
         P.placeholder placeholder,
         P.value value,
         E.onValueChange setter
@@ -158,12 +158,12 @@ textArea_Label label placeholder value setter =
 
 textArea_LabelWithButton label placeholder value button_name value_change_cb click_cb =
   H.div
-    [P.class_ (H.className "input-group")]
+    [P.class_ (ClassName "input-group")]
     [
       H.label_ [H.text label],
       H.textarea [formControlClasses, P.placeholder placeholder, P.value value, E.onValueChange value_change_cb],
       H.span
-        [P.class_ (H.className "input-group-btn")]
+        [P.class_ (ClassName "input-group-btn")]
         [
           H.button [
             buttonInfoClasses,
@@ -177,11 +177,11 @@ textArea_LabelWithButton label placeholder value button_name value_change_cb cli
 
 textArea_DeleteEdit value edit_cb delete_cb =
   H.div
-    [P.class_ (H.className "input-group")]
+    [P.class_ (ClassName "input-group")]
     [
       H.textarea [formControlClasses, P.value value, E.onValueChange edit_cb],
       H.span
-        [P.class_ (H.className "input-group-btn")]
+        [P.class_ (ClassName "input-group-btn")]
         [
           H.button [
             buttonInfoClasses,
@@ -195,11 +195,11 @@ textArea_DeleteEdit value edit_cb delete_cb =
 
 textArea_LabelWithButtons label placeholder value value_change_cb buttons =
   H.div
-    [P.class_ (H.className "input-group")]
+    [P.class_ (ClassName "input-group")]
     [
       H.textarea [formControlClasses, P.placeholder placeholder, P.value value, E.onValueChange value_change_cb],
       H.span
-        [P.class_ (H.className "input-group-btn")]
+        [P.class_ (ClassName "input-group-btn")]
         [],
       H.p_ $ map (\(Tuple name cb) -> H.button [buttonInfoClasses, P.title name, E.onClick cb] [H.text name]) buttons
     ]
@@ -239,7 +239,7 @@ radioMenu menu_label radio_name radios setter checked_value =
           [H.label
             [radioInlineClasses]
             [H.text (show radio)]
-           ,H.input [P.inputType P.InputRadio, P.name radio_name, P.value "", E.onChecked (E.input_ (setter radio)), P.checked (checked_value == radio)]
+           ,H.input [P.type_ P.InputRadio, P.name radio_name, P.value "", E.onChecked (E.input_ (setter radio)), P.checked (checked_value == radio)]
           ]
       ) radios
 

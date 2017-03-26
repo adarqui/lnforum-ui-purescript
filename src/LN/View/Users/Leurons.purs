@@ -5,7 +5,7 @@ module LN.View.Users.Leurons (
 
 
 import Halogen              (ComponentHTML)
-import Halogen.HTML.Indexed as H
+import Halogen.HTML as H
 
 import LN.Input.Types       (Input)
 import LN.State.Types       (State)

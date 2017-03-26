@@ -6,9 +6,9 @@ module LN.View.Resources.SiftLeuronsRandom (
 
 import Data.Maybe                      (Maybe(..))
 import Halogen                         (ComponentHTML)
-import Halogen.HTML.Indexed            as H
-import Halogen.HTML.Properties.Indexed as P
-import Halogen.HTML.Events.Indexed     as E
+import Halogen.HTML            as H
+import Halogen.HTML.Properties as P
+import Halogen.HTML.Events     as E
 import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
 import Prelude                         (($))

@@ -6,9 +6,9 @@ module LN.View.Users.Profile (
 
 import Data.Maybe                      (Maybe(..), maybe)
 import Halogen                         (ComponentHTML)
-import Halogen.HTML.Indexed            as H
-import Halogen.HTML.Properties.Indexed as P
-import Halogen.HTML.Events.Indexed     as E
+import Halogen.HTML            as H
+import Halogen.HTML.Properties as P
+import Halogen.HTML.Events     as E
 import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
 import Prelude                         (show, id, ($), (==), (<>))
@@ -77,7 +77,7 @@ profile_Self' st user =
       H.option [P.selected $ prof.gender == GenderUnknown] [H.text "unknown"]
     ],
     H.input [
-      P.inputType P.InputDate,
+      P.type_ P.InputDate,
       P.classes [B.formControl],
       P.placeholder "birthdate",
       P.value $ yyyy_mm_dd prof.birthdate,

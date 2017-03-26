@@ -22,8 +22,8 @@ import Data.String                     (drop)
 import Data.Tuple                      (fst, snd)
 import DOM                             (DOM)
 import Halogen                         (HTML)
-import Halogen.HTML.Indexed            as H
-import Halogen.HTML.Properties.Indexed as P
+import Halogen.HTML            as H
+import Halogen.HTML.Properties as P
 import Halogen.Themes.Bootstrap3       as B
 import Routing.Hash.Aff                (setHash)
 import Prelude                         (Unit, map, ($), (<>))
@@ -31,7 +31,7 @@ import Purescript.Api.Helpers          (mkQueryString, flattenParams, qp)
 
 import LN.Router.Types                 (Routes, class HasLink, link)
 import LN.Router.Util                  (mkUri)
-import LN.T.Internal.Types             (Param)
+-- import LN.T.Internal.Types             (Param)
 
 
 

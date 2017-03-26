@@ -5,8 +5,8 @@ module LN.View.Resources.SiftLeurons (
 
 
 import Halogen                         (ComponentHTML)
-import Halogen.HTML.Indexed            as H
-import Halogen.HTML.Properties.Indexed as P
+import Halogen.HTML            as H
+import Halogen.HTML.Properties as P
 import Halogen.Themes.Bootstrap3       as B
 
 import LN.Input.Types                  (Input)

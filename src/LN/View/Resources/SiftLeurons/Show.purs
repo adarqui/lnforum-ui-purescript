@@ -6,7 +6,7 @@ module LN.View.Resources.SiftLeurons.Show (
 
 import Data.Maybe           (Maybe)
 import Halogen              (ComponentHTML)
-import Halogen.HTML.Indexed as H
+import Halogen.HTML as H
 import Prelude              (show, ($), (<>))
 
 import LN.Input.Types       (Input)

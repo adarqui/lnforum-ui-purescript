@@ -7,8 +7,8 @@ module LN.View.Resources.Index (
 import LN.ArrayList           (listToArray)
 import Data.Map                        as M
 import Halogen                         (ComponentHTML)
-import Halogen.HTML.Indexed            as H
-import Halogen.HTML.Properties.Indexed as P
+import Halogen.HTML            as H
+import Halogen.HTML.Properties as P
 import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
 import Prelude                         (show, map, ($), (<>))

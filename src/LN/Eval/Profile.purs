@@ -5,8 +5,7 @@ module LN.Eval.Profile (
 
 
 import Data.Date.Helpers  (dateFromString)
-import Data.Maybe         (Maybe(..))
-import Data.Maybe.Unsafe  (fromJust)
+import Data.Maybe         (Maybe(..), fromJust)
 import Halogen            (gets, modify)
 import Optic.Core         ((^.),(..), (.~))
 import Prelude            (bind, pure, ($))

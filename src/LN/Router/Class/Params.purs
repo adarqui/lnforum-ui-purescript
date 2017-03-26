@@ -50,7 +50,8 @@ fixParams = id
 
 psRoutingParamsToParams :: PSRoutingParams -> Params
 psRoutingParamsToParams ps =
-  StrM.fromList $ catMaybes $ map (\(Tuple k v) -> (paramFromKV' k v)) $ M.toList ps
+--  StrM.fromList $ catMaybes $ map (\(Tuple k v) -> (paramFromKV' k v)) $ M.toList ps
+  StrM.fromFoldable $ catMaybes $ map (\(Tuple k v) -> (paramFromKV' k v)) $ M.toList ps
 
 
 
@@ -78,50 +79,16 @@ paramTagFromString s =
     "offset"                 ->  Just ParamTag_Offset
     "sort_order"             ->  Just ParamTag_SortOrder
     "order"                  ->  Just ParamTag_Order
-    "organization_id"        ->  Just ParamTag_ByOrganizationId
-    "organizations_ids"      ->  Just ParamTag_ByOrganizationsIds
-    "organization_name"      ->  Just ParamTag_ByOrganizationName
-    "team_id"                ->  Just ParamTag_ByTeamId
-    "teams_ids"              ->  Just ParamTag_ByTeamsIds
-    "team_name"              ->  Just ParamTag_ByTeamName
-    "team_member_id"         ->  Just ParamTag_ByTeamMemberId
-    "teams_member_ids"       ->  Just ParamTag_ByTeamMembersIds
     "user_id"                ->  Just ParamTag_ByUserId
     "users_ids"              ->  Just ParamTag_ByUsersIds
-    "user_nick"              ->  Just ParamTag_ByUserNick
-    "users_nicks"            ->  Just ParamTag_ByUsersNicks
-    "global_group_id"        ->  Just ParamTag_ByGlobalGroupId
-    "global_groups_ids"      ->  Just ParamTag_ByGlobalGroupsIds
-    "group_id"               ->  Just ParamTag_ByGroupId
-    "groups_ids"             ->  Just ParamTag_ByGroupsIds
-    "group_member_id"        ->  Just ParamTag_ByGroupMemberId
-    "groups_member_ids"      ->  Just ParamTag_ByGroupMembersIds
-    "forum_id"               ->  Just ParamTag_ByForumId
-    "forums_ids"             ->  Just ParamTag_ByForumsIds
-    "forum_name"             ->  Just ParamTag_ByForumName
-    "board_id"               ->  Just ParamTag_ByBoardId
-    "boards_ids"             ->  Just ParamTag_ByBoardsIds
-    "board_name"             ->  Just ParamTag_ByBoardName
-    "thread_id"              ->  Just ParamTag_ByThreadId
-    "threads_ids"            ->  Just ParamTag_ByThreadsIds
-    "thread_name"            ->  Just ParamTag_ByThreadName
-    "thread_post_id"         ->  Just ParamTag_ByThreadPostId
-    "thread_posts_ids"       ->  Just ParamTag_ByThreadPostsIds
-    "thread_post_name"       ->  Just ParamTag_ByThreadPostName
-    "thread_post_like_id"    ->  Just ParamTag_ByThreadPostLikeId
-    "thread_post_likes_ids"  ->  Just ParamTag_ByThreadPostLikesIds
-    "thread_post_star_id"    ->  Just ParamTag_ByThreadPostStarId
-    "thread_post_stars_ids"  ->  Just ParamTag_ByThreadPostStarsIds
+--    "user_nick"              ->  Just ParamTag_ByUserNick
+--    "users_nicks"            ->  Just ParamTag_ByUsersNicks
     "bucket_id"              ->  Just ParamTag_ByBucketId
     "resource_id"            ->  Just ParamTag_ByResourceId
     "resources_ids"          ->  Just ParamTag_ByResourcesIds
     "resource_name"          ->  Just ParamTag_ByResourceName
     "leuron_id"              ->  Just ParamTag_ByLeuronId
     "leurons_ids"            ->  Just ParamTag_ByLeuronsIds
-    "pm_id"                  ->  Just ParamTag_ByPmId
-    "pms_ids"                ->  Just ParamTag_ByPmsIds
-    "reminder_id"            ->  Just ParamTag_ByReminderId
-    "reminder_folder_id"     ->  Just ParamTag_ByReminderFolderId
     "parent_id"              ->  Just ParamTag_ByParentId
     "parents_ids"            ->  Just ParamTag_ByParentsIds
     "parent_name"            ->  Just ParamTag_ByParentName
@@ -153,10 +120,5 @@ orderFromString s =
     "modified_at" -> OrderBy_ModifiedAt
     "modified_by" -> OrderBy_ModifiedBy
     "activity_at" -> OrderBy_ActivityAt
-    "org_id"      -> OrderBy_OrganizationId
-    "team_id"     -> OrderBy_TeamId
-    "forum_id"    -> OrderBy_ForumId
-    "board_id"    -> OrderBy_BoardId
-    "thread_id"   -> OrderBy_ThreadId
     "id"          -> OrderBy_Id
     _             -> OrderBy_None

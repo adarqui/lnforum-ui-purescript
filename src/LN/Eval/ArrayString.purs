@@ -13,7 +13,6 @@ import Halogen                         (gets, modify)
 import Optic.Core                      ((^.), (..), (.~))
 import Prelude                         (class Eq, id, bind, pure, const, ($), (<>), (<<<))
 
-import LN.Api.Internal.String          as ApiS
 import LN.Component.Types              (EvalEff)
 import LN.Helpers.Map                  (idmapFrom)
 import LN.Input.ArrayString            (InputArrayString(..))

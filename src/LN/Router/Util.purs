@@ -45,4 +45,4 @@ postSlash = slash
 
 
 unslash :: String -> String
-unslash = joinWith "" <<< split "/"
+unslash = joinWith "" <<< split (Pattern "/")

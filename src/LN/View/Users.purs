@@ -8,8 +8,8 @@ module LN.View.Users (
 
 import Data.Maybe                      (Maybe(..))
 import Halogen                         (ComponentHTML, HTML)
-import Halogen.HTML.Indexed            as H
-import Halogen.HTML.Properties.Indexed as P
+import Halogen.HTML            as H
+import Halogen.HTML.Properties as P
 import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
 import Prelude                         (($), (<>))

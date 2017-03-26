@@ -10,7 +10,6 @@ import Control.Monad.Aff.Console        (log)
 import Control.Monad.Aff.AVar           (AVAR(), AVar(..), putVar)
 import Control.Monad.Eff.Class          (liftEff)
 import Control.Monad.Eff.Console        as Console
-import Control.Monad.Eff.Console.Unsafe as Console
 import Control.Monad.Eff.Var            (($=), get)
 import Halogen                          (gets, action)
 import Prelude                          (Unit, unit, bind, pure, ($), (++))

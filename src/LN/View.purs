@@ -6,7 +6,7 @@ module LN.View (
 
 import Data.Maybe                (Maybe(..))
 import Halogen                   (HTML, ComponentHTML)
-import Halogen.HTML.Indexed      as H
+import Halogen.HTML      as H
 import Prelude                   (map, const, ($))
 
 
@@ -22,65 +22,11 @@ import LN.View.Users.Index       (renderView_Users_Index)
 import LN.View.Users.Show        (renderView_Users_Show)
 import LN.View.Users.Profile     (renderView_Users_Profile)
 import LN.View.Users.Settings    (renderView_Users_Settings)
-import LN.View.Users.PMs         (renderView_Users_PMs)
-import LN.View.Users.Threads     (renderView_Users_Threads)
-import LN.View.Users.ThreadPosts (renderView_Users_ThreadPosts)
-import LN.View.Users.Workouts    (renderView_Users_Workouts)
 import LN.View.Users.Resources   (renderView_Users_Resources)
 import LN.View.Users.Leurons     (renderView_Users_Leurons)
-import LN.View.Users.Likes       (renderView_Users_Likes)
 import LN.View.Four04            (renderView_404)
 
 
-
-import LN.View.Organizations.Index                      (renderView_Organizations_Index)
-import LN.View.Organizations.Show                       (renderView_Organizations_Show)
-import LN.View.Organizations.Mod                        ( renderView_Organizations_NewS, renderView_Organizations_EditS
-                                                        , renderView_Organizations_DeleteS)
-import LN.View.Organizations.MembersOnly                (renderView_Organizations_MembersOnly)
-import LN.View.Organizations.Membership                 (renderView_Organizations_Membership_Index, renderView_Organizations_Membership_Delete)
-
-
-
-import LN.View.Teams.Index                      (renderView_Teams_Index)
-
-
-
-import LN.View.TeamMembers.Index                (renderView_TeamMembers_Index)
-
-
-
-import LN.View.Forums.Index                      (renderView_Forums_Index)
-import LN.View.Forums.Show                       (renderView_Forums_Show)
-import LN.View.Forums.Mod                        ( renderView_Forums_New, renderView_Forums_Edit
-                                                 , renderView_Forums_Delete
-                                                 , renderView_Forums_NewS, renderView_Forums_EditS
-                                                 , renderView_Forums_DeleteS)
-
-
-
-import LN.View.Boards.Index                      (renderView_Boards_Index)
-import LN.View.Boards.Show                       (renderView_Boards_Show)
-import LN.View.Boards.Mod                        ( renderView_Boards_New, renderView_Boards_Edit
-                                                 , renderView_Boards_Delete
-                                                 , renderView_Boards_NewS, renderView_Boards_EditS
-                                                 , renderView_Boards_DeleteS)
-
-
-
-import LN.View.Threads.Index                     (renderView_Threads_Index)
-import LN.View.Threads.Show                      (renderView_Threads_Show)
-import LN.View.Threads.Mod                       ( renderView_Threads_New, renderView_Threads_Edit
-                                                 , renderView_Threads_Delete
-                                                 , renderView_Threads_NewS, renderView_Threads_EditS
-                                                 , renderView_Threads_DeleteS)
-
-
-
-import LN.View.ThreadPosts.Index                 (renderView_ThreadPosts_Index)
-import LN.View.ThreadPosts.Show                  (renderView_ThreadPosts_Show)
-import LN.View.ThreadPosts.Mod                   ( renderView_ThreadPosts_New, renderView_ThreadPosts_Edit
-                                                 , renderView_ThreadPosts_Delete)
 
 import LN.View.Resources.Index                   (renderView_Resources_Index)
 import LN.View.Resources.Mod                     ( renderView_Resources_New, renderView_Resources_Edit
@@ -126,84 +72,8 @@ renderView (Users (Show user_name) params) = renderView_Users_Show user_name
 renderView (UsersProfile user_name params)     = renderView_Users_Profile user_name
 renderView (UsersSettings user_name params)    = renderView_Users_Settings user_name
 renderView (UsersPMs user_name params)         = renderView_Users_PMs user_name
-renderView (UsersThreads user_name params)     = renderView_Users_Threads user_name
-renderView (UsersThreadPosts user_name params) = renderView_Users_ThreadPosts user_name
-renderView (UsersWorkouts user_name params)    = renderView_Users_Workouts user_name
 renderView (UsersResources user_name params)   = renderView_Users_Resources user_name
 renderView (UsersLeurons user_name params)     = renderView_Users_Leurons user_name
-renderView (UsersLikes user_name params)       = renderView_Users_Likes user_name
-
-
-
-renderView (Organizations Index params)             = renderView_Organizations_Index
-renderView (Organizations New params)               = renderView_Organizations_NewS
-renderView (Organizations (Edit org_name) params)   = renderView_Organizations_EditS
-renderView (Organizations (Delete org_name) params) = renderView_Organizations_DeleteS
-renderView (Organizations (Show org_name) params)   = renderView_Organizations_Show
-
-
-
-renderView (OrganizationsMembersOnly org_name)      = renderView_Organizations_MembersOnly
-
-
-
-renderView (OrganizationsMembership org_name Index params)   = renderView_Organizations_Membership_Index
-renderView (OrganizationsMembership org_name DeleteZ params) = renderView_Organizations_Membership_Delete
-
-
-
-renderView (OrganizationsTeams org_name Index params)   = renderView_Teams_Index
-
-
-
-renderView (OrganizationsTeamsMembers org_name team_name Index params) = renderView_TeamMembers_Index
-
-
-
-renderView (OrganizationsForums org_name Index params)               = renderView_Forums_Index
-renderView (OrganizationsForums org_name New params)                 = renderView_Forums_NewS
-renderView (OrganizationsForums org_name (Edit forum_name) params)   = renderView_Forums_EditS
-renderView (OrganizationsForums org_name (Delete forum_name) params) = renderView_Forums_DeleteS
-renderView (OrganizationsForums org_name (Show forum_name) params)   = renderView_Forums_Show
-
-
-
-renderView (OrganizationsForumsBoards org_name forum_name Index params)               =
-  renderView_Forums_Show
-renderView (OrganizationsForumsBoards org_name forum_name New params)                 =
-  renderView_Boards_NewS
-renderView (OrganizationsForumsBoards org_name forum_name (Edit board_name) params)   =
-  renderView_Boards_EditS
-renderView (OrganizationsForumsBoards org_name forum_name (Delete board_name) params) =
-  renderView_Boards_DeleteS
-renderView (OrganizationsForumsBoards org_name forum_name (Show board_name) params)   =
-  renderView_Boards_Show
-
-
-
-renderView (OrganizationsForumsBoardsThreads org_name forum_name board_name Index params)                =
-  renderView_Boards_Show
-renderView (OrganizationsForumsBoardsThreads org_name forum_name board_name New params)                  =
-  renderView_Threads_NewS
-renderView (OrganizationsForumsBoardsThreads org_name forum_name board_name (Edit thread_name) params)   =
-  renderView_Threads_EditS
-renderView (OrganizationsForumsBoardsThreads org_name forum_name board_name (Delete thread_name) params) =
-  renderView_Threads_DeleteS
-renderView (OrganizationsForumsBoardsThreads org_name forum_name board_name (Show thread_name) params)   =
-  renderView_Threads_Show
-
-
-
-renderView (OrganizationsForumsBoardsThreadsPosts org_name forum_name board_name thread_name Index params)             =
-  renderView_Threads_Show
-renderView (OrganizationsForumsBoardsThreadsPosts org_name forum_name board_name thread_name New params)               =
-  renderView_ThreadPosts_New
-renderView (OrganizationsForumsBoardsThreadsPosts org_name forum_name board_name thread_name (EditI post_id) params)   =
-  renderView_ThreadPosts_Edit post_id
-renderView (OrganizationsForumsBoardsThreadsPosts org_name forum_name board_name thread_name (DeleteI post_id) params) =
-  renderView_ThreadPosts_Delete post_id
-renderView (OrganizationsForumsBoardsThreadsPosts org_name forum_name board_name thread_name (ShowI post_id) params)   =
-  renderView_Threads_Show
 
 
 

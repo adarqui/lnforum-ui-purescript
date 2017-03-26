@@ -6,7 +6,7 @@ module LN.View.Errors (
 
 import Data.Tuple           (Tuple(..))
 import Halogen              (ComponentHTML)
-import Halogen.HTML.Indexed as H
+import Halogen.HTML as H
 import Prelude              (map, ($), (<>))
 
 import LN.Input.Types       (Input)

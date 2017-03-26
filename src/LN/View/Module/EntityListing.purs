@@ -7,8 +7,8 @@ module LN.View.Module.EntityListing (
 
 import Data.Maybe                            (Maybe(..))
 import Halogen                               (ComponentHTML)
-import Halogen.HTML.Indexed                  as H
-import Halogen.HTML.Properties.Indexed       as P
+import Halogen.HTML                  as H
+import Halogen.HTML.Properties       as P
 import Halogen.Themes.Bootstrap3             as B
 import Prelude                               (map, ($))
 
@@ -44,7 +44,7 @@ renderEntity entity =
   H.div [P.class_ B.colXs4] [
     H.div_ [
         linkTo' entity.route
-          [H.img [P.src entity.logo, P.alt entity.nick, P.classes [H.className "img-circle", H.className "img-thumbnail"]]]
+          [H.img [P.src entity.logo, P.alt entity.nick, P.classes [P.class_ "img-circle", P.class_ "img-thumbnail"]]]
 --      , H.h3_ [H.text entity.displayNick]
       , H.h4_ [linkTo entity.route entity.nick]
     ]

@@ -19,7 +19,7 @@ import Prelude                       (bind, pure, not, map, ($), (==))
 
 import LN.Api                        (rd, getUsersCount' , getUserSanitizedPacks
                                      , getUserSanitizedPacks_ByUsersIds')
-import LN.Api.Internal.String        as ApiS
+import LN.Api.String                 as ApiS
 import LN.Component.Types            (EvalEff)
 import LN.Helpers.Map                (idmapFrom)
 import LN.Input.Types                (Input(..))
