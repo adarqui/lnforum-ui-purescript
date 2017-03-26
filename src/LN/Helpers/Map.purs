@@ -21,7 +21,7 @@ mergeMap st m =
 
 
 mergeMapList st m un_accessor =
-  M.union st (M.fromList $ L.zip (map un_accessor m) m)
+  M.union st (M.fromFoldable $ L.zip (map un_accessor m) m)
 
 
 

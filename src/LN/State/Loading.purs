@@ -52,12 +52,14 @@ type LoadingMap = M.Map Int Boolean
 
 
 defaultLoadingMap :: LoadingMap
-defaultLoadingMap = M.fromList $ map (\s -> Tuple s false) loadingKeys
+defaultLoadingMap = M.fromFoldable $ map (\s -> Tuple s false) loadingKeys
 
 
 
 getLoading :: Int -> LoadingMap -> Boolean
-getLoading key lm = fromJust $ M.lookup key lm
+getLoading key lm = case M.lookup key lm of
+                         Just _ -> true
+                         _      -> false
 
 
 

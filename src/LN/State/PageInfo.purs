@@ -2,13 +2,8 @@ module LN.State.PageInfo (
   PageInfo,
   defaultPageInfo,
   defaultPageInfo_Users,
-  defaultPageInfo_Organizations,
-  defaultPageInfo_Forums,
-  defaultPageInfo_Threads,
-  defaultPageInfo_ThreadPosts,
   defaultPageInfo_Resources,
   defaultPageInfo_Leurons,
-  defaultPageInfo_Workouts,
   RunPageInfo,
   runPageInfo
 ) where
@@ -19,6 +14,7 @@ import Data.Array          (head)
 import Data.Maybe          (maybe)
 import Optic.Core          ((^.), (..))
 import Prelude             ((+), (-), (/), (*))
+import LN.T
 
 {-
 import LN.T.Internal.Types (SortOrderBy(..), OrderBy(..), CountResponses, Param(..)
@@ -48,31 +44,6 @@ defaultPageInfo_Users = defaultPageInfo -- { orderBy = OrderBy_CreatedAt }
 
 
 
-defaultPageInfo_Organizations :: PageInfo
-defaultPageInfo_Organizations = defaultPageInfo -- { orderBy = OrderBy_CreatedAt }
-
-
-
-defaultPageInfo_Forums :: PageInfo
-defaultPageInfo_Forums = defaultPageInfo -- { orderBy = OrderBy_CreatedAt }
-
-
-
-defaultPageInfo_Boards :: PageInfo
-defaultPageInfo_Boards = defaultPageInfo -- { orderBy = OrderBy_CreatedAt }
-
-
-
-defaultPageInfo_Threads :: PageInfo
-defaultPageInfo_Threads = defaultPageInfo { sortOrder = SortOrderBy_Dsc, order = OrderBy_ActivityAt }
-
-
-
-defaultPageInfo_ThreadPosts :: PageInfo
-defaultPageInfo_ThreadPosts = defaultPageInfo -- { orderBy = OrderBy_CreatedAt }
-
-
-
 defaultPageInfo_Resources :: PageInfo
 defaultPageInfo_Resources = defaultPageInfo -- { orderBy = OrderBy_CreatedAt }
 
@@ -80,11 +51,6 @@ defaultPageInfo_Resources = defaultPageInfo -- { orderBy = OrderBy_CreatedAt }
 
 defaultPageInfo_Leurons :: PageInfo
 defaultPageInfo_Leurons = defaultPageInfo -- { orderBy = OrderBy_CreatedAt }
-
-
-
-defaultPageInfo_Workouts :: PageInfo
-defaultPageInfo_Workouts = defaultPageInfo -- { orderBy = OrderBy_CreatedAt }
 
 
 

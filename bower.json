@@ -12,7 +12,7 @@
   ],
   "dependencies": {
     "purescript-halogen": "^1.2.0",
-    "purescript-api-helpers": "^1.2.0",
+    "purescript-api-helpers": "^1.2.3",
     "purescript-date-helpers": "^1.2.0",
     "purescript-ebyam": "^1.2.0",
     "purescript-maybe": "^3.0.0",
