@@ -5,14 +5,13 @@ module LN.Input.ArrayString (
 
 
 
-import Data.Enum            (class Enum, Cardinality(..), fromEnum, defaultSucc, defaultPred)
+import Data.Enum            (class Enum, class BoundedEnum, Cardinality(..), fromEnum, defaultSucc, defaultPred)
 -- import Data.Function        (on)
 import Data.Maybe           (Maybe(..))
 import Prelude              ( class Show
                             , class Eq
                             , class Ord, Ordering(..), compare
-                            , class Bounded
-                            , class BoundedOrd)
+                            , class Bounded)
 
 
 
@@ -53,14 +52,16 @@ instance arrayStringEntBounded :: Bounded ArrayStringEnt where
 
 
 
-instance arrayStringEntBoundedOrd :: BoundedOrd ArrayStringEnt
+-- instance arrayStringEntBoundedOrdering :: BoundedOrdering ArrayStringEnt
 
 
 
 instance arrayStringEntEnum :: Enum ArrayStringEnt where
-  cardinality = Cardinality 4
   succ        = defaultSucc arrayStringEntToEnum arrayStringEntFromEnum
   pred        = defaultPred arrayStringEntToEnum arrayStringEntFromEnum
+
+instance arrayStringEntBoundedEnum :: BoundedEnum ArrayStringEnt where
+  cardinality = Cardinality 4
   toEnum      = arrayStringEntToEnum
   fromEnum    = arrayStringEntFromEnum
 
@@ -69,12 +70,14 @@ arrayStringEntToEnum 0 = Just ASE_Tags
 arrayStringEntToEnum 1 = Just ASE_PrivateTags
 arrayStringEntToEnum 2 = Just ASE_SuggestedTags
 arrayStringEntToEnum 3 = Just ASE_Examples
+arrayStringEntToEnum _ = Nothing
 
 arrayStringEntFromEnum :: ArrayStringEnt -> Int
 arrayStringEntFromEnum ASE_Tags          = 0
 arrayStringEntFromEnum ASE_PrivateTags   = 1
 arrayStringEntFromEnum ASE_SuggestedTags = 2
 arrayStringEntFromEnum ASE_Examples      = 3
+arrayStringEntFromEnum _                 = 0
 
 
 

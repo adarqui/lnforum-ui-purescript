@@ -21,7 +21,7 @@ type Entity =
 
 
 
-defaultEntity :: Entity
+defaultEntity :: Partial => Entity
 defaultEntity =
   { nick:        "unknown"
   , displayNick: "unknown"

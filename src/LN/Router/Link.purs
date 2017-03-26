@@ -31,6 +31,7 @@ import Purescript.Api.Helpers          (mkQueryString, flattenParams, qp)
 
 import LN.Router.Types                 (Routes, class HasLink, link)
 import LN.Router.Util                  (mkUri)
+import LN.T
 -- import LN.T.Internal.Types             (Param)
 
 

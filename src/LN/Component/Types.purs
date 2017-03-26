@@ -30,7 +30,9 @@ type ComponentSlot s f g = Unit -> { component :: Component s f g, initialState 
 
 
 -- type EvalEff = forall eff. {-Partial =>-} Natural Input State Input (LNEff eff) -> Natural Input State Input (LNEff eff)
-type CompEff = forall eff. Natural Input (ComponentDSL State Input (LNEff eff))
+-- type CompEff = forall eff. Natural Input (ComponentDSL State Input (LNEff eff))
+-- type CompEff = forall eff. Natural Input (ComponentDSL State Input)
+type CompEff = forall eff. Natural Input (ComponentDSL State Input Void (LNEff eff))
 type EvalEff = CompEff -> CompEff
 -- type EvalEff = forall eff. Natural Input (ComponentDSL State Input (LNEff eff)) -> Natural Input (ComponentDSL State Input (LNEff eff))
 -- Natural Query (ComponentDSL State Query (Aff (AppEffects eff)))

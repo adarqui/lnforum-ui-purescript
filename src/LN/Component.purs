@@ -72,22 +72,10 @@ ui = component {render, eval}
   -- Components
 
   eval z@(CompArrayString _ _)                        = eval_ArrayString eval z
-  eval z@(CompOrganization _ _)                       = eval_Organization eval z
-  eval z@(CompTeam _ _)                               = eval_Team eval z
-  eval z@(CompTeamMember _ _)                         = eval_TeamMember eval z
   eval z@(CompMembership _ _)                         = eval_Membership eval z
-  eval z@(CompForum _ _)                              = eval_Forum eval z
-  eval z@(CompBoard _ _)                              = eval_Board eval z
-  eval z@(CompThread _ _)                             = eval_Thread eval z
-  eval z@(CompThreadPost _ _)                         = eval_ThreadPost eval z
   eval z@(CompProfile _ _)                            = eval_Profile eval z
   eval z@(CompResource _ _)                           = eval_Resource eval z
   eval z@(CompLeuron _ _)                             = eval_Leuron eval z
-  eval z@(CompPm _ _)                                 = eval_Pm eval z
-  eval z@(CompPmIn _ _)                               = eval_PmIn eval z
-  eval z@(CompPmOut _ _)                              = eval_PmOut eval z
-  eval z@(CompLike _ _)                               = eval_Like eval z
-  eval z@(CompStar _ _)                               = eval_Star eval z
   eval z@(CompOrderBy _ _)                            = eval_OrderBy eval z
 
   eval z@(Nop _)                                      = eval_Nop eval z

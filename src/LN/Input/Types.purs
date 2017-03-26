@@ -16,7 +16,7 @@ module LN.Input.Types (
 import Data.Foreign            (ForeignError)
 import Purescript.Api.Helpers  (ApiError)
 
-import LN.Input.ArrayString    (InputArrayString(..))
+import LN.Input.ArrayString    (InputArrayString)
 import LN.Input.Leuron         (InputLeuron(..), Leuron_Mod)
 import LN.Input.Membership     (InputMembership(..), Membership_Act, Membership_Mod)
 import LN.Input.OrderBy        (InputOrderBy)

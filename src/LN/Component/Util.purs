@@ -6,9 +6,11 @@ module LN.Component.Util (
 
 import Control.Monad.Aff     (Aff(), runAff)
 import Control.Monad.Eff     (Eff())
-import Prelude               (Unit, const, pure, unit)
+import Prelude               (Unit, const, pure, bind, unit)
 
 
 
 quietLaunchAff :: forall eff a. Aff eff a -> Eff eff Unit
-quietLaunchAff = runAff (const (pure unit)) (const (pure unit))
+quietLaunchAff aff = do
+  runAff (const (pure unit)) (const (pure unit)) aff
+  pure unit
