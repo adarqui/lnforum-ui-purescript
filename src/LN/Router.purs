@@ -17,7 +17,7 @@ import Data.Map                as M
 import Data.Maybe              (Maybe(..))
 import Data.String             (length)
 import Data.Tuple              (Tuple(..), uncurry)
-import Halogen                 hiding (set)
+-- import Halogen                 hiding (set)
 import Prelude                 (Unit, bind, pure, const, (<$>), (<*>), ($), (<<<), (>))
 import Routing                 (matchesAff)
 import Routing.Match           (Match(..))
@@ -72,13 +72,8 @@ routing =
 
       users_profile <|>
       users_settings <|>
-      users_pms <|>
-      users_threads <|>
-      users_thread_posts <|>
-      users_workouts <|>
       users_resources <|>
       users_leurons <|>
-      users_likes <|>
 
       users_new <|>
       users_show <|>
@@ -113,46 +108,6 @@ routing =
       login <|>
       logout <|>
 
-      -- wtf? why do I have to put this here..
-      organizations_forums_boards_threads_posts_show_int <|>
-
-      organizations_new <|>
-      organizations_edit <|>
-      organizations_delete <|>
-      organizations_index <|>
-
-      organizations_forums_boards_threads_posts_new <|>
-      organizations_forums_boards_threads_new <|>
-      organizations_forums_boards_new <|>
-      organizations_forums_new <|>
-      organizations_membership_new <|>
-
-      organizations_forums_boards_threads_posts_edit_int <|>
-      organizations_forums_boards_threads_edit <|>
-      organizations_forums_boards_edit <|>
-      organizations_forums_edit <|>
-
-      organizations_forums_boards_threads_posts_delete_int <|>
-      organizations_forums_boards_threads_delete <|>
-      organizations_forums_boards_delete <|>
-      organizations_forums_delete <|>
-      organizations_membership_delete <|>
-
-      organizations_forums_boards_threads_posts_index <|>
-      organizations_forums_boards_threads_index <|>
-      organizations_forums_boards_index <|>
-      organizations_forums_index <|>
-      organizations_teams_members_index <|>
-      organizations_teams_index <|>
-      organizations_membership_index <|>
-
-      organizations_forums_boards_threads_show <|>
-      organizations_forums_boards_show <|>
-      organizations_forums_show <|>
-      organizations_teams_show <|>
-      organizations_members_only <|>
-      organizations_show <|>
-
       home <|>
       home2
   where
@@ -184,26 +139,12 @@ routing =
     users_settings =
       UsersSettings <$> (lit "" *> lit "u" *> str1) <*> (lit "settings" *> (params' <|> pure emptyParams))
 
-    users_pms =
-      UsersPMs <$> (lit "" *> lit "u" *> str1) <*> (lit "pms" *> (params' <|> pure emptyParams))
-
-    users_threads =
-      UsersThreads <$> (lit "" *> lit "u" *> str1) <*> (lit "threads" *> (params' <|> pure emptyParams))
-
-    users_thread_posts =
-      UsersThreadPosts <$> (lit "" *> lit "u" *> str1) <*> (lit "thread_posts" *> (params' <|> pure emptyParams))
-
-    users_workouts =
-      UsersWorkouts <$> (lit "" *> lit "u" *> str1) <*> (lit "workouts" *> (params' <|> pure emptyParams))
-
     users_resources =
       UsersResources <$> (lit "" *> lit "u" *> str1) <*> (lit "resources" *> (params' <|> pure emptyParams))
 
     users_leurons =
       UsersLeurons <$> (lit "" *> lit "u" *> str1) <*> (lit "leurons" *> (params' <|> pure emptyParams))
 
-    users_likes =
-      UsersLikes <$> (lit "" *> lit "u" *> str1) <*> (lit "likes" *> (params' <|> pure emptyParams))
 
 
 
@@ -221,237 +162,6 @@ routing =
       Users
       <$> (lit "" *> lit "u" *> (Show <$> str1))
       <*> (params' <|> pure emptyParams)
-
-
-
-    organizations_index =
-      Organizations
-      <$> (lit "" *> lit "organizations" *> pure Index)
-      <*> (params' <|> pure emptyParams)
-
-    organizations_new =
-      Organizations
-      <$> (lit "" *> lit "organizations" *> lit "new" *> pure New)
-      <*> (params' <|> pure emptyParams)
-
-    organizations_edit =
-      Organizations
-      <$> (lit "" *> lit "organizations" *> lit "_edit" *> (Edit <$> str1))
-      <*> (params' <|> pure emptyParams)
-
-    organizations_delete =
-      Organizations
-      <$> (lit "" *> lit "organizations" *> lit "_delete" *> (Delete <$> str1))
-      <*> (params' <|> pure emptyParams)
-
-
-
-
-    organizations_forums_new =
-      OrganizationsForums
-      <$> (lit "" *> str1)
-      <*> (lit "f" *> lit "new" *> pure New)
-      <*> (params' <|> pure emptyParams)
-
-    organizations_forums_boards_new =
-      OrganizationsForumsBoards
-      <$> (lit "" *> str1)
-      <*> (lit "f" *> str1)
-      <*> (lit "new" *> pure New)
-      <*> (params' <|> pure emptyParams)
-
-    organizations_forums_boards_threads_new =
-      OrganizationsForumsBoardsThreads
-      <$> (lit "" *> str1)
-      <*> (lit "f" *> str1)
-      <*> str1
-      <*> (lit "new" *> pure New)
-      <*> (params' <|> pure emptyParams)
-
-    organizations_forums_boards_threads_posts_new =
-      OrganizationsForumsBoardsThreadsPosts
-      <$> (lit "" *> str1)
-      <*> (lit "f" *> str1)
-      <*> str1
-      <*> str1
-      <*> (lit "new" *> pure New)
-      <*> (params' <|> pure emptyParams)
-
-    organizations_membership_new =
-      OrganizationsMembership
-      <$> (lit "" *> str1)
-      <*> (lit "membership" *> lit "new" *> pure New)
-      <*> (params' <|> pure emptyParams)
-
-
-
-    organizations_forums_edit =
-      OrganizationsForums
-      <$> (lit "" *> str1)
-      <*> (lit "f" *> lit "_edit" *> (Edit <$> str1))
-      <*> (params' <|> pure emptyParams)
-
-    organizations_forums_boards_edit =
-      OrganizationsForumsBoards
-      <$> (lit "" *> str1)
-      <*> (lit "f" *> str1)
-      <*> (lit "_edit" *> (Edit <$> str1))
-      <*> (params' <|> pure emptyParams)
-
-    organizations_forums_boards_threads_edit =
-      OrganizationsForumsBoardsThreads
-      <$> (lit "" *> str1)
-      <*> (lit "f" *> str1)
-      <*> str1
-      <*> (lit "_edit" *> (Edit <$> str1))
-      <*> (params' <|> pure emptyParams)
-
-    organizations_forums_boards_threads_posts_edit_int =
-      OrganizationsForumsBoardsThreadsPosts
-      <$> (lit "" *> str1)
-      <*> (lit "f" *> str1)
-      <*> str1
-      <*> str1
-      <*> (lit "_edit" *> (EditI <$> int))
-      <*> (params' <|> pure emptyParams)
-
-
-
-    organizations_forums_delete =
-      OrganizationsForums
-      <$> (lit "" *> str1)
-      <*> (lit "f" *> lit "_delete" *> (Delete <$> str1))
-      <*> (params' <|> pure emptyParams)
-
-    organizations_forums_boards_delete =
-      OrganizationsForumsBoards
-      <$> (lit "" *> str1)
-      <*> (lit "f" *> str1)
-      <*> (lit "_delete" *> (Delete <$> str1))
-      <*> (params' <|> pure emptyParams)
-
-    organizations_forums_boards_threads_delete =
-      OrganizationsForumsBoardsThreads
-      <$> (lit "" *> str1)
-      <*> (lit "f" *> str1)
-      <*> str1
-      <*> (lit "_delete" *> (Delete <$> str1))
-      <*> (params' <|> pure emptyParams)
-
-    organizations_forums_boards_threads_posts_delete_int =
-      OrganizationsForumsBoardsThreadsPosts
-      <$> (lit "" *> str1)
-      <*> (lit "f" *> str1)
-      <*> str1
-      <*> str1
-      <*> (lit "_delete" *> (DeleteI <$> int))
-      <*> (params' <|> pure emptyParams)
-
-    organizations_membership_delete =
-      OrganizationsMembership
-      <$> (lit "" *> str1)
-      <*> (lit "membership" *> lit "_delete" *> pure DeleteZ)
-      <*> (params' <|> pure emptyParams)
-
-
-
-    organizations_forums_index =
-      OrganizationsForums
-      <$> (lit "" *> str1)
-      <*> (lit "f" *> pure Index)
-      <*> (params' <|> pure emptyParams)
-
-    organizations_forums_boards_index =
-      OrganizationsForumsBoards
-      <$> (lit "" *> str1)
-      <*> (lit "f" *> str1)
-      <*> pure Index
-      <*> (params' <|> pure emptyParams)
-
-    organizations_forums_boards_threads_index =
-      OrganizationsForumsBoardsThreads
-      <$> (lit "" *> str1)
-      <*> (lit "f" *> str1)
-      <*> str1
-      <*> pure Index
-      <*> (params' <|> pure emptyParams)
-
-    organizations_forums_boards_threads_posts_index =
-      OrganizationsForumsBoardsThreadsPosts
-      <$> (lit "" *> str1)
-      <*> (lit "f" *> str1)
-      <*> str1
-      <*> str1
-      <*> pure Index
-      <*> (params' <|> pure emptyParams)
-
-    organizations_teams_index =
-      OrganizationsTeams
-      <$> (lit "" *> str1)
-      <*> (lit "teams" *> pure Index)
-      <*> (params' <|> pure emptyParams)
-
-    organizations_teams_members_index =
-      OrganizationsTeamsMembers
-      <$> (lit "" *> str1)
-      <*> (lit "teams" *> str1)
-      <*> pure Index
-      <*> (params' <|> pure emptyParams)
-
-    organizations_membership_index =
-      OrganizationsMembership
-      <$> (lit "" *> str1)
-      <*> (lit "membership" *> pure Index)
-      <*> (params' <|> pure emptyParams)
-
-
-
-    organizations_show =
-      Organizations
-      <$> (lit "" *> (Show <$> str1))
-      <*> (params' <|> pure emptyParams)
-
-    organizations_forums_show =
-      OrganizationsForums
-      <$> (lit "" *> str1)
-      <*> (lit "f" *> (Show <$> str1))
-      <*> (params' <|> pure emptyParams)
-
-    organizations_forums_boards_show =
-      OrganizationsForumsBoards
-      <$> (lit "" *> str1)
-      <*> (lit "f" *> str1)
-      <*> (Show <$> str1)
-      <*> (params' <|> pure emptyParams)
-
-    organizations_forums_boards_threads_show =
-      OrganizationsForumsBoardsThreads
-      <$> (lit "" *> str1)
-      <*> (lit "f" *> str1)
-      <*> str1
-      <*> (Show <$> str1)
-      <*> (params' <|> pure emptyParams)
-
-    organizations_forums_boards_threads_posts_show_int =
-      OrganizationsForumsBoardsThreadsPosts
-      <$> (lit "" *> str1)
-      <*> (lit "f" *> str1)
-      <*> str1
-      <*> str1
-      <*> (ShowI <$> int)
-      <*> (params' <|> pure emptyParams)
-
-    organizations_teams_show =
-      OrganizationsTeams
-      <$> (lit "" *> str1)
-      <*> (lit "teams" *> (Show <$> str1))
-      <*> (params' <|> pure emptyParams)
-
-
-
-    organizations_members_only =
-      OrganizationsMembersOnly
-      <$> (lit "" *> str <* lit "_members_only")
 
 
 

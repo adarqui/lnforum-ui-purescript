@@ -44,22 +44,11 @@ links =
 
   , Errors
 
-  , Organizations Index emptyParams
-  , OrganizationsForums "adarq" Index emptyParams
-  , OrganizationsForumsBoards "adarq" "forum" Index emptyParams
-  , OrganizationsForumsBoardsThreads "adarq" "forum" "board" Index emptyParams
-  , OrganizationsForumsBoardsThreadsPosts "adarq" "forum" "board" "thread" Index emptyParams
-
   , Users Index emptyParams
   , UsersProfile "adarq" emptyParams
   , UsersSettings "adarq" emptyParams
-  , UsersPMs "adarq" emptyParams
-  , UsersThreads "adarq" emptyParams
-  , UsersThreadPosts "adarq" emptyParams
-  , UsersWorkouts "adarq" emptyParams
   , UsersResources "adarq" emptyParams
   , UsersLeurons "adarq" emptyParams
-  , UsersLikes "adarq" emptyParams
 
   , Resources Index emptyParams
   , ResourcesLeurons 1 Index emptyParams

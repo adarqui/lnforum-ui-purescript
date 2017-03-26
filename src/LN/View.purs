@@ -71,7 +71,6 @@ renderView (Users (Show user_name) params) = renderView_Users_Show user_name
 
 renderView (UsersProfile user_name params)     = renderView_Users_Profile user_name
 renderView (UsersSettings user_name params)    = renderView_Users_Settings user_name
-renderView (UsersPMs user_name params)         = renderView_Users_PMs user_name
 renderView (UsersResources user_name params)   = renderView_Users_Resources user_name
 renderView (UsersLeurons user_name params)     = renderView_Users_Leurons user_name
 

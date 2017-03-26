@@ -32,13 +32,9 @@ usersLayout user_nick st page =
         H.li_ [linkToP [] (Users (Show user_nick) emptyParams)        "Users"],
         H.li_ [linkToP [] (UsersProfile user_nick emptyParams)     "Profile"],
         showIfSelf_UserNick st user_nick [H.li_ [linkToP [] (UsersSettings user_nick emptyParams)    "Settings"]],
-        showIfSelf_UserNick st user_nick [H.li_ [linkToP [] (UsersPMs user_nick emptyParams)         "Personal Messages"]],
-        H.li_ [linkToP [] (UsersThreads user_nick emptyParams)     "Threads"],
-        H.li_ [linkToP [] (UsersThreadPosts user_nick emptyParams) "Posts"],
-        H.li_ [linkToP [] (UsersWorkouts user_nick emptyParams)    "Workouts"],
+--        showIfSelf_UserNick st user_nick [H.li_ [linkToP [] (UsersPMs user_nick emptyParams)         "Personal Messages"]],
         H.li_ [linkToP [] (UsersResources user_nick emptyParams)   "Resources"],
-        H.li_ [linkToP [] (UsersLeurons user_nick emptyParams)     "Leurons"],
-        H.li_ [linkToP [] (UsersLikes user_nick emptyParams)       "Likes"]
+        H.li_ [linkToP [] (UsersLeurons user_nick emptyParams)     "Leurons"]
       ]
     ],
     H.div [P.class_ B.colSm10] page
