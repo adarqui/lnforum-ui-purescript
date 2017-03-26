@@ -29,41 +29,33 @@ import LN.T
 
 data Input a
   = Goto Routes a
-
   | AddError String String a
-  | AddErrorF String ForeignError a
-  | AddErrorApi String ApiError a
+-- TODO FIXME
+--  | AddErrorF String ForeignError a
+--  | AddErrorApi String ApiError a
   | DelError Int a
   | ClearErrors a
-
   | GetUser String a
   | GetMe a
   | GetUsers a
   | GetUsers_MergeMap_ByUser (Array UserSanitizedResponse) a
   | GetUsers_MergeMap_ByUserId (Array Int) a
-
   | GetResources a
   | GetResourceId Int a
-
   | GetResourcesLeurons Int a
   | GetResourceLeuronLinear Int Int a
   | GetResourceLeuronRandom Int a
-
   | GetResourcesSiftLeurons Int a
-
   | GetLeurons a
   | GetLeuronId Int a
   | GetLeuronRandom a
-
   | ConnectSocket a
-
   | CompArrayString    InputArrayString  a
   | CompOrderBy        InputOrderBy      a
   | CompMembership     InputMembership   a
   | CompProfile        InputProfile      a
   | CompResource       InputResource     a
   | CompLeuron         InputLeuron       a
-
   | Nop a
 
 
