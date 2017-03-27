@@ -1,5 +1,10 @@
 all:
 	pulp browserify > static/dist/app.js
+	make sync
+
+sync:
+	mkdir -p /Users/x/code/github/adarqui/lnotes-yesod/static/lnotes.dist/
+	cp static/dist/app.js /Users/x/code/github/adarqui/lnotes-yesod/static/lnotes.dist/bundle.js
 
 # https://www.npmjs.com/package/uglify-js
 uglify:

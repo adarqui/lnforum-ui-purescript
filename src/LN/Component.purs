@@ -3,9 +3,11 @@ module LN.Component where
 
 import Data.NaturalTransformation
 import Data.Maybe
-import Prelude                     (Void, Unit, unit, pure, const, ($))
+import Prelude                     (Void, Unit, unit, pure, bind, const, ($))
 import Halogen
 import Halogen.HTML as HH
+import Halogen.HTML            as H
+import Halogen.HTML.Properties as P
 
 import LN.Layout                   as L
 import LN.Component.Types          (LNEff, CompEff)
@@ -24,6 +26,7 @@ import LN.Eval.Leurons
 import LN.Eval.Socket
 import LN.Eval.Nop
 
+import LN.Router.Types
 
 
 -- ui :: forall eff. {-Partial =>-} Component State Input (LNEff eff)
@@ -39,13 +42,16 @@ ui st =
   where
 
   render :: State -> ComponentHTML Input
-  render state =
-    L.defaultLayout state
-      [ renderView state.currentPage state ]
+  render state = H.p_ [H.text "hello"]
+--    L.defaultLayout state
+--      [ renderView About state ]
+--      [ renderView state.currentPage state ]
 
   eval :: Partial => Input ~> ComponentDSL State Input Void eff
   eval ev = case ev of
     Nop next -> do
+      -- pure next
+      eval_Nop''
       pure next
 
 {-
