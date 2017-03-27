@@ -50,9 +50,45 @@ ui st =
 
   eval :: Partial => CompEff
   eval ev = case ev of
-    GetMe _ -> eval_GetMe eval ev
-    Goto _ _ -> eval_Goto eval ev
-    Nop _ -> eval_Nop eval ev
+    Goto _ _                                   -> eval_Goto eval ev
+    GetMe _                                    -> eval_GetMe eval ev
+    AddError _ _ _                             -> eval_AddError eval ev
+    AddErrorF _ _ _                            -> eval_AddErrorF eval ev
+    AddErrorApi _ _ _                          -> eval_AddErrorApi eval ev
+    DelError _ _                               -> eval_DelError eval ev
+    ClearErrors _                              -> eval_ClearErrors eval ev
+
+    GetMe _                                    -> eval_GetMe eval ev
+
+    GetUsers _                                 -> eval_GetUsers eval ev
+
+    GetUser _ _                                -> eval_GetUser eval ev
+
+    GetUsers_MergeMap_ByUser _ _               -> eval_GetUsers_MergeMap_ByUser eval ev
+    GetUsers_MergeMap_ByUserId _ _             -> eval_GetUsers_MergeMap_ByUserId eval ev
+
+    GetResources _                             -> eval_GetResources eval ev
+    GetResourceId _ _                          -> eval_GetResourceId eval ev
+
+    GetResourcesLeurons _ _                    -> eval_GetResources eval ev
+    GetResourceLeuronLinear _ _ _              -> eval_GetResourceLeuronLinear eval ev
+    GetResourceLeuronRandom _ _                -> eval_GetResourceLeuronRandom eval ev
+    GetResourcesSiftLeurons _ _                -> eval_GetResourcesSiftLeurons eval ev
+
+    GetLeurons _                               -> eval_GetLeurons eval ev
+    GetLeuronId _ _                            -> eval_GetLeuronId eval ev
+    GetLeuronRandom _                          -> eval_GetLeuronRandom eval ev
+
+    ConnectSocket _                            -> eval_ConnectSocket eval ev
+
+  -- Components
+
+    CompArrayString _ _                        -> eval_ArrayString eval ev
+    CompProfile _ _                            -> eval_Profile eval ev
+    CompResource _ _                           -> eval_Resource eval ev
+    CompLeuron _ _                             -> eval_Leuron eval ev
+    CompOrderBy _ _                            -> eval_OrderBy eval ev
+    Nop _                                      -> eval_Nop eval ev
 
 
 
@@ -72,44 +108,6 @@ ui = component {render, eval}
 
 {-
   eval z@(Goto _ _)                                   = eval_Goto eval z
---  eval z@(Goto route next)                              = eval_Goto eval route next
-
-  eval z@(AddError _ _ _)                             = eval_AddError eval z
-  eval z@(AddErrorF _ _ _)                            = eval_AddErrorF eval z
-  eval z@(AddErrorApi _ _ _)                          = eval_AddErrorApi eval z
-  eval z@(DelError _ _)                               = eval_DelError eval z
-  eval z@(ClearErrors _)                              = eval_ClearErrors eval z
-
-  eval z@(GetMe _)                                    = eval_GetMe eval z
-
-  eval z@(GetUsers _)                                 = eval_GetUsers eval z
-
-  eval z@(GetUser _ _)                                = eval_GetUser eval z
-
-  eval z@(GetUsers_MergeMap_ByUser _ _)               = eval_GetUsers_MergeMap_ByUser eval z
-  eval z@(GetUsers_MergeMap_ByUserId _ _)             = eval_GetUsers_MergeMap_ByUserId eval z
-
-  eval z@(GetResources _)                             = eval_GetResources eval z
-  eval z@(GetResourceId _ _)                          = eval_GetResourceId eval z
-
-  eval z@(GetResourcesLeurons _ _)                    = eval_GetResources eval z
-  eval z@(GetResourceLeuronLinear _ _ _)              = eval_GetResourceLeuronLinear eval z
-  eval z@(GetResourceLeuronRandom _ _)                = eval_GetResourceLeuronRandom eval z
-  eval z@(GetResourcesSiftLeurons _ _)                = eval_GetResourcesSiftLeurons eval z
-
-  eval z@(GetLeurons _)                               = eval_GetLeurons eval z
-  eval z@(GetLeuronId _ _)                            = eval_GetLeuronId eval z
-  eval z@(GetLeuronRandom _)                          = eval_GetLeuronRandom eval z
-
-  eval z@(ConnectSocket _)                            = eval_ConnectSocket eval z
-
-  -- Components
-
-  eval z@(CompArrayString _ _)                        = eval_ArrayString eval z
-  eval z@(CompProfile _ _)                            = eval_Profile eval z
-  eval z@(CompResource _ _)                           = eval_Resource eval z
-  eval z@(CompLeuron _ _)                             = eval_Leuron eval z
-  eval z@(CompOrderBy _ _)                            = eval_OrderBy eval z
 
   eval z@(Nop _)                                      = eval_Nop eval z
   -}

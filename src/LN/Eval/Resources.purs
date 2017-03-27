@@ -22,7 +22,7 @@ import Prelude                       (class Eq, id, const, bind, pure, map, ($),
 import LN.Api                        ( getResourcesCount', getResourcePacks, getResourcePack'
                                      , getLeuronPacks_ByResourceId
                                      , postResource', putResource')
-import LN.Api.Helpers                (rd)
+import LN.Helpers.Api                (rd)
 import LN.Component.Types            (EvalEff)
 import LN.Helpers.Map                (idmapFrom)
 import LN.Input.Resource             (InputResource(..), Resource_Mod(..))
@@ -45,11 +45,9 @@ import LN.T                          ( Param(..), SortOrderBy(..)
 
 
 
--- eval_GetResources :: EvalEff
+eval_GetResources :: Partial => EvalEff
 eval_GetResources eval (GetResources next) = do
-  pure next
 
-{-
   modify (_{ resources = (M.empty :: M.Map Int ResourcePackResponse) })
 
   page_info <- gets _.resourcesPageInfo
@@ -80,16 +78,11 @@ eval_GetResources eval (GetResources next) = do
 
              modify (_{ resources = resources_map })
              pure next
-             -}
 
 
 
--- eval_GetResourceId :: EvalEff
+eval_GetResourceId :: Partial => EvalEff
 eval_GetResourceId eval (GetResourceId resource_id next) = do
-
-  pure next
-
-{-
 
   modify (_{ currentResource = Nothing })
   modify $ setLoading l_currentResource
@@ -103,27 +96,22 @@ eval_GetResourceId eval (GetResourceId resource_id next) = do
     Right pack -> do
       modify (_{ currentResource = Just pack })
       pure next
-      -}
 
 
 
 
--- eval_GetResourcesLeurons :: EvalEff
+eval_GetResourcesLeurons :: Partial => EvalEff
 eval_GetResourcesLeurons eval (GetResourcesLeurons resource_sid next) = pure next
 
 
 
--- eval_GetResourcesSiftLeurons :: EvalEff
+eval_GetResourcesSiftLeurons :: Partial => EvalEff
 eval_GetResourcesSiftLeurons eval (GetResourcesSiftLeurons resource_sid next) = pure next
 
 
 
--- eval_GetResourceLeuronLinear :: EvalEff
+eval_GetResourceLeuronLinear :: Partial => EvalEff
 eval_GetResourceLeuronLinear eval (GetResourceLeuronLinear resource_id offset next) = do
-
-  pure next
-
-  {-
 
   modify (_{ currentLeuron = Nothing })
   modify $ setLoading l_currentLeuron
@@ -138,16 +126,11 @@ eval_GetResourceLeuronLinear eval (GetResourceLeuronLinear resource_id offset ne
       case head packs.leuronPackResponses of
         Nothing   -> pure next
         Just pack -> modify (_{ currentLeuron = Just pack }) $> next
-        -}
 
 
 
--- eval_GetResourceLeuronRandom :: EvalEff
+eval_GetResourceLeuronRandom :: Partial => EvalEff
 eval_GetResourceLeuronRandom eval (GetResourceLeuronRandom resource_id next) = do
-
-  pure next
-
-  {-
 
   modify (_{ currentLeuron = Nothing })
   modify $ setLoading l_currentLeuron
@@ -162,18 +145,14 @@ eval_GetResourceLeuronRandom eval (GetResourceLeuronRandom resource_id next) = d
       case head packs.leuronPackResponses of
         Nothing   -> pure next
         Just pack -> modify (_{ currentLeuron = Just pack }) $> next
-        -}
 
 
 
 -- | Component
 --
--- eval_Resource :: EvalEff
+eval_Resource :: Partial => EvalEff
 eval_Resource eval (CompResource sub next) = do
 
-  pure next
-
-  {-
   case sub of
    InputResource_Mod q -> do
      case q of
@@ -240,5 +219,3 @@ eval_Resource eval (CompResource sub next) = do
  set' ref value request   = Just (_ResourceRequest .. ref .~ value $ request) -- unused.. this is nicer, but only typechecks for String
  set v req           = Just (v req)
  mod new             = modify (\st->st{ currentResourceRequest = maybe Nothing new st.currentResourceRequest }) $> next
-
- -}
