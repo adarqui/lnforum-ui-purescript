@@ -19,8 +19,7 @@ import Prelude                       (bind, pure, not, map, ($), (==))
 
 import LN.Api                        (getUsersCount' , getUserSanitizedPacks
                                      , getUserSanitizedPacks_ByUsersIds')
-import LN.Api.Helpers                (rd)
-import LN.Api.Helpers                (rd)
+import LN.Helpers.Api                (rd)
 import LN.Api.String                 as ApiS
 import LN.Component.Types            (EvalEff)
 import LN.Helpers.Map                (idmapFrom)
@@ -32,9 +31,7 @@ import LN.T
 
 -- eval_GetUsers :: Partial => EvalEff
 eval_GetUsers eval (GetUsers next) = do
-  pure next
 
-{-
   page_info <- gets _.usersPageInfo
 
   e_count <- rd getUsersCount'
@@ -60,16 +57,12 @@ eval_GetUsers eval (GetUsers next) = do
           -- modify (\st -> st{ users = M.union st.users users_map })
           modify (\st -> st { users = users_map })
           pure next
-          -}
 
 
 
 eval_GetUser :: Partial => EvalEff
 eval_GetUser eval (GetUser user_nick next) = do
 
-  pure next
-
-{-
   modify (_{ currentUser = Nothing })
 
   e_user <- rd $ ApiS.getUserSanitizedPack' user_nick
@@ -78,7 +71,6 @@ eval_GetUser eval (GetUser user_nick next) = do
       Right user -> do
         modify (_{ currentUser = Just user })
         pure next
-        -}
 
 
 
@@ -88,15 +80,10 @@ eval_GetUser eval (GetUser user_nick next) = do
 eval_GetUsers_MergeMap_ByUser :: Partial => EvalEff
 eval_GetUsers_MergeMap_ByUser eval (GetUsers_MergeMap_ByUser users next) = do
 
-  pure next
-
-  {-
-
   let
     users_ids = map (\user -> user ^. _UserSanitizedResponse .. id_) users
 
   eval_GetUsers_MergeMap_ByUserId eval (GetUsers_MergeMap_ByUserId users_ids next)
-  -}
 
 
 
@@ -107,10 +94,6 @@ eval_GetUsers_MergeMap_ByUser eval (GetUsers_MergeMap_ByUser users next) = do
 eval_GetUsers_MergeMap_ByUserId :: Partial => EvalEff
 eval_GetUsers_MergeMap_ByUserId eval (GetUsers_MergeMap_ByUserId users_ids next) = do
 
-  pure next
-
-
-{-
   usersMap <- gets _.usersMap
 
   let
@@ -134,4 +117,3 @@ eval_GetUsers_MergeMap_ByUserId eval (GetUsers_MergeMap_ByUserId users_ids next)
 
               modify (_{ usersMap = (M.union newUsersMap usersMap) })
               pure next
-              -}
