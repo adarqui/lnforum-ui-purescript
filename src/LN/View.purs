@@ -76,7 +76,7 @@ renderView (UsersLeurons user_name params)     = renderView_Users_Leurons user_n
 
 
 
-renderView (Resources Index params )                = renderView_Resources_Index
+renderView (Resources Index params)                 = renderView_Resources_Index
 renderView (Resources New params)                   = renderView_Resources_New
 renderView (Resources (EditI resource_id) params)   = renderView_Resources_Edit resource_id
 renderView (Resources (ShowI resource_id) params)   = renderView_Resources_Show resource_id

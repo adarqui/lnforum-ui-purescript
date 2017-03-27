@@ -76,15 +76,14 @@ header muser n_errors =
           (concat [
             [
               H.li_ [linkTo About "About"],
+              H.li_ [linkTo (Resources Index emptyParams) "Resources"],
+              H.li_ [linkTo Portal "Portal"],
               H.li_ [me]
             ],
             ifDebug_ByUser
               muser
               (\_ -> [H.li_ [errors]])
-              (\_ -> []),
-            [
-              H.li_ [linkTo Portal "Portal"]
-            ]
+              (\_ -> [])
           ]),
 
         case muser of
