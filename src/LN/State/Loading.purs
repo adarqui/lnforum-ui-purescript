@@ -77,26 +77,23 @@ l_me                            = 0
 l_users                         :: Int
 l_users                         = 1
 
-l_teams                         :: Int
-l_teams                         = 3
-
 l_resources                     :: Int
-l_resources                     = 8
+l_resources                     = 2
 
 l_leurons                       :: Int
-l_leurons                       = 9
+l_leurons                       = 3
 
 l_currentUser                   :: Int
-l_currentUser                   = 14
+l_currentUser                   = 4
 
 l_currentResource               :: Int
-l_currentResource               = 23
+l_currentResource               = 5
 
 l_currentResourceRequest        :: Int
-l_currentResourceRequest        = 24
+l_currentResourceRequest        = 6
 
 l_currentLeuron                 :: Int
-l_currentLeuron                 = 25
+l_currentLeuron                 = 7
 
 l_currentLeuronRequest          :: Int
-l_currentLeuronRequest          = 26
+l_currentLeuronRequest          = 8

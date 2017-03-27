@@ -89,6 +89,8 @@ eval_GetResourceId eval (GetResourceId resource_id next) = do
 
   e_pack <- rd $ getResourcePack' resource_id
 
+  H.liftAff $ log "resource pack"
+
   modify $ clearLoading l_currentResource
 
   case e_pack of
