@@ -1,5 +1,7 @@
 module Router (
-  routing
+  routing,
+  hashChangeProducer,
+  hashChangeConsumer
   -- TODO FIXME routeSignal,
   -- TODO FIXME redirects
 ) where
@@ -9,6 +11,17 @@ module Router (
 import Control.Alt             ((<|>))
 import Control.Apply           ((*>), (<*))
 import Control.Plus            (empty)
+import Control.Coroutine as CR
+import Control.Coroutine.Aff as CRA
+import Control.Monad.Aff (Aff)
+import Control.Monad.Aff.AVar (AVAR)
+import Control.Monad.Except (runExcept)
+import Control.Monad.Eff (Eff)
+import Control.Monad.Eff.Class (liftEff)
+import Data.Either (Either(..))
+import Data.NaturalTransformation
+import Data.Foreign (toForeign)
+import Data.String as Str
 import LN.ArrayList   (listToArray)
 import Data.Functor            ((<$))
 import Data.Int                (fromString)
@@ -17,8 +30,17 @@ import Data.Map                as M
 import Data.Maybe              (Maybe(..))
 import Data.String             (length)
 import Data.Tuple              (Tuple(..), uncurry)
+import DOM (DOM)
+import DOM.Event.EventTarget (eventListener, addEventListener) as DOM
+import DOM.HTML (window) as DOM
+import DOM.HTML.Event.EventTypes as ET
+import DOM.HTML.Event.HashChangeEvent as HCE
+import DOM.HTML.Event.Types (HashChangeEvent, readHashChangeEvent) as DOM
+import DOM.HTML.Types (windowToEventTarget) as DOM
 -- import Halogen                 hiding (set)
-import Prelude                 (Unit, bind, pure, const, (<$>), (<*>), ($), (<<<), (>))
+import Halogen as H
+import Halogen.Aff as HA
+import Prelude                 (Unit, bind, pure, const, unit, (<$>), (<*>), ($), (<<<), (>), (>>=), (>>>), (/=))
 import Routing                 (matchesAff)
 import Routing.Match           (Match(..))
 import Routing.Match.Class     (class MatchClass, lit, str, params)
@@ -291,3 +313,34 @@ redirects driver _ =
   -}
 
 
+
+-- A producer coroutine that emits messages whenever the window emits a
+-- `hashchange` event.
+hashChangeProducer
+  :: forall eff
+   . CR.Producer DOM.HashChangeEvent (Aff (avar :: AVAR, dom :: DOM | eff)) Unit
+hashChangeProducer = CRA.produce \emit ->
+  let
+    emitter e =
+      case runExcept (DOM.readHashChangeEvent (toForeign e)) of
+        Left _ -> pure unit
+        Right hce -> emit (Left hce)
+  in
+    liftEff $
+      DOM.window
+        >>= DOM.windowToEventTarget
+        >>> DOM.addEventListener ET.hashchange (DOM.eventListener emitter) false
+
+
+
+-- A consumer coroutine that takes the `query` function from our component IO
+-- record and sends `ChangeRoute` queries in when it receives inputs from the
+-- producer.
+hashChangeConsumer
+  :: forall eff
+   . (Input ~> Aff (HA.HalogenEffects eff))
+  -> CR.Consumer DOM.HashChangeEvent (Aff (HA.HalogenEffects eff)) Unit
+hashChangeConsumer query = CR.consumer \event -> do
+  let hash = Str.drop 1 $ Str.dropWhile (_ /= '#') $ HCE.newURL event
+  query $ H.action $ Nop
+  pure Nothing

@@ -11,6 +11,7 @@ import Control.Monad.Eff.Exception (throwException)
 import Control.Monad.Rec.Class     (forever)
 import Data.Maybe                  (Maybe(..))
 -- import Halogen                     (runUI, action)
+import Halogen as H
 import Halogen.Aff as HA
 import Halogen.VDom.Driver (runUI)
 -- import Halogen.Util                (awaitLoad, awaitBody, selectElement)
@@ -55,4 +56,7 @@ main = unsafePartial $ do
   HA.runHalogenAff do
     ch <- makeVar
     body <- HA.awaitBody
-    runUI (Q.ui (S.initialState ch)) unit body
+    io <- runUI (Q.ui (S.initialState ch)) unit body
+    CR.runProcess (R.hashChangeProducer CR.$$ R.hashChangeConsumer io.query)
+
+    io.query $ H.action GetMe
