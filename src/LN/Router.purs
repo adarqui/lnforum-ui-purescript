@@ -284,6 +284,10 @@ routeSignal driver = do
 
 
 
+{-
 redirects :: forall eff. Driver Input eff -> Maybe Routes -> Routes -> Routing eff Unit
 redirects driver _ =
   driver <<< action <<< Goto
+  -}
+
+

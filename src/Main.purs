@@ -2,6 +2,8 @@ module Main where
 
 
 
+import Control.Coroutine as CR
+import Control.Coroutine.Aff as CRA
 import Control.Monad.Aff           (runAff, forkAff)
 import Control.Monad.Aff.AVar      (makeVar, takeVar)
 import Control.Monad.Eff           (Eff())
