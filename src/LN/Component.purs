@@ -49,6 +49,7 @@ ui st =
 
   eval :: Partial => Input ~> ComponentDSL State Input Void eff
   eval ev = case ev of
+    GetMe _ = eval_GetMe eval z
     Nop next -> do
       -- pure next
       eval_Nop''
