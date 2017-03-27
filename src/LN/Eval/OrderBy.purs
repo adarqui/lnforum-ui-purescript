@@ -12,7 +12,7 @@ import LN.Input.Types            (Input(..))
 
 
 
-eval_OrderBy :: EvalEff
+eval_OrderBy :: Partial => EvalEff
 
 
 

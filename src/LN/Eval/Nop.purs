@@ -13,7 +13,7 @@ import LN.Input.Types            (Input(..))
 import Control.Monad.Aff.Free (fromAff)
 
 
-eval_Nop :: EvalEff
+eval_Nop :: Partial => EvalEff
 eval_Nop eval (Nop next) = pure next
 --  fromAff $ log "nop"
 --  pure next

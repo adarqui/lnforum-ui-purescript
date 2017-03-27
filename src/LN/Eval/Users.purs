@@ -17,8 +17,10 @@ import Data.Tuple                    (Tuple(..))
 import Optic.Core                    ((^.), (..))
 import Prelude                       (bind, pure, not, map, ($), (==))
 
-import LN.Api                        (rd, getUsersCount' , getUserSanitizedPacks
+import LN.Api                        (getUsersCount' , getUserSanitizedPacks
                                      , getUserSanitizedPacks_ByUsersIds')
+import LN.Api.Helpers                (rd)
+import LN.Api.Helpers                (rd)
 import LN.Api.String                 as ApiS
 import LN.Component.Types            (EvalEff)
 import LN.Helpers.Map                (idmapFrom)
@@ -28,9 +30,11 @@ import LN.T
 
 
 
-eval_GetUsers :: EvalEff
+-- eval_GetUsers :: Partial => EvalEff
 eval_GetUsers eval (GetUsers next) = do
+  pure next
 
+{-
   page_info <- gets _.usersPageInfo
 
   e_count <- rd getUsersCount'
@@ -56,12 +60,16 @@ eval_GetUsers eval (GetUsers next) = do
           -- modify (\st -> st{ users = M.union st.users users_map })
           modify (\st -> st { users = users_map })
           pure next
+          -}
 
 
 
-eval_GetUser :: EvalEff
+eval_GetUser :: Partial => EvalEff
 eval_GetUser eval (GetUser user_nick next) = do
 
+  pure next
+
+{-
   modify (_{ currentUser = Nothing })
 
   e_user <- rd $ ApiS.getUserSanitizedPack' user_nick
@@ -70,19 +78,25 @@ eval_GetUser eval (GetUser user_nick next) = do
       Right user -> do
         modify (_{ currentUser = Just user })
         pure next
+        -}
 
 
 
 -- | Takes an array of sanitized users, and pulls down any of them that
 -- don't already exist in the current st.usersMap.
 --
-eval_GetUsers_MergeMap_ByUser :: EvalEff
+eval_GetUsers_MergeMap_ByUser :: Partial => EvalEff
 eval_GetUsers_MergeMap_ByUser eval (GetUsers_MergeMap_ByUser users next) = do
+
+  pure next
+
+  {-
 
   let
     users_ids = map (\user -> user ^. _UserSanitizedResponse .. id_) users
 
   eval_GetUsers_MergeMap_ByUserId eval (GetUsers_MergeMap_ByUserId users_ids next)
+  -}
 
 
 
@@ -90,9 +104,13 @@ eval_GetUsers_MergeMap_ByUser eval (GetUsers_MergeMap_ByUser users next) = do
 -- | Takes an array of users ids, and pulls down any of them that
 -- don't already exist in the current st.usersMap.
 --
-eval_GetUsers_MergeMap_ByUserId :: EvalEff
+eval_GetUsers_MergeMap_ByUserId :: Partial => EvalEff
 eval_GetUsers_MergeMap_ByUserId eval (GetUsers_MergeMap_ByUserId users_ids next) = do
 
+  pure next
+
+
+{-
   usersMap <- gets _.usersMap
 
   let
@@ -110,9 +128,10 @@ eval_GetUsers_MergeMap_ByUserId eval (GetUsers_MergeMap_ByUserId users_ids next)
             Right (UserSanitizedPackResponses result) -> do
               let
                newUsersMap =
-                 M.fromList
+                 M.fromFoldable
                  $ arrayToList
                  $ map (\user -> Tuple (user ^. _UserSanitizedPackResponse .. user_ ^. _UserSanitizedResponse .. id_) user) result.userSanitizedPackResponses
 
               modify (_{ usersMap = (M.union newUsersMap usersMap) })
               pure next
+              -}

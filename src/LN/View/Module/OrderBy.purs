@@ -26,14 +26,14 @@ import LN.T
 dataToggle :: forall i r. String -> P.IProp r i
 dataToggle = U.unsafeCoerce dtoggle
   where
-  dtoggle = C.Attr Nothing (C.attrName "data-toggle")
+  dtoggle = C.attr (C.AttrName "data-toggle")
 
 
 
 dataHelper :: forall i r. String -> String -> P.IProp r i
 dataHelper prefix = U.unsafeCoerce dhelper
   where
-  dhelper = C.Attr Nothing (C.attrName $ "data-" <> prefix)
+  dhelper = C.attr (C.AttrName $ "data-" <> prefix)
 
 
 

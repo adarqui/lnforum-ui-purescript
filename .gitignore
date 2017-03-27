@@ -10,3 +10,4 @@ app_opt.js
 .pulp-cache
 /static/dist/app.js
 .psa-stash
+.psc-ide-port

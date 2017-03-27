@@ -1,8 +1,11 @@
 module LN.Component where
 
 
-import Halogen                     hiding (set)
-import Prelude                     (pure)
+import Data.NaturalTransformation
+import Data.Maybe
+import Prelude                     (Void, Unit, unit, pure, const, ($))
+import Halogen
+import Halogen.HTML as HH
 
 import LN.Layout                   as L
 import LN.Component.Types          (LNEff, CompEff)
@@ -16,7 +19,6 @@ import LN.Eval.Me
 import LN.Eval.OrderBy
 import LN.Eval.Profile
 import LN.Eval.Users
-import LN.Eval.Memberships
 import LN.Eval.Resources
 import LN.Eval.Leurons
 import LN.Eval.Socket
@@ -24,7 +26,30 @@ import LN.Eval.Nop
 
 
 
-ui :: forall eff. {-Partial =>-} Component State Input (LNEff eff)
+-- ui :: forall eff. {-Partial =>-} Component State Input (LNEff eff)
+ui :: forall eff. Partial => State -> Component HH.HTML Input Unit Void eff
+ui st =
+  component {
+    initialState: const $ st,
+    render,
+    eval,
+    receiver: const Nothing
+  }
+
+  where
+
+  render :: State -> ComponentHTML Input
+  render state =
+    L.defaultLayout state
+      [ renderView state.currentPage state ]
+
+  eval :: Partial => Input ~> ComponentDSL State Input Void eff
+  eval ev = case ev of
+    Nop next -> do
+      pure next
+
+{-
+ui :: State -> ComponentHTML Input
 ui = component {render, eval}
 
   where
@@ -34,9 +59,11 @@ ui = component {render, eval}
       ]
 
   eval :: CompEff
---  eval :: Eval Input State Input (LNEff eff)
+  -}
 
+{-
   eval z@(Goto _ _)                                   = eval_Goto eval z
+--  eval z@(Goto route next)                              = eval_Goto eval route next
 
   eval z@(AddError _ _ _)                             = eval_AddError eval z
   eval z@(AddErrorF _ _ _)                            = eval_AddErrorF eval z
@@ -52,8 +79,6 @@ ui = component {render, eval}
 
   eval z@(GetUsers_MergeMap_ByUser _ _)               = eval_GetUsers_MergeMap_ByUser eval z
   eval z@(GetUsers_MergeMap_ByUserId _ _)             = eval_GetUsers_MergeMap_ByUserId eval z
-
-  eval (GetThreadPostLikes next)                      = pure next
 
   eval z@(GetResources _)                             = eval_GetResources eval z
   eval z@(GetResourceId _ _)                          = eval_GetResourceId eval z
@@ -72,10 +97,10 @@ ui = component {render, eval}
   -- Components
 
   eval z@(CompArrayString _ _)                        = eval_ArrayString eval z
-  eval z@(CompMembership _ _)                         = eval_Membership eval z
   eval z@(CompProfile _ _)                            = eval_Profile eval z
   eval z@(CompResource _ _)                           = eval_Resource eval z
   eval z@(CompLeuron _ _)                             = eval_Leuron eval z
   eval z@(CompOrderBy _ _)                            = eval_OrderBy eval z
 
   eval z@(Nop _)                                      = eval_Nop eval z
+  -}

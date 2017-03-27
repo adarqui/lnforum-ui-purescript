@@ -1,9 +1,6 @@
 module LN.Input.Types (
   Input (..),
   -- helpers
-  cMembership,
-  cMembershipMod,
-  cMembershipAct,
   cResource,
   cResourceMod,
   cLeuron,
@@ -18,7 +15,6 @@ import Purescript.Api.Helpers  (ApiError)
 
 import LN.Input.ArrayString    (InputArrayString)
 import LN.Input.Leuron         (InputLeuron(..), Leuron_Mod)
-import LN.Input.Membership     (InputMembership(..), Membership_Act, Membership_Mod)
 import LN.Input.OrderBy        (InputOrderBy)
 import LN.Input.Profile        (InputProfile)
 import LN.Input.Resource       (InputResource(..), Resource_Mod)
@@ -30,9 +26,8 @@ import LN.T
 data Input a
   = Goto Routes a
   | AddError String String a
--- TODO FIXME
---  | AddErrorF String ForeignError a
---  | AddErrorApi String ApiError a
+  | AddErrorF String ForeignError a
+  | AddErrorApi String (ApiError ApplicationError) a
   | DelError Int a
   | ClearErrors a
   | GetUser String a
@@ -52,7 +47,6 @@ data Input a
   | ConnectSocket a
   | CompArrayString    InputArrayString  a
   | CompOrderBy        InputOrderBy      a
-  | CompMembership     InputMembership   a
   | CompProfile        InputProfile      a
   | CompResource       InputResource     a
   | CompLeuron         InputLeuron       a
@@ -62,17 +56,6 @@ data Input a
 
 -- | Helpers for "components" and "subcomponents"
 --
-
-cMembership :: forall a. InputMembership -> a -> Input a
-cMembership sub next = CompMembership sub next
-
-cMembershipMod :: forall a. Membership_Mod -> a -> Input a
-cMembershipMod mod next = CompMembership (InputMembership_Mod mod) next
-
-cMembershipAct :: forall a. Membership_Act -> a -> Input a
-cMembershipAct act next = CompMembership (InputMembership_Act act) next
-
-
 
 cResource :: forall a. InputResource -> a -> Input a
 cResource ir next = CompResource ir next

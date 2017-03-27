@@ -88,6 +88,7 @@ renderView_Resources_Mod' m_resource_id resource_req rst st =
            TySourceNone -> H.p_ [H.text "NONE"]
            TyURL        -> H.p_ [input_Label "URL" "url" (unwrapResourceSource resource.source) P.InputUrl (E.input (\url -> cResourceMod $ SetSource (URL url)))]
            TyISBN       -> H.p_ [input_Label "ISBN" "isbn" (unwrapResourceSource resource.source) P.InputText (E.input (\isbn -> cResourceMod $ SetSource (ISBN isbn)))]
+           _            -> H.p_ [H.text "Unknonwn"]
 
   --
   -- ResourceAuthor

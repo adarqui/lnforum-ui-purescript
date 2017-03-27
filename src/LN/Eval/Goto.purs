@@ -22,21 +22,26 @@ import LN.Internal.Resource     (defaultResourceRequest, resourceTypeToTyResourc
 import LN.Router.Link           (updateUrl)
 import LN.Router.Types          (Routes(..), CRUD(..))
 import LN.Router.Class.Params   (lookupParam)
-import LN.State.PageInfo        (defaultPageInfo_Threads
-                                ,defaultPageInfo_ThreadPosts
-                                ,defaultPageInfo_Resources
+import LN.State.PageInfo        (defaultPageInfo_Resources
                                 ,defaultPageInfo_Leurons
                                 ,defaultPageInfo_Users)
 import LN.State.Leuron          (defaultLeuronRequestState, leuronRequestStateFromLeuronData)
 import LN.State.Resource        (defaultResourceRequestState)
 import LN.T
+import LN.T.Convert
 
 
 
 
-eval_Goto :: EvalEff
+-- eval_Goto :: Partial => EvalEff
+-- eval_Goto eval (Goto route next) = do
+-- eval_Goto :: forall eff. String -> Input -> NaturalTransformation Input (ComponentDSL State Input Void (LNEff eff))
+-- eval_Goto eval route nxxt = do
+
+-- eval_Goto :: Partial => EvalEff
 eval_Goto eval (Goto route next) = do
-
+    pure next
+{-
   modify (_ { currentPage = route })
   fromAff $ updateUrl route
 
@@ -210,14 +215,14 @@ eval_Goto eval (Goto route next) = do
       modify (_{ usersPageInfo = pageInfo { currentPage = offset } })
       eval (GetUsers next) $> unit
 
-    (Users (Show user_nick) params) -> eval (GetUser user_nick next) $> unit
+    (Users (Show user_name) params) -> eval (GetUser user_name next) $> unit
 
 
 
-    (UsersProfile user_nick params) -> eval (GetUser user_nick next) $> unit
-    (UsersSettings user_nick params) -> eval (GetUser user_nick next) $> unit
-    (UsersResources user_nick params) -> eval (GetUser user_nick next) $> unit
-    (UsersLeurons user_nick params) -> eval (GetUser user_nick next) $> unit
+    (UsersProfile user_name params) -> eval (GetUser user_name next) $> unit
+    (UsersSettings user_name params) -> eval (GetUser user_name next) $> unit
+    (UsersResources user_name params) -> eval (GetUser user_name next) $> unit
+    (UsersLeurons user_name params) -> eval (GetUser user_name next) $> unit
 
 
 
@@ -226,3 +231,4 @@ eval_Goto eval (Goto route next) = do
 
 
   pure next
+  -}

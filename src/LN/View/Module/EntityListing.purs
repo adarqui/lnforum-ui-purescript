@@ -44,8 +44,8 @@ renderEntity entity =
   H.div [P.class_ B.colXs4] [
     H.div_ [
         linkTo' entity.route
-          [H.img [P.src entity.logo, P.alt entity.nick, P.classes [P.class_ "img-circle", P.class_ "img-thumbnail"]]]
---      , H.h3_ [H.text entity.displayNick]
-      , H.h4_ [linkTo entity.route entity.nick]
+          [H.img [P.src entity.logo, P.alt entity.name, P.classes [H.ClassName "img-circle", H.ClassName "img-thumbnail"]]]
+--      , H.h3_ [H.text entity.displayName]
+      , H.h4_ [linkTo entity.route entity.name]
     ]
   ]

@@ -12,8 +12,8 @@ import LN.Router.Types (Routes(..))
 
 
 type Entity =
-  { nick        :: String
-  , displayNick :: String
+  { name        :: String
+  , displayName :: String
   , createdAt   :: Maybe Date
   , logo        :: String
   , route       :: Routes
@@ -23,8 +23,8 @@ type Entity =
 
 defaultEntity :: Partial => Entity
 defaultEntity =
-  { nick:        "unknown"
-  , displayNick: "unknown"
+  { name:        "unknown"
+  , displayName: "unknown"
   , createdAt:   Just defaultDate
   , logo:        ""
   , route:       NotFound

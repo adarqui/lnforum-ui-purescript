@@ -20,6 +20,5 @@ renderView_Home =
   H.div_ [
    H.h1_ [ H.text "Home" ],
    H.p_ [
-     linkToP [] (Organizations Index emptyParams) "Organizations"
    ]
   ]

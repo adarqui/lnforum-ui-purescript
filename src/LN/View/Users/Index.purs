@@ -28,11 +28,11 @@ renderView_Users_Index st =
     map (\pack ->
       let user = pack ^. _UserSanitizedPackResponse .. user_ ^. _UserSanitizedResponse
       in
-      { nick:        user.nick
-      , displayNick: user.displayNick
+      { name:        user.name
+      , displayName: user.displayName
       , createdAt:   user.createdAt
       , logo:        gravatarUrlFromUser XLarge (pack ^. _UserSanitizedPackResponse .. user_)
-      , route: Users (Show $ user.nick) emptyParams
+      , route: Users (Show $ user.name) emptyParams
       }
     ) $ listToArray $ M.values st.users) pNum
   where

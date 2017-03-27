@@ -1,7 +1,7 @@
 module Router (
-  routing,
-  routeSignal,
-  redirects
+  routing
+  -- TODO FIXME routeSignal,
+  -- TODO FIXME redirects
 ) where
 
 
@@ -274,16 +274,8 @@ routing =
 
 
 
-{-
-    parseCRUD =
-      Show
-      <$> str
-      <|> New <$ lit "new"
-      <|> pure Index
-      -}
 
-
-
+{- TODO FIXME
 routeSignal :: forall eff. Driver Input eff -> Routing eff Unit
 routeSignal driver = do
   Tuple old new <- matchesAff routing
@@ -294,3 +286,4 @@ routeSignal driver = do
 redirects :: forall eff. Driver Input eff -> Maybe Routes -> Routes -> Routing eff Unit
 redirects driver _ =
   driver <<< action <<< Goto
+  -}

@@ -13,17 +13,22 @@ import Prelude            (bind, pure, ($))
 import LN.Component.Types (EvalEff)
 import LN.Input.Profile   (InputProfile(..))
 import LN.Input.Types     (Input(..))
-import LN.Api             (rd, putUserProfile')
+import LN.Api             (putUserProfile')
+import LN.Api.Helpers     (rd)
 import LN.T               (UserPackResponse(..), _UserPackResponse
                           , ProfileResponse(..), _ProfileResponse
                           , ProfileGender(..)
-                          , profile_, id_, gender_, birthdate_, signature_, website_, location_, debug_
-                          , profileResponseToProfileRequest)
+                          , profile_, id_, gender_, birthdate_, signature_, website_, location_, debug_)
+import LN.T.Convert
 
 
 
-eval_Profile :: EvalEff
+eval_Profile :: Partial => EvalEff
+eval_Profile eval (CompProfile InputProfile_Nop next) = pure next
 
+{-
+
+TODO FIXME
 
 
 eval_Profile eval (CompProfile InputProfile_Nop next) = pure next
@@ -39,7 +44,7 @@ eval_Profile eval (CompProfile InputProfile_Post next) = do
        Just me -> do
          let
            profile_id  = me ^. _UserPackResponse .. profile_ ^. _ProfileResponse .. id_
-           profile_req = (profileResponseToProfileRequest $ me ^. _UserPackResponse .. profile_)
+           profile_req = (profileResponseToProfileRequest [] Nothing $ me ^. _UserPackResponse .. profile_)
 
          rd $ putUserProfile' profile_id profile_req
          pure next
@@ -81,6 +86,7 @@ eval_Profile eval (CompProfile (InputProfile_SetDebug b) next) = do
 
   eval_Profile_Setter debug_ b next
 
+-}
 
 
 eval_Profile_Setter accessor value next = do

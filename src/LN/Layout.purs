@@ -102,7 +102,7 @@ header muser n_errors =
   where
   me = case muser of
             Nothing   -> linkTo NotFound "Me"
-            Just user -> linkTo (Users (Show (user ^. _UserPackResponse .. user_ ^. _UserResponse .. nick_)) emptyParams) "Me"
+            Just user -> linkTo (Users (Show (user ^. _UserPackResponse .. user_ ^. _UserResponse .. name_)) emptyParams) "Me"
   errors =
     -- TODO FIXME: use proper pill number
     linkTo Errors $ "Errors [" <> show n_errors <> "]"
@@ -112,7 +112,7 @@ header muser n_errors =
 
 footer :: forall a b. HTML a b
 footer =
-  H.footer [P.class_ (P.class_ "footer")] [
+  H.footer [P.class_ (H.ClassName "footer")] [
     H.text "LN",
     H.ul [] (map (\s -> H.li [] [H.text s]) ["About", "Contact"])
   ]

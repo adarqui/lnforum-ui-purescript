@@ -23,5 +23,7 @@ createByParamFromEnt ent ent_id =
 createResyncFromEnt :: forall a. Ent -> Int -> a -> Input a
 createResyncFromEnt ent ent_id next =
   case ent of
-       _ -> pure next
+       -- TODO FIXME
+       _ -> Nop next
+--       _ -> pure next
        -- Ent_ThreadPost -> (cThreadPostAct (ThreadPost.ResyncById ent_id) next)

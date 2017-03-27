@@ -2,8 +2,7 @@ module LN.View.Module.Gravatar (
   renderGravatarForUser,
   gravatarSize,
   gravatarSizeParam,
-  gravatarUrlFromUser,
-  gravatarUrlFromOrganization
+  gravatarUrlFromUser
 ) where
 
 
@@ -34,8 +33,8 @@ renderGravatarForUser sz Nothing =
   H.img [P.src $ "//www.gravatar.com/avatar/none?d=identicon&" <> (gravatarSizeParam sz)]
 renderGravatarForUser sz (Just (UserSanitizedResponse user)) =
   linkTo'
-    (Users (Show user.nick) emptyParams)
-    [H.img [P.src $ "//www.gravatar.com/avatar/" <> user.emailMD5 <> "?d=identicon&r=pg" <> "&" <> (gravatarSizeParam sz), P.alt user.nick]]
+    (Users (Show user.name) emptyParams)
+    [H.img [P.src $ "//www.gravatar.com/avatar/" <> user.emailMD5 <> "?d=identicon&r=pg" <> "&" <> (gravatarSizeParam sz), P.alt user.name]]
 
 
 gravatarSize :: Size -> Int
@@ -62,17 +61,11 @@ gravatarUrlFromUser sz (UserSanitizedResponse user) =
 
 
 
-gravatarUrlFromOrganization :: Size -> OrganizationResponse -> String
-gravatarUrlFromOrganization sz (OrganizationResponse org) =
-  "//www.gravatar.com/avatar/" <> org.emailMD5 <> "?d=identicon&r=pg" <> "&" <> (gravatarSizeParam sz)
-
-
-
 {-
 gravatarFromUserId :: State -> Int -> ComponentHTML Input
 gravatarFromUserId st user_id =
   H.div_ [
-    linkTo' (Users $ Show user.nick) [H.img [P.src $ "//www.gravatar.com/avatar/" <> user.emailMD5 <> "?r=pg", P.alt user.nick]]
+    linkTo' (Users $ Show user.name) [H.img [P.src $ "//www.gravatar.com/avatar/" <> user.emailMD5 <> "?r=pg", P.alt user.name]]
   ]
   where
     -}

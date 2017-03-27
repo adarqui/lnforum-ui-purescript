@@ -1,5 +1,5 @@
 module LN.View.Util (
-  showIfSelf_UserNick,
+  showIfSelf_UserName,
   showIfSelf
 ) where
 
@@ -16,15 +16,15 @@ import LN.T
 
 
 
-showIfSelf_UserNick :: State -> String -> Array (HTML _ _) -> HTML _ _
-showIfSelf_UserNick st user_nick html =
+showIfSelf_UserName :: State -> String -> Array (HTML _ _) -> HTML _ _
+showIfSelf_UserName st user_name html =
   if b
      then H.div_ html
      else H.div_ []
   where
   b = case st.me of
               Nothing -> false
-              Just user -> ((user ^. _UserPackResponse .. user_ ^. _UserResponse .. nick_) == user_nick)
+              Just user -> ((user ^. _UserPackResponse .. user_ ^. _UserResponse .. name_) == user_name)
 
 
 
@@ -38,6 +38,6 @@ showIfSelf st html_self html_else =
               Nothing, _ -> false
               _, Nothing -> false
               Just me, Just user ->
-                ((me ^. _UserPackResponse .. user_ ^. _UserResponse .. nick_)
+                ((me ^. _UserPackResponse .. user_ ^. _UserResponse .. name_)
                 ==
-                (user ^. _UserSanitizedPackResponse .. user_ ^. _UserSanitizedResponse .. nick_))
+                (user ^. _UserSanitizedPackResponse .. user_ ^. _UserSanitizedResponse .. name_))

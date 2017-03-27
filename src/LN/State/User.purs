@@ -3,8 +3,8 @@ module LN.State.User (
   usersMapLookup',
   usersMapLookup_ToUser,
   usersMapLookup_ToUser',
-  usersMapLookup_ToNick,
-  usersMapLookup_ToNick'
+  usersMapLookup_ToName,
+  usersMapLookup_ToName'
 ) where
 
 
@@ -17,7 +17,7 @@ import Prelude                   (($))
 import LN.State.Types            (State)
 import LN.T                      (UserSanitizedPackResponse, UserSanitizedResponse
                                  , _UserSanitizedPackResponse, _UserSanitizedResponse
-                                 , nick_, user_)
+                                 , name_, user_)
 
 
 
@@ -42,11 +42,11 @@ usersMapLookup_ToUser' users_map user_id =
 
 
 
-usersMapLookup_ToNick :: State -> Int -> String
-usersMapLookup_ToNick st = usersMapLookup_ToNick' st.usersMap
+usersMapLookup_ToName :: State -> Int -> String
+usersMapLookup_ToName st = usersMapLookup_ToName' st.usersMap
 
 
 
-usersMapLookup_ToNick' :: M.Map Int UserSanitizedPackResponse -> Int -> String
-usersMapLookup_ToNick' users_map user_id =
-  maybe "unknown" (\user -> user ^. _UserSanitizedResponse .. nick_) (usersMapLookup_ToUser' users_map user_id)
+usersMapLookup_ToName' :: M.Map Int UserSanitizedPackResponse -> Int -> String
+usersMapLookup_ToName' users_map user_id =
+  maybe "unknown" (\user -> user ^. _UserSanitizedResponse .. name_) (usersMapLookup_ToUser' users_map user_id)

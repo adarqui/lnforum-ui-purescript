@@ -22,8 +22,12 @@ import LN.State.ArrayString            (ArrayStringState, defaultArrayStringStat
 
 
 
-eval_ArrayString :: EvalEff
+eval_ArrayString :: Partial => EvalEff
 eval_ArrayString eval (CompArrayString sub next) = do
+
+  pure next
+
+  {-
 
   case sub of
     SetCurrent ent s          -> mod (\st -> st{ currents = M.alter (const $ Just s) ent st.currents })
@@ -53,3 +57,4 @@ eval_ArrayString eval (CompArrayString sub next) = do
           Just v  -> M.alter (\m_arr -> Just $ maybe [v] (\arr -> fix (v : arr)) m_arr) ent st.ents
       in
         st{ currents = _currents, ents = _ents })
+        -}

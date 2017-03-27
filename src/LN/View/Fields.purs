@@ -5,7 +5,6 @@ module LN.View.Fields (
   mandatoryLocationField,
   optionalDescriptionField,
   mandatoryDescriptionField,
-  mandatoryMembershipField,
   mandatoryVisibilityField,
   internalTagsField,
   tagsField,
@@ -22,6 +21,7 @@ import Data.Array                      (concat)
 import Data.Int                        (fromString)
 import Data.Maybe                      (Maybe(..), maybe)
 import Data.Tuple                      (Tuple(..))
+import DOM.Event.KeyboardEvent         as KBE
 import Halogen.HTML.Core               as C
 import Halogen.HTML            as H
 import Halogen.HTML.Events     as E
@@ -34,7 +34,7 @@ import LN.Helpers.Array                (seqArrayFrom)
 import LN.Halogen.Util
 import LN.Input.Types                  (Input(..))
 import LN.Router.Link                  (linkToHref)
-import LN.T                            (Membership(..), Visibility(..))
+import LN.T                            (Visibility(..))
 
 
 
@@ -66,19 +66,6 @@ mandatoryDescriptionField value set_description remove_description =
 
 
 
-mandatoryMembershipField value set_membership =
- radioMenu
-  "Membership"
-  "membership"
-  [ Membership_InviteOnly
-  , Membership_RequestInvite
-  , Membership_Join
-  , Membership_Locked
-  ]
-  set_membership
-  value
-
-
 
 mandatoryVisibilityField value set_visibility =
  radioMenu
@@ -107,7 +94,8 @@ internalTagsField label tags current_tag set_tag add_tag delete_tag clear_tags =
         P.value current_tag,
         P.type_ P.InputText,
         E.onValueChange $ E.input set_tag,
-        E.onKeyUp $ E.input (\ev -> if ev.keyCode == 13.0 then add_tag else Nop)
+        E.onKeyUp $ E.input (\ev -> if KBE.code ev == "Enter" then add_tag else Nop)
+--        E.onKeyUp $ E.input (\ev -> if ev.keyCode == 13.0 then add_tag else Nop)
       ],
       H.span [P.class_ B.inputGroupBtn] [
         H.button [

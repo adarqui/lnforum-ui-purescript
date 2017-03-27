@@ -47,15 +47,8 @@ initialState ch =
   , errors:                       []
   , users:                        M.empty
   , usersMap:                     M.empty
-  , organizations:                M.empty
-  , teams:                        M.empty
-  , teamMembers:                  M.empty
-  , forums:                       M.empty
-  , boards:                       M.empty
-  , threads:                      M.empty
-  , threadPosts:                  M.empty
-  , resources:                    M.empty
   , leurons:                      M.empty
+  , resources:                    M.empty
   , currentUser:                  Nothing
   , currentResource:              Nothing
   , currentResourceRequest:       Nothing
