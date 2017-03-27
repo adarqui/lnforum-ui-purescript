@@ -10,7 +10,7 @@ import Halogen.HTML            as H
 import Halogen.HTML.Properties as P
 
 import LN.Layout                   as L
-import LN.Component.Types          (LNEff, CompEff)
+import LN.Component.Types          (LNEff, CompEff, UICompEff)
 import LN.Input.Types              (Input(..))
 import LN.State.Types              (State)
 import LN.View
@@ -29,8 +29,10 @@ import LN.Eval.Nop
 import LN.Router.Types
 
 
+
 -- ui :: forall eff. {-Partial =>-} Component State Input (LNEff eff)
-ui :: forall eff. Partial => State -> Component HH.HTML Input Unit Void eff
+-- ui :: forall eff. Partial => State -> Component HH.HTML Input Unit Void eff
+ui :: forall eff. Partial => State -> UICompEff
 ui st =
   component {
     initialState: const $ st,
@@ -44,16 +46,18 @@ ui st =
   render :: State -> ComponentHTML Input
   render state =
     L.defaultLayout state
---      [ renderView About state ]
       [ renderView state.currentPage state ]
 
-  eval :: Partial => Input ~> ComponentDSL State Input Void eff
+  eval :: Partial => CompEff
   eval ev = case ev of
-    GetMe _ = eval_GetMe eval z
+    GetMe _ -> eval_GetMe eval ev
     Nop next -> do
       -- pure next
       eval_Nop''
       pure next
+
+
+
 
 {-
 ui :: State -> ComponentHTML Input

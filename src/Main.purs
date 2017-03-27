@@ -57,6 +57,6 @@ main = unsafePartial $ do
     ch <- makeVar
     body <- HA.awaitBody
     io <- runUI (Q.ui (S.initialState ch)) unit body
-    CR.runProcess (R.hashChangeProducer CR.$$ R.hashChangeConsumer io.query)
 
     io.query $ H.action GetMe
+    CR.runProcess (R.hashChangeProducer CR.$$ R.hashChangeConsumer io.query)

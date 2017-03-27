@@ -1,5 +1,5 @@
-module LN.Eval.Me (
-  eval_GetMe
+module LN.Helpers.Api (
+  rd
 ) where
 
 
@@ -12,22 +12,20 @@ import Optic.Core                      ((^.), (..))
 import Prelude                         (bind, pure, ($))
 
 import LN.Api                          (getMePack')
-import LN.Helpers.Api                  (rd)
+import LN.Api.Helpers                  (rd)
 import LN.Component.Types              (EvalEff)
 import LN.Input.Types                  (Input(..))
 import LN.T                            (_UserPackResponse, userId_)
 
 
+import Control.Monad.Reader.Trans (ReaderT)
+import Control.Monad.Aff          (Aff())
+import Control.Monad.Aff.Free     (class Affable, fromAff)
+import Prelude                    ((<<<))
+import Purescript.Api.Helpers     (ApiOptions, rD)
 
-eval_GetMe :: Partial => EvalEff
-eval_GetMe eval (GetMe next) = do
 
-  e_me <- rd getMePack'
+-- rd_ :: forall a b c. ReaderT ApiOptions (Aff a) c -> b c
+-- rd_ = rD
 
-  case e_me of
-
-    Left err -> eval (AddErrorApi "eval_GetMe::getMePack'" err next)
-
-    Right me -> do
-      modify (_{ me = Just me, meId = (me ^. _UserPackResponse .. userId_) })
-      pure next
+rd = H.liftAff <<< rD

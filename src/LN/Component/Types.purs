@@ -1,5 +1,6 @@
 module LN.Component.Types (
 --  ComponentSlot,
+  UICompEff,
   CompEff,
   EvalEff,
 --  EvalEffP,
@@ -17,6 +18,7 @@ import Control.Monad.Eff.Console (CONSOLE())
 import Data.NaturalTransformation
 import Halogen                   (Component, ComponentDSL)
 import Halogen.Aff.Effects       (HalogenEffects)
+import Halogen.HTML as HH
 import Network.HTTP.Affjax       (AJAX())
 import Prelude                   (Unit, Void)
 import WebSocket                 (WEBSOCKET())
@@ -42,6 +44,7 @@ import LN.State.Types            (State)
 -- type CompEff = forall eff. Natural Input (ComponentDSL State Input)
 -- type CompEff = forall eff. Natural Input (ComponentDSL State Input Void (LNEff eff))
 -- type CompEff = forall eff. NaturalTransformation Input (ComponentDSL State Input Void (LNEff eff))
+type UICompEff = forall eff. Component HH.HTML Input Unit Void (LNEff eff)
 type CompEff = forall eff. Input ~> (ComponentDSL State Input Void (LNEff eff))
 type EvalEff = CompEff -> CompEff
 -- type EvalEff = forall eff. Natural Input (ComponentDSL State Input (LNEff eff)) -> Natural Input (ComponentDSL State Input (LNEff eff))
