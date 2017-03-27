@@ -19,7 +19,7 @@ import Prelude                       (class Eq, id, const, bind, pure, map, ($),
 
 import LN.Api                        ( getLeuronsCount', getLeuronPack', getLeuronPacks
                                      , postLeuron_ByResourceId', putLeuron')
-import LN.Api.Helpers                (rd)
+import LN.Helpers.Api                (rd)
 import LN.Component.Types            (EvalEff)
 import LN.Helpers.Map                (idmapFrom)
 import LN.Input.Leuron               (InputLeuron(..), Leuron_Mod(..))
@@ -40,10 +40,6 @@ import LN.T                          ( LeuronPackResponses(..), LeuronPackRespon
 
 eval_GetLeurons :: Partial => EvalEff
 eval_GetLeurons eval (GetLeurons next) = do
-
-  pure next
-
-{-
 
   modify (_{ leurons = (M.empty :: M.Map Int LeuronPackResponse) })
 
@@ -77,16 +73,11 @@ eval_GetLeurons eval (GetLeurons next) = do
 
              modify (_{ leurons = leurons_map })
              pure next
-             -}
 
 
 
 eval_GetLeuronId :: Partial => EvalEff
 eval_GetLeuronId eval (GetLeuronId leuron_id next) = do
-
-  pure next
-
-  {-
 
   modify (_{ currentLeuron = Nothing })
   modify $ setLoading l_currentLeuron
@@ -101,15 +92,10 @@ eval_GetLeuronId eval (GetLeuronId leuron_id next) = do
       modify (_{ currentLeuron = Just pack })
       pure next
 
-  -}
 
 
 eval_GetLeuronRandom :: Partial => EvalEff
 eval_GetLeuronRandom eval (GetLeuronRandom next) = do
-
-  pure next
-
-  {-
 
   modify (_{ currentLeuron = Nothing })
   modify $ setLoading l_currentLeuron
@@ -125,16 +111,11 @@ eval_GetLeuronRandom eval (GetLeuronRandom next) = do
         Nothing   -> pure next
         Just pack -> modify (_{ currentLeuron = Just pack }) $> next
 
--}
-
 
 
 eval_Leuron :: Partial => EvalEff
 eval_Leuron eval (CompLeuron sub next) = do
 
-  pure next
-
-  {-
   case sub of
     InputLeuron_Mod q -> do
       case q of
@@ -217,4 +198,3 @@ eval_Leuron eval (CompLeuron sub next) = do
   set v req                = Just (v req)
   mod new                  = modify (\st->st{ currentLeuronRequest = maybe Nothing new st.currentLeuronRequest }) $> next
   modSt new                = modify (\st->st{ currentLeuronRequestSt = maybe Nothing (Just <<< new) st.currentLeuronRequestSt }) $> next
-  -}
