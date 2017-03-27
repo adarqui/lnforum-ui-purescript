@@ -14,7 +14,7 @@ import LN.Component.Types (EvalEff)
 import LN.Input.Profile   (InputProfile(..))
 import LN.Input.Types     (Input(..))
 import LN.Api             (putUserProfile')
-import LN.Api.Helpers     (rd)
+import LN.Helpers.Api     (rd)
 import LN.T               (UserPackResponse(..), _UserPackResponse
                           , ProfileResponse(..), _ProfileResponse
                           , ProfileGender(..)
@@ -24,11 +24,10 @@ import LN.T.Convert
 
 
 eval_Profile :: Partial => EvalEff
+
+
 eval_Profile eval (CompProfile InputProfile_Nop next) = pure next
 
-{-
-
-TODO FIXME
 
 
 eval_Profile eval (CompProfile InputProfile_Nop next) = pure next
@@ -86,7 +85,6 @@ eval_Profile eval (CompProfile (InputProfile_SetDebug b) next) = do
 
   eval_Profile_Setter debug_ b next
 
--}
 
 
 eval_Profile_Setter accessor value next = do

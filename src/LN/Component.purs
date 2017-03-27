@@ -30,8 +30,6 @@ import LN.Router.Types
 
 
 
--- ui :: forall eff. {-Partial =>-} Component State Input (LNEff eff)
--- ui :: forall eff. Partial => State -> Component HH.HTML Input Unit Void eff
 ui :: forall eff. Partial => State -> UICompEff
 ui st =
   component {
@@ -89,25 +87,3 @@ ui st =
     CompLeuron _ _                             -> eval_Leuron eval ev
     CompOrderBy _ _                            -> eval_OrderBy eval ev
     Nop _                                      -> eval_Nop eval ev
-
-
-
-
-{-
-ui :: State -> ComponentHTML Input
-ui = component {render, eval}
-
-  where
-  render state =
-    L.defaultLayout state
-      [ renderView state.currentPage state
-      ]
-
-  eval :: CompEff
-  -}
-
-{-
-  eval z@(Goto _ _)                                   = eval_Goto eval z
-
-  eval z@(Nop _)                                      = eval_Nop eval z
-  -}
