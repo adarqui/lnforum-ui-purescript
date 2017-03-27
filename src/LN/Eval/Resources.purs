@@ -10,14 +10,16 @@ module LN.Eval.Resources (
 
 
 
+import Control.Monad.Aff.Console     (log)
 import Data.Array                    (head, deleteAt, modifyAt, nub)
 import Data.Either                   (Either(..))
 import Data.Functor                  (($>))
 import Data.Map                      as M
 import Data.Maybe                    (Maybe(..), maybe)
-import Halogen                       (gets, modify)
+import Halogen                       as H
+import Halogen                       (get, gets, modify)
 import Optic.Core                    ((^.), (..), (.~))
-import Prelude                       (class Eq, id, const, bind, pure, map, ($), (<>))
+import Prelude                       (class Eq, id, const, bind, pure, map, ($), (<>), show, (==))
 
 import LN.Api                        ( getResourcesCount', getResourcePacks, getResourcePack'
                                      , getLeuronPacks_ByResourceId
@@ -32,6 +34,7 @@ import LN.Router.Types               (Routes(..), CRUD(..))
 import LN.Router.Class.Params        (emptyParams)
 import LN.State.Loading              (l_currentLeuron, l_currentResource, l_resources)
 import LN.State.Loading.Helpers      (getLoading, setLoading, clearLoading)
+import LN.State.Loading      (defaultLoadingMap)
 import LN.State.Resource             (ResourceRequestState, defaultResourceRequestState)
 import LN.State.PageInfo             (runPageInfo)
 import LN.T                          ( Param(..), SortOrderBy(..)
@@ -89,7 +92,9 @@ eval_GetResourceId eval (GetResourceId resource_id next) = do
 
   e_pack <- rd $ getResourcePack' resource_id
 
-  H.liftAff $ log "resource pack"
+  case e_pack of
+       Left err -> H.liftAff $ log $ show err
+       Right (ResourcePackResponse v)  -> H.liftAff $ log $ show v.resourceId
 
   modify $ clearLoading l_currentResource
 
@@ -97,6 +102,7 @@ eval_GetResourceId eval (GetResourceId resource_id next) = do
     Left err   -> pure next
     Right pack -> do
       modify (_{ currentResource = Just pack })
+
       pure next
 
 
