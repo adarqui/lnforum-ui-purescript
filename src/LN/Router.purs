@@ -280,10 +280,10 @@ routeSignal :: forall eff. Driver Input eff -> Routing eff Unit
 routeSignal driver = do
   Tuple old new <- matchesAff routing
   uncurry (redirects driver) (Tuple old new)
+  -}
 
 
 
 redirects :: forall eff. Driver Input eff -> Maybe Routes -> Routes -> Routing eff Unit
 redirects driver _ =
   driver <<< action <<< Goto
-  -}

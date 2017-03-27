@@ -25,6 +25,7 @@
     "purescript-var": "^1.0.0",
     "purescript-websocket-simple": "^1.0.1",
     "purescript-maps": "^2.1.2",
-    "purescript-naturals": "^1.1.0"
+    "purescript-naturals": "^1.1.0",
+    "purescript-partial": "^1.2.0"
   }
 }

@@ -13,6 +13,7 @@ import Halogen.Aff as HA
 import Halogen.VDom.Driver (runUI)
 -- import Halogen.Util                (awaitLoad, awaitBody, selectElement)
 import Prelude                     (Unit, unit, const, pure, bind, ($), (>>=))
+import Partial.Unsafe
 import Router                      as R
 
 import LN.Component.Types          (LN)
@@ -22,8 +23,8 @@ import LN.State.Types              as S
 
 
 
-main :: forall eff. Partial => Eff (LN eff) Unit
-main = do
+main :: forall eff. Eff (LN eff) Unit
+main = unsafePartial $ do
 
 {-
   runAff throwException (const (pure unit)) do

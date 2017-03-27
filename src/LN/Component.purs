@@ -42,10 +42,10 @@ ui st =
   where
 
   render :: State -> ComponentHTML Input
-  render state = H.p_ [H.text "hello"]
---    L.defaultLayout state
+  render state =
+    L.defaultLayout state
 --      [ renderView About state ]
---      [ renderView state.currentPage state ]
+      [ renderView state.currentPage state ]
 
   eval :: Partial => Input ~> ComponentDSL State Input Void eff
   eval ev = case ev of
