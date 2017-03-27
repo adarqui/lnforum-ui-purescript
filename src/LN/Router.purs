@@ -29,7 +29,7 @@ import Data.List               (List(..))
 import Data.Map                as M
 import Data.Maybe              (Maybe(..))
 import Data.String             (length)
-import Data.Tuple              (Tuple(..), uncurry)
+import Data.Tuple              (Tuple(..), uncurry, snd)
 import DOM (DOM)
 import DOM.Event.EventTarget (eventListener, addEventListener) as DOM
 import DOM.HTML (window) as DOM
@@ -316,31 +316,17 @@ redirects driver _ =
 
 -- A producer coroutine that emits messages whenever the window emits a
 -- `hashchange` event.
-hashChangeProducer
-  :: forall eff
-   . CR.Producer DOM.HashChangeEvent (Aff (avar :: AVAR, dom :: DOM | eff)) Unit
-hashChangeProducer = CRA.produce \emit ->
-  let
-    emitter e =
-      case runExcept (DOM.readHashChangeEvent (toForeign e)) of
-        Left _ -> pure unit
-        Right hce -> emit (Left hce)
-  in
-    liftEff $
-      DOM.window
-        >>= DOM.windowToEventTarget
-        >>> DOM.addEventListener ET.hashchange (DOM.eventListener emitter) false
+hashChangeProducer :: forall eff. CR.Producer Routes (Aff (avar :: AVAR, dom :: DOM | eff)) Unit
+hashChangeProducer = CRA.produceAff \emit -> do
+  v <- matchesAff routing
+  emit $ Left (snd v)
 
 
 
 -- A consumer coroutine that takes the `query` function from our component IO
 -- record and sends `ChangeRoute` queries in when it receives inputs from the
 -- producer.
-hashChangeConsumer
-  :: forall eff
-   . (Input ~> Aff (HA.HalogenEffects eff))
-  -> CR.Consumer DOM.HashChangeEvent (Aff (HA.HalogenEffects eff)) Unit
-hashChangeConsumer query = CR.consumer \event -> do
-  let hash = Str.drop 1 $ Str.dropWhile (_ /= '#') $ HCE.newURL event
-  query $ H.action $ Nop
+hashChangeConsumer :: forall eff. (Input ~> Aff (HA.HalogenEffects eff)) -> CR.Consumer Routes (Aff (HA.HalogenEffects eff)) Unit
+hashChangeConsumer query = CR.consumer \route -> do
+  query $ H.action $ Goto route
   pure Nothing

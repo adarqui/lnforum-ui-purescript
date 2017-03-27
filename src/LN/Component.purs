@@ -51,10 +51,8 @@ ui st =
   eval :: Partial => CompEff
   eval ev = case ev of
     GetMe _ -> eval_GetMe eval ev
-    Nop next -> do
-      -- pure next
-      eval_Nop''
-      pure next
+    Goto _ _ -> eval_Goto eval ev
+    Nop _ -> eval_Nop eval ev
 
 
 

@@ -9,7 +9,7 @@ import Data.Ebyam               (ebyam)
 import Data.Functor             (($>))
 import Data.Map                 as M
 import Data.Maybe               (Maybe(..), maybe)
-import Halogen                  (get, gets, modify)
+import Halogen                  (get, gets, modify, liftAff)
 import Optic.Core               ((^.),(..))
 import Prelude                  (show, bind, pure, unit, id, (==), (/=), (<), ($))
 
@@ -38,12 +38,11 @@ import LN.T.Convert
 -- eval_Goto :: forall eff. String -> Input -> NaturalTransformation Input (ComponentDSL State Input Void (LNEff eff))
 -- eval_Goto eval route nxxt = do
 
--- eval_Goto :: Partial => EvalEff
+eval_Goto :: Partial => EvalEff
 eval_Goto eval (Goto route next) = do
-    pure next
-{-
+
   modify (_ { currentPage = route })
-  fromAff $ updateUrl route
+  liftAff $ updateUrl route
 
   st <- get
 
@@ -231,4 +230,3 @@ eval_Goto eval (Goto route next) = do
 
 
   pure next
-  -}
