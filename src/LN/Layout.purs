@@ -8,12 +8,14 @@ import Data.Array                      ((:), length, concat)
 import Data.Maybe                      (Maybe(..))
 import Halogen.HTML            (HTML(), ClassName())
 import Halogen.HTML            as H
+import Halogen.HTML.Core       as C
 import Halogen.HTML.Properties as P
 import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
 import Prelude                         (map, show, ($), (<>))
 
 import LN.Debug                        (ifDebug_ByUser)
+import LN.Helpers.Halogen.Util
 import LN.Router.Link                  (linkToHref, linkTo)
 import LN.Router.Types                 (Routes(..), CRUD(..))
 import LN.Router.Class.Params          (emptyParams)
@@ -67,34 +69,45 @@ container_ = container []
 header :: Maybe UserPackResponse -> Int -> HTML _ _
 header muser n_errors =
   H.div [P.class_ B.containerFluid] [
-    H.nav [P.classes [B.navbarNav, B.navbarStaticTop]] [
+
+    H.nav [P.classes [B.navbar, B.navbarDefault]] [
       container_ [
-        H.a [P.classes [B.navbarBrand], linkToHref Home] [H.text "Home"],
+        H.div [P.class_ B.navbarHeader] [
+          H.button [P.classes [B.navbarToggle, C.ClassName "collapsed"], dataToggle "collapse", dataHelper "target" "lnotes-navbar"] [
+            H.span [P.class_ B.iconBar] [],
+            H.span [P.class_ B.iconBar] [],
+            H.span [P.class_ B.iconBar] []
+          ],
+          H.a [P.classes [B.navbarBrand], linkToHref Home] [H.text "LNotes"]
+        ],
 
-        -- TODO FIXME: ugly, but need to make sure the debug check doesn't wreck the navbar
-        H.ul [P.classes [B.navbarNav, B.nav, B.navTabs]]
-          (concat [
-            [
-              H.li_ [linkTo About "About"],
-              H.li_ [linkTo (Resources Index emptyParams) "Resources"],
-              H.li_ [linkTo Portal "Portal"],
-              H.li_ [me]
-            ],
-            ifDebug_ByUser
-              muser
-              (\_ -> [H.li_ [errors]])
-              (\_ -> [])
-          ]),
+        H.div [P.classes [B.navbarCollapse, B.collapse], P.id_ "lnotes-navbar"] [
 
-        case muser of
-          Nothing ->
-            H.ul [P.classes [B.nav, B.navbarNav, B.navTabs, B.navbarRight ]] [
-              H.li_ [linkTo Login "Log in"]
-            ]
-          Just u ->
-            H.ul [P.classes [B.nav, B.navbarNav, B.navTabs, B.navbarRight]] [
-              H.li_ [linkTo Logout $ "Log out: " <> u ^. _UserPackResponse .. user_ ^. _UserResponse .. name_]
-            ]
+          -- TODO FIXME: ugly, but need to make sure the debug check doesn't wreck the navbar
+          H.ul [P.classes [B.navbarNav, B.nav, B.navTabs]]
+            (concat [
+              [
+                H.li_ [linkTo About "About"],
+                H.li_ [linkTo (Resources Index emptyParams) "Resources"],
+                H.li_ [linkTo Portal "Portal"],
+                H.li_ [me]
+              ],
+              ifDebug_ByUser
+                muser
+                (\_ -> [H.li_ [errors]])
+                (\_ -> [])
+            ]),
+
+          case muser of
+            Nothing ->
+              H.ul [P.classes [B.nav, B.navbarNav, B.navTabs, B.navbarRight ]] [
+                H.li_ [linkTo Login "Log in"]
+              ]
+            Just u ->
+              H.ul [P.classes [B.nav, B.navbarNav, B.navTabs, B.navbarRight]] [
+                H.li_ [linkTo Logout $ "Log out: " <> u ^. _UserPackResponse .. user_ ^. _UserResponse .. name_]
+              ]
+        ]
       ]
     ]
   ]

@@ -1,7 +1,5 @@
 module LN.View.Module.OrderBy (
-  renderOrderBy,
-  dataToggle,
-  dataHelper
+  renderOrderBy
 ) where
 
 
@@ -17,23 +15,10 @@ import Prelude                         (show, map, ($), (<>))
 import Unsafe.Coerce                   as U
 
 import LN.Input.Types                  (Input)
+import LN.Helpers.Halogen.Util
 import LN.Router.Link                  (linkToP_Classes')
 import LN.Router.Types                 (Routes, orderBy)
 import LN.T
-
-
-
-dataToggle :: forall i r. String -> P.IProp r i
-dataToggle = U.unsafeCoerce dtoggle
-  where
-  dtoggle = C.attr (C.AttrName "data-toggle")
-
-
-
-dataHelper :: forall i r. String -> String -> P.IProp r i
-dataHelper prefix = U.unsafeCoerce dhelper
-  where
-  dhelper = C.attr (C.AttrName $ "data-" <> prefix)
 
 
 
