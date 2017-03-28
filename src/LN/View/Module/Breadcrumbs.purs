@@ -20,7 +20,7 @@ import LN.State.Types                        (State)
 
 renderBreadcrumbs :: Routes -> State -> ComponentHTML Input
 renderBreadcrumbs route st =
-  H.div_ [
+  H.div [P.class_ B.hiddenXs] [
     H.ol [P.classes [B.breadcrumb]] $
       map (\(Tuple breadcrumb name) -> H.li [] [linkTo breadcrumb name]) (crumb route st)
   ]
