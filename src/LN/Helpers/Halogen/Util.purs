@@ -1,6 +1,7 @@
 module LN.Helpers.Halogen.Util (
   dataToggle,
-  dataHelper
+  dataHelper,
+  ariaHelper
 ) where
 
 
@@ -28,3 +29,10 @@ dataHelper :: forall i r. String -> String -> P.IProp r i
 dataHelper prefix = U.unsafeCoerce dhelper
   where
   dhelper = C.attr (C.AttrName $ "data-" <> prefix)
+
+
+
+ariaHelper :: forall i r. String -> String -> P.IProp r i
+ariaHelper prefix = U.unsafeCoerce dhelper
+  where
+  dhelper = C.attr (C.AttrName $ "aria-" <> prefix)

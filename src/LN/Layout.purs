@@ -73,7 +73,7 @@ header muser n_errors =
     H.nav [P.classes [B.navbar, B.navbarDefault]] [
       container_ [
         H.div [P.class_ B.navbarHeader] [
-          H.button [P.classes [B.navbarToggle, C.ClassName "collapsed"], dataToggle "collapse", dataHelper "target" "lnotes-navbar"] [
+          H.button [P.classes [B.navbarToggle, C.ClassName "collapsed"], dataToggle "collapse", dataHelper "target" "lnotes-navbar", ariaHelper "expanded" "false"] [
             H.span [P.class_ B.iconBar] [],
             H.span [P.class_ B.iconBar] [],
             H.span [P.class_ B.iconBar] []
