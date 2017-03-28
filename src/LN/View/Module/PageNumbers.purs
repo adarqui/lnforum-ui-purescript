@@ -10,7 +10,7 @@ import Halogen                         (ComponentHTML, HTML)
 import Halogen.HTML            as H
 import Halogen.HTML.Properties as P
 import Halogen.Themes.Bootstrap3       as B
-import Prelude                         (show, map, ($), (+), (-), (<), (>), (==), (<>))
+import Prelude                         (show, map, ($), (+), (-), (<), (>), (<=), (>=), (==), (<>), (&&))
 
 import LN.Input.Types                  (Input)
 import LN.Router.Link                  (linkToP_Classes')
@@ -52,5 +52,9 @@ renderPageNumbers' pageInfo route =
   next = let p = (pageInfo.currentPage + 1) in if (p > pageInfo.totalPages) then pageInfo.totalPages else p
   classes p =
     if p == pageInfo.currentPage
-      then [P.classes [B.active]]
-      else []
+      then [P.classes $ [B.active] <> extra]
+      else [P.classes extra]
+    where
+    extra = if p >= pageInfo.currentPage - 1 && p <= pageInfo.currentPage + 1
+               then []
+               else [B.hiddenXs]
