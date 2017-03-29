@@ -10,7 +10,7 @@ import Halogen                         (ComponentHTML, HTML)
 import Halogen.HTML            as H
 import Halogen.HTML.Properties as P
 import Halogen.Themes.Bootstrap3       as B
-import Prelude                         (show, map, ($), (+), (-), (<), (>), (<=), (>=), (==), (/=), (<>), (&&), (*))
+import Prelude                         (show, map, ($), (+), (-), (<), (>), (<=), (>=), (==), (/=), (<>), (&&), (||), (*))
 
 import LN.Input.Types                  (Input)
 import LN.Router.Link                  (linkToP_Classes')
@@ -27,7 +27,7 @@ pageRange pageInfo =
      else range 1 pageInfo.totalPages
   where
   current_page = pageInfo.currentPage
-  total_pages  = pageInfo.totalPages - 1
+  total_pages  = pageInfo.totalPages
   ranger       = 7
   first_page   = [1]
   last_page    = if current_page == total_pages then [] else [total_pages]
@@ -67,6 +67,6 @@ renderPageNumbers' pageInfo route =
       then [P.classes $ [B.active] <> extra]
       else [P.classes extra]
     where
-    extra = if p >= pageInfo.currentPage - 2 && p <= pageInfo.currentPage + 2
+    extra = if (p >= pageInfo.currentPage - 2 && p <= pageInfo.currentPage + 2) || p == 1 || p == pageInfo.totalPages
                then []
                else [B.hiddenXs]
