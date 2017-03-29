@@ -13,6 +13,7 @@ import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
 import Prelude                         (show, map, ($), (<>))
 
+import LN.Internal.Leuron              (leuronToTyLeuron)
 import LN.Input.Types                  (Input)
 import LN.Router.Link                  (linkToP)
 import LN.Router.Types                 (Routes(..), CRUD(..))
@@ -75,13 +76,9 @@ renderLeurons st =
               , H.div [P.class_ B.colSm6] [
                     linkToP [] (ResourcesLeurons leuron.resourceId (ShowI leuron.id) emptyParams) (show leuron.id)
                   , H.p_ [H.text $ show leuron.createdAt]
---                  , H.p_ [H.text leuron.description]
                 ]
               , H.div [P.class_ B.colSm1] [
-                  H.p_ [H.text $ show stat.views <> " views"]
-                ]
-              , H.div [P.class_ B.colSm3] [
-                  H.div_ [ H.p_ [H.text "Likes?"]]
+                H.p_ [H.text $ show $ leuronToTyLeuron leuron.dataP]
               ]
             ]
           ])

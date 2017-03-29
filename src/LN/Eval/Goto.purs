@@ -206,6 +206,48 @@ eval_Goto eval (Goto route next) = do
 --
 --    (Leurons (ShowI leuron_id) params) -> eval (GetLeuronId leuron_id next) $> unit
 --
+    -- Leurons
+    --
+    (Leurons Index params) -> do
+
+      pageInfo <- gets _.leuronsPageInfo
+      let offset = ebyam (lookupParam ParamTag_Offset params) defaultPageInfo_Leurons.currentPage (\(Offset v) -> if v < 0 then pageInfo.totalPages else v)
+      modify (_{ leuronsPageInfo = pageInfo { currentPage = offset } })
+
+      eval (GetLeurons next) $> unit
+
+
+
+    (Leurons New params) -> do
+      modify (_{ currentLeuronRequest = Just defaultLeuronRequest, currentLeuronRequestSt = Just defaultLeuronRequestState })
+      pure unit
+
+    (Leurons (EditI leuron_id) params)   -> do
+      eval (GetLeuronId leuron_id next)
+      m_pack <- gets _.currentLeuron
+      case m_pack of
+           Nothing                          -> pure unit
+           Just (LeuronPackResponse pack) -> do
+             -- TODO FIXME: St's TyLeuronType needs to match source
+             let
+               leuron = pack.leuron ^. _LeuronResponse
+               rst      = defaultLeuronRequestState
+             modify (_{ currentLeuronRequest = Just $ leuronResponseToLeuronRequest pack.leuron, currentLeuronRequestSt = Just rst })
+             pure unit
+
+    (Leurons (DeleteI leuron_id) params) -> do
+      eval (GetLeuronId leuron_id next)
+      m_pack <- gets _.currentLeuron
+      case m_pack of
+           Nothing                          -> pure unit
+           Just (LeuronPackResponse pack) -> do
+             modify (_{ currentLeuronRequest = Just $ leuronResponseToLeuronRequest pack.leuron })
+             pure unit
+
+
+    (Leurons (ShowI leuron_id) params)   -> eval (GetLeuronId leuron_id next) $> unit
+
+
 
 
     (Users Index params) -> do

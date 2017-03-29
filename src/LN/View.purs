@@ -44,6 +44,7 @@ import LN.View.Leurons.Mod                 (renderView_Leurons_New, renderView_L
 
 
 
+
 renderView :: Routes -> State -> ComponentHTML Input
 
 
@@ -99,8 +100,9 @@ renderView (ResourcesSiftLeuronsRandom resource_id params)                = rend
 
 
 
--- renderView (Leurons Index params)              = renderView_Leurons_Index
--- renderView (Leurons (ShowI resource_id) params) = renderView_Leurons_Show resource_id
+renderView (Leurons Index params)               = renderView_Leurons_Index
+renderView (Leurons (ShowI leuron_id) params)   = renderView_Leurons_Show 0 leuron_id
+renderView (Leurons (DeleteI leuron_id) params) = renderView_Leurons_Delete 0 leuron_id
 
 
 

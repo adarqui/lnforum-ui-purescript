@@ -40,7 +40,7 @@ data Routes
   | ResourcesSiftLeurons Int Params
   | ResourcesSiftLeuronsLinear Int CRUD Params
   | ResourcesSiftLeuronsRandom Int Params
---  | Leurons CRUD Params
+  | Leurons CRUD Params
   | Login
   | Logout
   | NotFound
@@ -86,7 +86,7 @@ instance routesHasLink :: HasLink Routes where
   link (ResourcesSiftLeuronsLinear resource_id crud params) = Tuple ("#/resources/" <> show resource_id <> "/sift/linear" <> (fst $ link crud)) (fixParams params)
   link (ResourcesSiftLeuronsRandom resource_id params)      = Tuple ("#/resources/" <> show resource_id <> "/sift/random") (fixParams params)
 
---  link (Leurons crud params) = Tuple ("#/leurons" <> (fst $ link crud)) (fixParams params)
+  link (Leurons crud params) = Tuple ("#/leurons" <> (fst $ link crud)) (fixParams params)
 
   link Login    = Tuple "/auth/login" emptyParams
   link Logout   = Tuple "/auth/logout" emptyParams
@@ -256,6 +256,32 @@ instance routesHasCrumb :: HasCrumb Routes where
         ]
 
 
+      Leurons Index params ->
+        [Tuple (Leurons Index params) "Leurons"]
+
+      Leurons New params ->
+        [Tuple (Leurons Index params) "Leurons"]
+
+      Leurons (EditI leuron_id) params ->
+        [
+          Tuple (Leurons Index emptyParams) "Leurons",
+          leuron_pretty leuron_id params
+        ]
+
+      Leurons (DeleteI leuron_id) params ->
+        [
+          Tuple (Leurons Index emptyParams) "Leurons",
+          leuron_pretty leuron_id params
+        ]
+
+      Leurons (ShowI leuron_id) params ->
+        [
+          Tuple (Leurons Index emptyParams) "Leurons",
+          leuron_pretty leuron_id params
+        ]
+
+
+
       _ -> [Tuple NotFound "Error"]
 
     where
@@ -263,6 +289,9 @@ instance routesHasCrumb :: HasCrumb Routes where
       Tuple (Resources (ShowI resource_id) params)
         $ maybe (show resource_id) (\pack -> pack ^. _ResourcePackResponse .. resource_ ^. _ResourceResponse .. displayName_) st.currentResource
 
+    leuron_pretty leuron_id params =
+      Tuple (Leurons (ShowI leuron_id) params)
+        $ maybe (show leuron_id) (\pack -> show $ pack ^. _LeuronPackResponse .. leuron_ ^. _LeuronResponse .. id_) st.currentLeuron
 
 
 
@@ -287,6 +316,7 @@ instance routesShow :: Show Routes where
   show (ResourcesSiftLeurons resource_id params)            = "ResourcesSiftLeurons " <> show resource_id
   show (ResourcesSiftLeuronsLinear resource_id crud params) = "ResourcesSiftLeuronsLinear " <> show resource_id <> sp <> show crud
   show (ResourcesSiftLeuronsRandom resource_id params)      = "ResourcesSiftLeuronsRandom " <> show resource_id
+  show (Leurons crud params)          = "Leurons " <> show crud
   show Login    = "Login"
   show Logout   = "Logout"
   show NotFound = "NotFound"
