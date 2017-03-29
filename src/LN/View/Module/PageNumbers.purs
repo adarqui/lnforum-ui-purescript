@@ -10,7 +10,7 @@ import Halogen                         (ComponentHTML, HTML)
 import Halogen.HTML            as H
 import Halogen.HTML.Properties as P
 import Halogen.Themes.Bootstrap3       as B
-import Prelude                         (show, map, ($), (+), (-), (<), (>), (<=), (>=), (==), (<>), (&&))
+import Prelude                         (show, map, ($), (+), (-), (<), (>), (<=), (>=), (==), (/=), (<>), (&&), (*))
 
 import LN.Input.Types                  (Input)
 import LN.Router.Link                  (linkToP_Classes')
@@ -21,14 +21,26 @@ import LN.T
 
 
 pageRange :: PageInfo -> Array Int
-pageRange pageInfo = range 1 pageInfo.totalPages
+pageRange pageInfo =
+  if total_pages > (ranger*2)
+     then first_page <> range min_ranger max_ranger <> last_page
+     else range 1 pageInfo.totalPages
+  where
+  current_page = pageInfo.currentPage
+  total_pages  = pageInfo.totalPages - 1
+  ranger       = 7
+  first_page   = [1]
+  last_page    = if current_page == total_pages then [] else [total_pages]
+  min_ranger   = if current_page - ranger <= 1 then 2 else current_page - ranger
+  max_ranger   = if current_page + ranger > total_pages then total_pages
+                                                        else if (current_page + ranger) < (ranger*2) then (ranger*2) else current_page + ranger
 
 
 
 renderPageNumbers :: PageInfo -> Routes -> ComponentHTML Input
 renderPageNumbers pageInfo route =
   H.div [P.class_ B.containerFluid] [
-    H.ul [P.classes [B.pagination, B.paginationLg]]
+    H.ul [P.classes [B.pagination, B.paginationSm]]
     $
       map (\a ->
         a
@@ -55,6 +67,6 @@ renderPageNumbers' pageInfo route =
       then [P.classes $ [B.active] <> extra]
       else [P.classes extra]
     where
-    extra = if p >= pageInfo.currentPage - 1 && p <= pageInfo.currentPage + 1
+    extra = if p >= pageInfo.currentPage - 2 && p <= pageInfo.currentPage + 2
                then []
                else [B.hiddenXs]
