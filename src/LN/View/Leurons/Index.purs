@@ -24,6 +24,7 @@ import LN.View.Module.Gravatar         (renderGravatarForUser)
 import LN.View.Module.Loading          (renderLoading)
 import LN.View.Module.OrderBy          (renderOrderBy)
 import LN.View.Module.PageNumbers      (renderPageNumbers)
+import LN.View.Leurons.Show
 import LN.T                            ( Size(Small)
                                        , _LeuronStatResponse, _LeuronPackResponse, _LeuronResponse
                                        , stat_, leuron_)
@@ -70,18 +71,16 @@ renderLeurons st =
           in
           H.li_ [
             H.div [P.class_ B.row] [
-                H.div [P.class_ B.colXs2] [
-                  renderGravatarForUser Small (usersMapLookup_ToUser st leuron.userId)
-                ]
-              , H.div [P.class_ B.colXs5] [
-                    linkToP [] (ResourcesLeurons leuron.resourceId (ShowI leuron.id) emptyParams) (show leuron.id)
-                  , H.p_ [H.text $ show leuron.createdAt]
-                ]
-              , H.div [P.class_ B.colXs2] [
-                H.p_ [H.text $ show $ leuronToTyLeuron leuron.dataP]
-              ]
-              , H.div [P.class_ B.colXs3] [
-              ]
+                H.div [P.class_ B.colXs2] [renderGravatarForUser Small (usersMapLookup_ToUser st leuron.userId)]
+              , H.div [P.class_ B.colXs2] [linkToP [] (ResourcesLeurons leuron.resourceId (ShowI leuron.id) emptyParams) (show leuron.id)]
+              , H.div [P.class_ B.colXs2] [H.p_ [H.text $ show $ leuronToTyLeuron leuron.dataP]]
+              , H.div [P.classes [B.colXs3, B.hiddenXs]] [H.p_ [H.text $ show leuron.createdAt]]
+              , H.div [P.classes [B.colXs3, B.hiddenXs]] []
+            ],
+            H.div [P.class_ B.row] [
+              H.div [P.class_ B.colXs1] [],
+              H.div [P.class_ B.colXs9] [renderLeuron $ pack ^. _LeuronPackResponse .. leuron_],
+              H.div [P.class_ B.colXs1] []
             ]
           ])
         $ listToArray $ M.values st.leurons
