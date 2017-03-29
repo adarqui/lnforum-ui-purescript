@@ -70,15 +70,17 @@ renderLeurons st =
           in
           H.li_ [
             H.div [P.class_ B.row] [
-                H.div [P.class_ B.colSm1] [
+                H.div [P.class_ B.colXs2] [
                   renderGravatarForUser Small (usersMapLookup_ToUser st leuron.userId)
                 ]
-              , H.div [P.class_ B.colSm6] [
+              , H.div [P.class_ B.colXs5] [
                     linkToP [] (ResourcesLeurons leuron.resourceId (ShowI leuron.id) emptyParams) (show leuron.id)
                   , H.p_ [H.text $ show leuron.createdAt]
                 ]
-              , H.div [P.class_ B.colSm1] [
+              , H.div [P.class_ B.colXs2] [
                 H.p_ [H.text $ show $ leuronToTyLeuron leuron.dataP]
+              ]
+              , H.div [P.class_ B.colXs3] [
               ]
             ]
           ])
