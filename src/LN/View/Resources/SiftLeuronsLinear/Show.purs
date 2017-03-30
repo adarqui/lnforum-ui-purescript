@@ -47,11 +47,23 @@ renderView_Resources_SiftLeuronsLinear_Show' pack offset st =
 renderButtons :: LeuronPackResponse -> Int -> State -> ComponentHTML Input
 renderButtons pack offset st =
   H.div [P.class_ B.row] [
-    H.div [P.classes [B.colLg2, B.colMd2, B.colXs6]] [
-      linkToP_Classes [B.btn, B.btnLg, B.btnInfo, B.btnBlock] [] (ResourcesSiftLeuronsLinear leuron.resourceId (ShowI offset_prev) emptyParams) "prev"
+    H.div [P.classes [B.colLg2, B.colMd2, B.colXs2]] [
+      linkToP_Classes [B.btn, B.btnSm, B.btnInfo, B.btnBlock] [] (ResourcesSiftLeuronsLinear leuron.resourceId (ShowI offset_prev) emptyParams) "PREV"
     ],
-    H.div [P.classes [B.colLg2, B.colMd2, B.colXs6]] [
-      linkToP_Classes [B.btn, B.btnLg, B.btnInfo, B.btnBlock] [] (ResourcesSiftLeuronsLinear leuron.resourceId (ShowI offset_next) emptyParams) "next"
+    H.div [P.classes [B.colLg2, B.colMd2, B.colXs2]] [
+      linkToP_Classes [B.btn, B.btnSm, B.btnInfo, B.btnBlock] [] (ResourcesSiftLeuronsLinear leuron.resourceId (ShowI offset_next) emptyParams) "NEXT"
+    ],
+    H.div [P.classes [B.colLg2, B.colMd2, B.colXs2]] [
+      linkToP_Classes [B.btn, B.btnSm, B.btnSuccess, B.btnBlock] [] (ResourcesSiftLeuronsLinear leuron.resourceId (ShowI offset_next) emptyParams) "KNOW"
+    ],
+    H.div [P.classes [B.colLg2, B.colMd2, B.colXs2]] [
+      linkToP_Classes [B.btn, B.btnSm, B.btnWarning, B.btnBlock] [] (ResourcesSiftLeuronsLinear leuron.resourceId (ShowI offset_next) emptyParams) "?"
+    ],
+    H.div [P.classes [B.colLg2, B.colMd2, B.colXs2]] [
+      linkToP_Classes [B.btn, B.btnSm, B.btnDanger, B.btnBlock] [] (ResourcesSiftLeuronsLinear leuron.resourceId (ShowI offset_next) emptyParams) "~CARE"
+    ],
+    H.div [P.classes [B.colLg2, B.colMd2, B.colXs2]] [
+      linkToP_Classes [B.btn, B.btnSm, B.btnDanger, B.btnBlock] [] (ResourcesSiftLeuronsLinear leuron.resourceId (ShowI offset_next) emptyParams) "FLAG"
     ]
   ]
   where
