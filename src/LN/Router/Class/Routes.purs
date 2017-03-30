@@ -44,6 +44,8 @@ data Routes
   | Login
   | Logout
   | NotFound
+  -- Other
+  | ViewExamples
 
 
 
@@ -92,6 +94,7 @@ instance routesHasLink :: HasLink Routes where
   link Logout   = Tuple "/auth/logout" emptyParams
 
   link NotFound = Tuple "#/404" emptyParams
+  link ViewExamples = Tuple "#/view_examples" emptyParams
 
 
 
@@ -282,7 +285,13 @@ instance routesHasCrumb :: HasCrumb Routes where
 
 
 
+      ViewExamples -> [Tuple ViewExamples "ViewExamples"]
+
+
+
       _ -> [Tuple NotFound "Error"]
+
+
 
     where
     resource_pretty resource_id params =
@@ -320,6 +329,7 @@ instance routesShow :: Show Routes where
   show Login    = "Login"
   show Logout   = "Logout"
   show NotFound = "NotFound"
+  show ViewExamples = "ViewExamples"
   show _ = "make sure Show covers all Routes"
 
 

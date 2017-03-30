@@ -42,6 +42,7 @@ import LN.View.Leurons.Index               (renderView_Leurons_Index)
 import LN.View.Leurons.Show                (renderView_Leurons_Show)
 import LN.View.Leurons.Mod                 (renderView_Leurons_New, renderView_Leurons_Edit, renderView_Leurons_Delete)
 
+import LN.View.ViewExamples (renderView_ViewExamples)
 
 
 
@@ -103,6 +104,10 @@ renderView (ResourcesSiftLeuronsRandom resource_id params)                = rend
 renderView (Leurons Index params)               = renderView_Leurons_Index
 renderView (Leurons (ShowI leuron_id) params)   = renderView_Leurons_Show 0 leuron_id
 renderView (Leurons (DeleteI leuron_id) params) = renderView_Leurons_Delete 0 leuron_id
+
+
+
+renderView ViewExamples = const $ renderView_ViewExamples
 
 
 

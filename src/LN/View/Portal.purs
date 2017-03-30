@@ -55,7 +55,12 @@ links =
   , ResourcesSiftLeurons 1 emptyParams
   , ResourcesSiftLeuronsLinear 1 Index emptyParams
   , ResourcesSiftLeuronsRandom 1 emptyParams
---  , Leurons Index emptyParams
+
+  , Leurons Index emptyParams
+
+  , ViewExamples
+  , NotFound
+
   , Login
   , Logout
   ]

@@ -1,14 +1,20 @@
 module LN.Helpers.Halogen.Util (
   dataToggle,
   dataHelper,
-  ariaHelper
+  ariaHelper,
+  row,
+  col,
+  col',
+  container,
+  container_
 ) where
 
 
 
-import Data.Array                      (range, concat)
+import Data.Array                      (range, concat, (:))
 import Data.Maybe                      (Maybe(..))
 import Halogen                         (ComponentHTML)
+import Halogen.HTML            (HTML(), ClassName())
 import Halogen.HTML.Core               as C
 import Halogen.HTML            as H
 import Halogen.HTML.Properties as P
@@ -36,3 +42,28 @@ ariaHelper :: forall i r. String -> String -> P.IProp r i
 ariaHelper prefix = U.unsafeCoerce dhelper
   where
   dhelper = C.attr (C.AttrName $ "aria-" <> prefix)
+
+
+
+row :: forall a b. Array (HTML a b) -> HTML a b
+row = H.div [ P.class_ B.row ]
+
+
+
+col :: forall a b. ClassName -> Array (HTML a b) -> HTML a b
+col sz = H.div [ P.class_ sz ]
+
+
+
+col' :: forall a b. Array ClassName -> Array (HTML a b) -> HTML a b
+col' szs = H.div [ P.classes szs ]
+
+
+
+-- container :: Array IProp -> HTML _ _
+container attrs = H.div (P.class_ B.container : attrs)
+
+
+
+container_ :: Array (HTML _ _) -> HTML _ _
+container_ = container []

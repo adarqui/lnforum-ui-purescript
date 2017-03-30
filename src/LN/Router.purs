@@ -134,6 +134,8 @@ routing =
       login <|>
       logout <|>
 
+      view_examples <|>
+
       home <|>
       home2
   where
@@ -317,6 +319,10 @@ routing =
 
     login = Login <$ route "login"
     logout = Logout <$ route "logout"
+
+
+
+    view_examples = ViewExamples <$ route "view_examples"
 
 
 

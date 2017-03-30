@@ -25,21 +25,6 @@ import LN.T
 
 
 
-row :: forall a b. Array (HTML a b) -> HTML a b
-row = H.div [ P.class_ B.row ]
-
-
-
-col :: forall a b. ClassName -> Array (HTML a b) -> HTML a b
-col sz = H.div [ P.class_ sz ]
-
-
-
-col' :: forall a b. Array ClassName -> Array (HTML a b) -> HTML a b
-col' szs = H.div [ P.classes szs ]
-
-
-
 defaultLayout :: State -> Array (HTML _ _) -> HTML _ _
 defaultLayout st page =
   H.div [ P.class_ B.containerFluid ] [
@@ -53,16 +38,6 @@ defaultLayout st page =
     renderBreadcrumbs st.currentPage st,
     row page
   ]
-
-
-
--- container :: Array IProp -> HTML _ _
-container attrs = H.div (P.class_ B.container : attrs)
-
-
-
-container_ :: Array (HTML _ _) -> HTML _ _
-container_ = container []
 
 
 
