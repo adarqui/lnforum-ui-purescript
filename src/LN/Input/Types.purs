@@ -11,6 +11,7 @@ module LN.Input.Types (
 
 
 import Data.Foreign            (ForeignError)
+import Data.Maybe              (Maybe())
 import Purescript.Api.Helpers  (ApiError)
 
 import LN.Input.ArrayString    (InputArrayString)
@@ -41,7 +42,7 @@ data Input a
   | GetResourceLeuronLinear Int Int a
   | GetResourceLeuronRandom Int a
   | GetResourcesSiftLeurons Int a
-  | GetLeurons a
+  | GetLeurons (Maybe Int) a
   | GetLeuronId Int a
   | GetLeuronRandom a
   | ConnectSocket a

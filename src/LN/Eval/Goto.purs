@@ -107,7 +107,7 @@ eval_Goto eval (Goto route next) = do
       let offset = ebyam (lookupParam ParamTag_Offset params) defaultPageInfo_Leurons.currentPage (\(Offset v) -> if v < 0 then pageInfo.totalPages else v)
       modify (_{ leuronsPageInfo = pageInfo { currentPage = offset } })
 
-      eval (GetLeurons next) $> unit
+      eval (GetLeurons (Just resource_id) next) $> unit
 
     (ResourcesLeurons resource_id New params) -> do
       -- Important: don't over-write leuron request state.. we want to hold on to that info to make our lives easier
@@ -214,7 +214,7 @@ eval_Goto eval (Goto route next) = do
       let offset = ebyam (lookupParam ParamTag_Offset params) defaultPageInfo_Leurons.currentPage (\(Offset v) -> if v < 0 then pageInfo.totalPages else v)
       modify (_{ leuronsPageInfo = pageInfo { currentPage = offset } })
 
-      eval (GetLeurons next) $> unit
+      eval (GetLeurons Nothing next) $> unit
 
 
 

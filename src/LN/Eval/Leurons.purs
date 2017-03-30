@@ -17,7 +17,7 @@ import Halogen                       (gets, modify)
 import Optic.Core                    ((^.), (..), (.~))
 import Prelude                       (class Eq, id, const, bind, pure, map, ($), (<>), (<<<), (==))
 
-import LN.Api                        ( getLeuronsCount', getLeuronPack', getLeuronPacks
+import LN.Api                        ( getLeuronsCount, getLeuronPack', getLeuronPacks
                                      , postLeuron_ByResourceId', putLeuron')
 import LN.Helpers.Api                (rd)
 import LN.Component.Types            (EvalEff)
@@ -39,13 +39,13 @@ import LN.T                          ( LeuronPackResponses(..), LeuronPackRespon
 
 
 eval_GetLeurons :: Partial => EvalEff
-eval_GetLeurons eval (GetLeurons next) = do
+eval_GetLeurons eval (GetLeurons m_resource_id next) = do
 
   modify (_{ leurons = (M.empty :: M.Map Int LeuronPackResponse) })
 
   page_info <- gets _.leuronsPageInfo
 
-  e_count <- rd $ getLeuronsCount'
+  e_count <- rd $ getLeuronsCount params
   case e_count of
     Left err     -> eval (AddErrorApi "eval_GetLeurons::getLeuronsCount'" err next)
     Right counts -> do
@@ -55,7 +55,7 @@ eval_GetLeurons eval (GetLeurons next) = do
       modify (_{ leuronsPageInfo = new_page_info.pageInfo })
       modify $ setLoading l_leurons
 
-      e_leuron_packs <- rd $ getLeuronPacks new_page_info.params
+      e_leuron_packs <- rd $ getLeuronPacks $ new_page_info.params <> params
 
       modify $ clearLoading l_leurons
 
@@ -73,6 +73,10 @@ eval_GetLeurons eval (GetLeurons next) = do
 
              modify (_{ leurons = leurons_map })
              pure next
+  where
+  params = case m_resource_id of
+                Just resource_id -> [ByResourceId resource_id]
+                _                -> []
 
 
 
