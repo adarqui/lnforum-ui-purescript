@@ -39,8 +39,7 @@ renderView_Resources_SiftLeuronsLinear_Show' :: LeuronPackResponse -> Int -> Sta
 renderView_Resources_SiftLeuronsLinear_Show' pack offset st =
   H.div_ [
     renderButtons pack offset st,
-    renderView_Leurons_Show' pack st,
-    renderButtons pack offset st
+    H.div [P.class_ B.preScrollable] [renderView_Leurons_Show' pack st]
   ]
 
 
