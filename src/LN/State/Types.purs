@@ -25,7 +25,8 @@ import LN.State.PageInfo            ( PageInfo
                                     , defaultPageInfo
                                     , defaultPageInfo_Users
                                     , defaultPageInfo_Resources
-                                    , defaultPageInfo_Leurons)
+                                    , defaultPageInfo_Leurons
+                                    , defaultPageInfo_Buckets)
 import LN.T
 
 
@@ -56,11 +57,15 @@ initialState ch =
   , currentLeuron:                Nothing
   , currentLeuronRequest:         Nothing
   , currentLeuronRequestSt:       Nothing
+  , currentBucket:                Nothing
+  , currentBucketRequest:         Nothing
+  , currentBucketRequestSt:       Nothing
   , currentPageInfo:              defaultPageInfo
   , usersPageInfo:                defaultPageInfo_Users
   -- need dsc by modifiedAt !!!!!!!! TODO FIXME
   , resourcesPageInfo:            defaultPageInfo_Resources
   , leuronsPageInfo:              defaultPageInfo_Leurons
+  , bucketsPageInfo:              defaultPageInfo_Buckets
   , arrayStringSt:                defaultArrayStringState
 --  , driverCh:                     ch
   , loading:                      defaultLoadingMap

@@ -41,10 +41,13 @@ data Routes
   | ResourcesSiftLeuronsLinear Int CRUD Params
   | ResourcesSiftLeuronsRandom Int Params
   | Leurons CRUD Params
+  | Buckets CRUD Params
+  -- | BucketsLeurons CRUD Params
+  -- | BucketsResources CRUD Params
   | Login
   | Logout
   | NotFound
-  -- Other
+  -- | Other
   | ViewExamples
 
 
@@ -89,6 +92,8 @@ instance routesHasLink :: HasLink Routes where
   link (ResourcesSiftLeuronsRandom resource_id params)      = Tuple ("#/resources/" <> show resource_id <> "/sift/random") (fixParams params)
 
   link (Leurons crud params) = Tuple ("#/leurons" <> (fst $ link crud)) (fixParams params)
+
+  link (Buckets crud params) = Tuple ("#/buckets" <> (fst $ link crud)) (fixParams params)
 
   link Login    = Tuple "/auth/login" emptyParams
   link Logout   = Tuple "/auth/logout" emptyParams
@@ -285,6 +290,32 @@ instance routesHasCrumb :: HasCrumb Routes where
 
 
 
+      Buckets Index params ->
+        [Tuple (Buckets Index params) "Buckets"]
+
+      Buckets New params ->
+        [Tuple (Buckets Index params) "Buckets"]
+
+      Buckets (EditI bucket_id) params ->
+        [
+          Tuple (Buckets Index emptyParams) "Buckets",
+          bucket_pretty bucket_id params
+        ]
+
+      Buckets (DeleteI bucket_id) params ->
+        [
+          Tuple (Buckets Index emptyParams) "Buckets",
+          bucket_pretty bucket_id params
+        ]
+
+      Buckets (ShowI bucket_id) params ->
+        [
+          Tuple (Buckets Index emptyParams) "Buckets",
+          bucket_pretty bucket_id params
+        ]
+
+
+
       ViewExamples -> [Tuple ViewExamples "ViewExamples"]
 
 
@@ -301,6 +332,10 @@ instance routesHasCrumb :: HasCrumb Routes where
     leuron_pretty leuron_id params =
       Tuple (Leurons (ShowI leuron_id) params)
         $ maybe (show leuron_id) (\pack -> show $ pack ^. _LeuronPackResponse .. leuron_ ^. _LeuronResponse .. id_) st.currentLeuron
+
+    bucket_pretty bucket_id params =
+      Tuple (Buckets (ShowI bucket_id) params)
+        $ maybe (show bucket_id) (\pack -> show $ pack ^. _BucketPackResponse .. bucket_ ^. _BucketResponse .. id_) st.currentBucket
 
 
 
@@ -326,6 +361,7 @@ instance routesShow :: Show Routes where
   show (ResourcesSiftLeuronsLinear resource_id crud params) = "ResourcesSiftLeuronsLinear " <> show resource_id <> sp <> show crud
   show (ResourcesSiftLeuronsRandom resource_id params)      = "ResourcesSiftLeuronsRandom " <> show resource_id
   show (Leurons crud params)          = "Leurons " <> show crud
+  show (Buckets crud params)          = "Buckets" <> show crud
   show Login    = "Login"
   show Logout   = "Logout"
   show NotFound = "NotFound"

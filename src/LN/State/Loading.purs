@@ -8,11 +8,14 @@ module LN.State.Loading (
   l_users,
   l_resources,
   l_leurons,
+  l_buckets,
   l_currentUser,
   l_currentResource,
   l_currentResourceRequest,
   l_currentLeuron,
-  l_currentLeuronRequest
+  l_currentLeuronRequest,
+  l_currentBucket,
+  l_currentBucketRequest
 ) where
 
 
@@ -97,3 +100,12 @@ l_currentLeuron                 = 7
 
 l_currentLeuronRequest          :: Int
 l_currentLeuronRequest          = 8
+
+l_buckets                       :: Int
+l_buckets                       = 9
+
+l_currentBucket                 :: Int
+l_currentBucket                 = 10
+
+l_currentBucketRequest          :: Int
+l_currentBucketRequest          = 11

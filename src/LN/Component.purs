@@ -23,6 +23,7 @@ import LN.Eval.Profile
 import LN.Eval.Users
 import LN.Eval.Resources
 import LN.Eval.Leurons
+import LN.Eval.Buckets
 import LN.Eval.Socket
 import LN.Eval.Nop
 
@@ -77,6 +78,9 @@ ui st =
     GetLeuronId _ _                            -> eval_GetLeuronId eval ev
     GetLeuronRandom _                          -> eval_GetLeuronRandom eval ev
 
+    GetBuckets _                               -> eval_GetBuckets eval ev
+    GetBucketId _ _                            -> eval_GetBucketId eval ev
+
     ConnectSocket _                            -> eval_ConnectSocket eval ev
 
   -- Components
@@ -85,5 +89,6 @@ ui st =
     CompProfile _ _                            -> eval_Profile eval ev
     CompResource _ _                           -> eval_Resource eval ev
     CompLeuron _ _                             -> eval_Leuron eval ev
+    CompBucket _ _                             -> eval_Bucket eval ev
     CompOrderBy _ _                            -> eval_OrderBy eval ev
     Nop _                                      -> eval_Nop eval ev

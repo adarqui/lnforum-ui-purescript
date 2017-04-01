@@ -5,6 +5,8 @@ module LN.Input.Types (
   cResourceMod,
   cLeuron,
   cLeuronMod,
+  cBucket,
+  cBucketMod,
   cArrayString
 ) where
 
@@ -16,6 +18,7 @@ import Purescript.Api.Helpers  (ApiError)
 
 import LN.Input.ArrayString    (InputArrayString)
 import LN.Input.Leuron         (InputLeuron(..), Leuron_Mod)
+import LN.Input.Bucket         (InputBucket(..), Bucket_Mod)
 import LN.Input.OrderBy        (InputOrderBy)
 import LN.Input.Profile        (InputProfile)
 import LN.Input.Resource       (InputResource(..), Resource_Mod)
@@ -45,12 +48,15 @@ data Input a
   | GetLeurons (Maybe Int) a
   | GetLeuronId Int a
   | GetLeuronRandom a
+  | GetBuckets a
+  | GetBucketId Int a
   | ConnectSocket a
   | CompArrayString    InputArrayString  a
   | CompOrderBy        InputOrderBy      a
   | CompProfile        InputProfile      a
   | CompResource       InputResource     a
   | CompLeuron         InputLeuron       a
+  | CompBucket         InputBucket       a
   | Nop a
 
 
@@ -71,6 +77,14 @@ cLeuron sub next = CompLeuron sub next
 
 cLeuronMod :: forall a. Leuron_Mod -> a -> Input a
 cLeuronMod mod next = CompLeuron (InputLeuron_Mod mod) next
+
+
+
+cBucket :: forall a. InputBucket -> a -> Input a
+cBucket sub next = CompBucket sub next
+
+cBucketMod :: forall a. Bucket_Mod -> a -> Input a
+cBucketMod mod next = CompBucket (InputBucket_Mod mod) next
 
 
 

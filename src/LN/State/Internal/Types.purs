@@ -12,6 +12,7 @@ import Data.Tuple                   (Tuple)
 -- import LN.Input.Types               (Input)
 -- import LN.Router.Types              (Routes(..))
 import LN.State.ArrayString         (ArrayStringState)
+import LN.State.Bucket              (BucketRequestState)
 import LN.State.Leuron              (LeuronRequestState)
 import LN.State.Loading             (LoadingMap)
 import LN.State.Resource            (ResourceRequestState)
@@ -37,10 +38,14 @@ type InternalState routes {- TODO FIXME: driver_ch-} =
   , currentLeuron                :: Maybe LeuronPackResponse
   , currentLeuronRequest         :: Maybe LeuronRequest
   , currentLeuronRequestSt       :: Maybe LeuronRequestState
+  , currentBucket                :: Maybe BucketPackResponse
+  , currentBucketRequest         :: Maybe BucketRequest
+  , currentBucketRequestSt       :: Maybe BucketRequestState
   , currentPageInfo              :: PageInfo
   , usersPageInfo                :: PageInfo
   , resourcesPageInfo            :: PageInfo
   , leuronsPageInfo              :: PageInfo
+  , bucketsPageInfo              :: PageInfo
   , arrayStringSt                :: ArrayStringState
 --  , driverCh                     :: driver_ch
 --  , driverCh                   :: AVar (Input Unit)

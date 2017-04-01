@@ -65,6 +65,7 @@ header muser n_errors =
                 H.li_ [linkTo About "About"],
                 H.li_ [linkTo (Resources Index emptyParams) "Resources"],
                 H.li_ [linkTo (Leurons Index emptyParams) "Leurons"],
+                H.li_ [linkTo (Buckets Index emptyParams) "Buckets"],
                 H.li_ [linkTo Portal "Portal"],
                 H.li_ [me]
               ],
