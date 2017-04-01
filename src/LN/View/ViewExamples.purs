@@ -27,7 +27,7 @@ import LN.T                            ( LeuronPackResponse
 
 
 renderView_ViewExamples :: ComponentHTML Input
-renderView_ViewExamples = H.div_ $ map (\v -> H.div [P.class_ B.row] [v]) [sixButtons1, sixButtons2, buttonToolbar1]
+renderView_ViewExamples = H.div_ $ map (\v -> H.div [P.class_ B.row] [v]) [sixButtons1, sixButtons2, buttonToolbar1, buttonToolbar2]
 
 
 
@@ -95,6 +95,24 @@ buttonToolbar1 =
       ],
       H.div [P.class_ B.btnGroup] [
         H.button [P.classes [B.btn, B.btnPrimary]] [H.text "eight"]
+      ]
+    ]
+  ]
+
+
+
+buttonToolbar2 :: ComponentHTML Input
+buttonToolbar2 =
+  H.div [P.class_ B.containerFluid] [
+    H.h4_ [H.text "buttonToolbar2"],
+    H.div [P.class_ B.btnToolbar] [
+      H.div [P.class_ B.btnGroup] [
+        linkToP_Classes [B.btn, B.btnSm, B.btnInfo] [] Home "PREV",
+        linkToP_Classes [B.btn, B.btnSm, B.btnInfo] [] Home "NEXT",
+        linkToP_Classes [B.btn, B.btnSm, B.btnInfo] [] Home "KNOW",
+        linkToP_Classes [B.btn, B.btnSm, B.btnInfo] [] Home "?",
+        linkToP_Classes [B.btn, B.btnSm, B.btnInfo] [] Home "~CARE",
+        linkToP_Classes [B.btn, B.btnSm, B.btnInfo] [] Home "FLAG"
       ]
     ]
   ]
