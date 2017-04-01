@@ -58,6 +58,8 @@ links =
 
   , Leurons Index emptyParams
 
+  , Buckets Index emptyParams
+
   , ViewExamples
   , NotFound
 

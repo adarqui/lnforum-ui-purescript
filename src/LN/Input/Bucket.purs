@@ -27,5 +27,5 @@ data Bucket_Mod
   | EditDescription String
   | RemoveDescription
 
-  | Save
+  | Create
   | EditP Int -- edit bucket_id

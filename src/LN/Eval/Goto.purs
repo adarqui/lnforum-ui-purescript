@@ -19,14 +19,17 @@ import LN.Component.Types       (EvalEff)
 import LN.Input.Types
 import LN.Internal.Leuron       (defaultLeuronRequest, leuronToTyLeuron)
 import LN.Internal.Resource     (defaultResourceRequest, resourceTypeToTyResourceType)
+import LN.Internal.Bucket       (defaultBucketRequest)
 import LN.Router.Link           (updateUrl)
 import LN.Router.Types          (Routes(..), CRUD(..))
 import LN.Router.Class.Params   (lookupParam)
-import LN.State.PageInfo        (defaultPageInfo_Resources
-                                ,defaultPageInfo_Leurons
-                                ,defaultPageInfo_Users)
+import LN.State.PageInfo        ( defaultPageInfo_Resources
+                                , defaultPageInfo_Leurons
+                                , defaultPageInfo_Users
+                                , defaultPageInfo_Buckets)
 import LN.State.Leuron          (defaultLeuronRequestState, leuronRequestStateFromLeuronData)
 import LN.State.Resource        (defaultResourceRequestState)
+import LN.State.Bucket          (defaultBucketRequestState)
 import LN.T
 import LN.T.Convert
 
@@ -164,48 +167,6 @@ eval_Goto eval (Goto route next) = do
 
 
 
---    (Leurons Index params) -> do
---      let m_offset = M.lookup (\(Tuple k v) -> k == "offset") params
---      maybe
---        (pure unit)
---        (\(Tuple k offset) -> do
---          pageInfo <- gets _.leuronsPageInfo
---          modify (_{ leuronsPageInfo = pageInfo { currentPage = maybe 1 id (fromString offset) } })
---          pure unit)
---        m_offset
---      eval (GetLeurons next) $> unit
---
---    (Leurons New params) -> do
---      -- Important: don't over-write leuron request state.. we want to hold on to that info to make our lives easier
---      -- when adding leurons fast
---      lst <- gets _.currentLeuronRequestSt
---      modify (_{ currentLeuronRequest = Just defaultLeuronRequest, currentLeuronRequestSt = Just $ maybe defaultLeuronRequestState id lst })
---      pure unit
---
---    (Leurons (EditI leuron_id) params)   -> do
---      eval (GetLeuronId leuron_id next)
---      m_pack <- gets _.currentLeuron
---      case m_pack of
---           Nothing                          -> pure unit
---           Just (LeuronPackResponse pack) -> do
---             -- TODO FIXME: St's TyLeuronType needs to match source
---             let
---               leuron = pack.leuron ^. _LeuronResponse
---               lst    = defaultLeuronRequestState { ty = leuronToTyLeuron leuron.dataP }
---             modify (_{ currentLeuronRequest = Just $ leuronResponseToLeuronRequest pack.leuron, currentLeuronRequestSt = Just lst })
---             pure unit
---
---    (Leurons (DeleteI leuron_id) params) -> do
---      eval (GetLeuronId leuron_id next)
---      m_pack <- gets _.currentLeuron
---      case m_pack of
---           Nothing                          -> pure unit
---           Just (LeuronPackResponse pack) -> do
---             modify (_{ currentLeuronRequest = Just $ leuronResponseToLeuronRequest pack.leuron })
---             pure unit
---
---    (Leurons (ShowI leuron_id) params) -> eval (GetLeuronId leuron_id next) $> unit
---
     -- Leurons
     --
     (Leurons Index params) -> do
@@ -249,6 +210,49 @@ eval_Goto eval (Goto route next) = do
 
 
 
+
+    -- Buckets
+    --
+    (Buckets Index params) -> do
+
+      pageInfo <- gets _.bucketsPageInfo
+      let offset = ebyam (lookupParam ParamTag_Offset params) defaultPageInfo_Buckets.currentPage (\(Offset v) -> if v < 0 then pageInfo.totalPages else v)
+      modify (_{ bucketsPageInfo = pageInfo { currentPage = offset } })
+
+      eval (GetBuckets next) $> unit
+
+    (Buckets New params) -> do
+      modify (_{ currentBucketRequest = Just defaultBucketRequest, currentBucketRequestSt = Just defaultBucketRequestState })
+      pure unit
+
+    (Buckets (EditI bucket_id) params)   -> do
+      eval (GetBucketId bucket_id next)
+      m_pack <- gets _.currentBucket
+      case m_pack of
+           Nothing                          -> pure unit
+           Just (BucketPackResponse pack) -> do
+             let
+               rst      = defaultBucketRequestState
+             modify (_{ currentBucketRequest = Just $ bucketResponseToBucketRequest pack.bucket, currentBucketRequestSt = Just rst })
+             pure unit
+
+    (Buckets (DeleteI bucket_id) params) -> do
+      eval (GetBucketId bucket_id next)
+      m_pack <- gets _.currentBucket
+      case m_pack of
+           Nothing                          -> pure unit
+           Just (BucketPackResponse pack) -> do
+             modify (_{ currentBucketRequest = Just $ bucketResponseToBucketRequest pack.bucket })
+             pure unit
+
+    (Buckets (ShowI bucket_id) params)   -> eval (GetBucketId bucket_id next) $> unit
+
+
+
+
+
+    -- Users
+    --
 
     (Users Index params) -> do
       pageInfo <- gets _.usersPageInfo

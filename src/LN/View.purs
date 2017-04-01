@@ -42,6 +42,13 @@ import LN.View.Leurons.Index               (renderView_Leurons_Index)
 import LN.View.Leurons.Show                (renderView_Leurons_Show)
 import LN.View.Leurons.Mod                 (renderView_Leurons_New, renderView_Leurons_Edit, renderView_Leurons_Delete)
 
+import LN.View.Buckets.Index                   (renderView_Buckets_Index)
+import LN.View.Buckets.Mod                     ( renderView_Buckets_New, renderView_Buckets_Edit
+                                               , renderView_Buckets_Delete)
+import LN.View.Buckets.Show                    (renderView_Buckets_Show)
+
+
+
 import LN.View.ViewExamples (renderView_ViewExamples)
 
 
@@ -104,6 +111,14 @@ renderView (ResourcesSiftLeuronsRandom resource_id params)                = rend
 renderView (Leurons Index params)               = renderView_Leurons_Index
 renderView (Leurons (ShowI leuron_id) params)   = renderView_Leurons_Show 0 leuron_id
 renderView (Leurons (DeleteI leuron_id) params) = renderView_Leurons_Delete 0 leuron_id
+
+
+
+renderView (Buckets Index params)                 = renderView_Buckets_Index
+renderView (Buckets New params)                   = renderView_Buckets_New
+renderView (Buckets (EditI bucket_id) params)   = renderView_Buckets_Edit bucket_id
+renderView (Buckets (ShowI bucket_id) params)   = renderView_Buckets_Show bucket_id
+renderView (Buckets (DeleteI bucket_id) params) = renderView_Buckets_Delete bucket_id
 
 
 

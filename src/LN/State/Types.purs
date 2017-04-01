@@ -50,6 +50,7 @@ initialState ch =
   , usersMap:                     M.empty
   , leurons:                      M.empty
   , resources:                    M.empty
+  , buckets:                      M.empty
   , currentUser:                  Nothing
   , currentResource:              Nothing
   , currentResourceRequest:       Nothing

@@ -127,9 +127,11 @@ routing =
       leurons_delete_int <|>
       leurons_index <|>
 
---      leurons_new <|>
---      leurons_show_int <|>
---      leurons_index <|>
+      buckets_new <|>
+      buckets_show_int <|>
+      buckets_edit_int <|>
+      buckets_delete_int <|>
+      buckets_index <|>
 
       login <|>
       logout <|>
@@ -300,20 +302,33 @@ routing =
       Leurons
       <$> (lit "" *> lit "leurons" *> lit "_delete" *> (DeleteI <$> int))
       <*> (params' <|> pure emptyParams)
---    leurons_index =
---      Leurons
---      <$> (lit "" *> lit "leurons" *> pure Index)
---      <*> (params' <|> pure emptyParams)
---
---    leurons_new =
---      Leurons
---      <$> (lit "" *> lit "leurons" *> lit "new" *> pure New)
---      <*> (params' <|> pure emptyParams)
---
---    leurons_show_int =
---      Leurons
---      <$> (lit "" *> lit "leurons" *> (ShowI <$> int))
---      <*> (params' <|> pure emptyParams)
+
+
+
+    buckets_index =
+      Buckets
+      <$> (lit "" *> lit "buckets" *> pure Index)
+      <*> (params' <|> pure emptyParams)
+
+    buckets_new =
+      Buckets
+      <$> (lit "" *> lit "buckets" *> lit "new" *> pure New)
+      <*> (params' <|> pure emptyParams)
+
+    buckets_show_int =
+      Buckets
+      <$> (lit "" *> lit "buckets" *> (ShowI <$> int))
+      <*> (params' <|> pure emptyParams)
+
+    buckets_edit_int =
+      Buckets
+      <$> (lit "" *> lit "buckets" *> lit "_edit" *> (EditI <$> int))
+      <*> (params' <|> pure emptyParams)
+
+    buckets_delete_int =
+      Buckets
+      <$> (lit "" *> lit "buckets" *> lit "_delete" *> (DeleteI <$> int))
+      <*> (params' <|> pure emptyParams)
 
 
 

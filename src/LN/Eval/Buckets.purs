@@ -38,8 +38,6 @@ import LN.T                          ( BucketPackResponses(..), BucketPackRespon
 eval_GetBuckets :: Partial => EvalEff
 eval_GetBuckets eval (GetBuckets next) = do
 
-  pure next
-{-
   modify (_{ buckets = (M.empty :: M.Map Int BucketPackResponse) })
 
   page_info <- gets _.bucketsPageInfo
@@ -72,7 +70,6 @@ eval_GetBuckets eval (GetBuckets next) = do
 
              modify (_{ buckets = buckets_map })
              pure next
-             -}
 
 
 
@@ -109,17 +106,17 @@ eval_Bucket eval (CompBucket sub next) = do
         EditDescription desc -> pure next
         RemoveDescription    -> pure next
 
-        Save -> do
+        Create -> do
 
           m_req <- gets _.currentBucketRequest
 
           case m_req of
-               Nothing  -> eval (AddError "eval_Bucket(Save)" "Bucket request doesn't exist" next)
+               Nothing  -> eval (AddError "eval_Bucket(Create)" "Bucket request doesn't exist" next)
                Just req -> do
 
                  e_bucket <- rd $ postBucket' req
                  case e_bucket of
-                      Left err                      -> eval (AddErrorApi "eval_Bucket(Save)::postBucket'" err next)
+                      Left err                      -> eval (AddErrorApi "eval_Bucket(Create)::postBucket'" err next)
                       Right (BucketResponse bucket) -> pure next
 
         EditP bucket_id    -> do

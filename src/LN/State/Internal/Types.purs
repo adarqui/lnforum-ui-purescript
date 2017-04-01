@@ -30,6 +30,7 @@ type InternalState routes {- TODO FIXME: driver_ch-} =
   , usersMap                     :: M.Map Int UserSanitizedPackResponse
   , resources                    :: M.Map Int ResourcePackResponse
   , leurons                      :: M.Map Int LeuronPackResponse
+  , buckets                      :: M.Map Int BucketPackResponse
 --  , workouts                   :: M.Map Int WorkoutPackResponse
   , currentUser                  :: Maybe UserSanitizedPackResponse
   , currentResource              :: Maybe ResourcePackResponse
