@@ -206,6 +206,29 @@ textArea_LabelWithButtons label placeholder value value_change_cb buttons =
 
 
 
+-- | Creates a mandatory field
+--
+-- labeledTextAreaField "Title" "Title" resource.resourceTitle P.TextAreaText (E.input SetResourcetitle)
+--
+textArea_Label_WithClear label placeholder value setter clear_cb =
+  H.div
+    [formGroupClasses]
+    [
+      H.label_ [H.text label],
+      H.p_ [H.button
+        [buttonInfoClasses, P.title "Clear", E.onClick clear_cb]
+        [H.text "Clear"]],
+      H.textarea [
+        formControlClasses,
+        P.placeholder placeholder,
+        P.value value,
+        E.onValueChange setter
+      ]
+    ]
+
+
+
+
 -- | Creates a "maybe field".. ie, a field which has no value,
 -- but has an "Add" button. The add button adds an input field.
 -- Then, we can edit & delete it.

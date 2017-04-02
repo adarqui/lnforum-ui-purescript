@@ -18,13 +18,17 @@ import Halogen.HTML.Properties as P
 import Optic.Core                      ((^.), (..))
 import Prelude                         (id, map, show, const, ($), (<<<), (<>))
 
+{-
 import LN.Halogen.Util                 (simpleInfoButton, input_DeleteEdit, input_Label
                                        , textArea_DeleteEdit, input_maybeField_DeleteEdit, radioMenu
-                                       , textArea_Label, textArea_LabelWithButton)
+                                       , textArea_Label, textArea_LabelWithButton, textArea_Label_WithClear)
+                                       -}
+import LN.Halogen.Util
 import LN.Helpers.Array                (seqArrayFrom)
 --import LN.Helpers.JSON                 (decodeString)
 -- import LN.Internal.Leuron
 --import LN.Input.Leuron
+import LN.Internal.Leuron
 import LN.Input.Leuron                 (Leuron_Mod(..))
 import LN.Input.Types                  (Input, cLeuronMod)
 import LN.Router.Link                  (linkToP)
@@ -96,6 +100,19 @@ renderView_Leurons_Mod' resource_id m_leuron_id leuron_req lst st =
       ]
       (cLeuronMod <<< SetType)
       lst.ty
+
+   , case lst.ty of
+          TyLnEmpty    -> empty
+          TyLnFact     -> clearLeuronData (LnFact defaultFact)
+          TyLnFactList -> clearLeuronData (LnFactList defaultFactList)
+          TyLnCard     -> clearLeuronData (LnCard defaultCard)
+          TyLnDCard    -> clearLeuronData (LnDCard defaultDCard)
+          TyLnDCardX   -> clearLeuronData (LnDCardX defaultDCardX)
+          TyLnAcronym  -> clearLeuronData (LnAcronym defaultAcronym)
+          TyLnSynonym  -> clearLeuronData (LnSynonym defaultSynonym)
+          TyLnAntonym  -> clearLeuronData (LnAntonym defaultAntonym)
+          TyLnQA       -> clearLeuronData (LnQA defaultQA)
+          _            -> H.div_ []
 
    , case lst.ty of
           TyLnEmpty    -> empty
@@ -287,6 +304,8 @@ TODO FIXME
   ]
   where
 
+  clearLeuronData type_ = H.p_ [H.button [buttonInfoClasses, P.title "Clear", E.onClick (E.input (\s -> cLeuronMod $ SetData type_))] [H.text "Clear"]]
+
   create_or_save = case m_leuron_id of
          Nothing         -> simpleInfoButton "Create" (cLeuronMod $ Save resource_id)
          Just leuron_id  -> simpleInfoButton "Save" (cLeuronMod $ EditP leuron_id)
@@ -297,13 +316,17 @@ TODO FIXME
   fact (Fact v) =
     H.p_ [
       H.h2_ [H.text "Fact"],
-      textArea_Label "Fact" "fact" v.text (E.input (\s -> cLeuronMod $ SetData $ LnFact $ mkFact s))
+      textArea_Label_WithClear "Fact" "fact" v.text
+        (E.input (\s -> cLeuronMod $ SetData $ LnFact $ mkFact s))
+        (E.input (\s -> cLeuronMod $ SetData $ LnFact $ mkFact ""))
     ]
 
   factList (FactList v) =
     H.p_ [
       H.h2_ [H.text "FactList"],
-      textArea_Label "Fact" "fact" v.fact (E.input (\s -> cLeuronMod $ SetData $ LnFactList $ FactList v{fact=s})),
+      textArea_Label_WithClear "Fact" "fact" v.fact
+        (E.input (\s -> cLeuronMod $ SetData $ LnFactList $ FactList v{fact=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnFactList $ FactList v{fact=""})),
       textArea_LabelWithButton "List" "fact" lst.factList_listItem "Add"
         (E.input (\s -> cLeuronMod $ SetSt $ lst{factList_listItem=s}))
         (E.input_ (cLeuronMod $ SetData $ LnFactList $ FactList v{list=nub $ v.list<>[lst.factList_listItem]})),
@@ -319,15 +342,23 @@ TODO FIXME
   card (Card v) =
     H.p_ [
       H.h2_ [H.text "Card"],
-      textArea_Label "Front" "front" v.front (E.input (\s -> cLeuronMod $ SetData $ LnCard $ Card v{front=s})),
-      textArea_Label "Back" "back" v.back (E.input (\s -> cLeuronMod $ SetData $ LnCard $ Card v{back=s}))
+      textArea_Label_WithClear "Front" "front" v.front
+        (E.input (\s -> cLeuronMod $ SetData $ LnCard $ Card v{front=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnCard $ Card v{front=""})),
+      textArea_Label_WithClear "Back" "back" v.back
+        (E.input (\s -> cLeuronMod $ SetData $ LnCard $ Card v{back=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnCard $ Card v{back=""}))
     ]
 
   dcard (DCard v) =
     H.p_ [
       H.h2_ [H.text "DCard"],
-      textArea_Label "Front" "front" v.front (E.input (\s -> cLeuronMod $ SetData $ LnDCard $ DCard v{front=s})),
-      textArea_Label "Back" "back" v.back (E.input (\s -> cLeuronMod $ SetData $ LnDCard $ DCard v{back=s}))
+      textArea_Label_WithClear "Front" "front" v.front
+        (E.input (\s -> cLeuronMod $ SetData $ LnDCard $ DCard v{front=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnDCard $ DCard v{front=""})),
+      textArea_Label_WithClear "Back" "back" v.back
+        (E.input (\s -> cLeuronMod $ SetData $ LnDCard $ DCard v{back=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnDCard $ DCard v{back=""}))
     ]
 
   dcardx (DCardX v) = H.p_ [H.text "dcardx"]
@@ -335,29 +366,45 @@ TODO FIXME
   acronym (Acronym v) =
     H.p_ [
       H.h2_ [H.text "Acronym"],
-      textArea_Label "Abbreviation" "abbreviation" v.abbreviation (E.input (\s -> cLeuronMod $ SetData $ LnAcronym $ Acronym v{abbreviation=s})),
-      textArea_Label "Meaning" "meaning" v.meaning (E.input (\s -> cLeuronMod $ SetData $ LnAcronym $ Acronym v{meaning=s}))
+      textArea_Label_WithClear "Abbreviation" "abbreviation" v.abbreviation
+        (E.input (\s -> cLeuronMod $ SetData $ LnAcronym $ Acronym v{abbreviation=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnAcronym $ Acronym v{abbreviation=""})),
+      textArea_Label_WithClear "Meaning" "meaning" v.meaning
+        (E.input (\s -> cLeuronMod $ SetData $ LnAcronym $ Acronym v{meaning=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnAcronym $ Acronym v{meaning=""}))
     ]
 
   synonym (Synonym v) =
     H.p_ [
       H.h2_ [H.text "Synonym"],
-      textArea_Label "A" "a" v.a (E.input (\s -> cLeuronMod $ SetData $ LnSynonym $ Synonym v{a=s})),
-      textArea_Label "B" "b" v.b (E.input (\s -> cLeuronMod $ SetData $ LnSynonym $ Synonym v{b=s}))
+      textArea_Label_WithClear "A" "a" v.a
+        (E.input (\s -> cLeuronMod $ SetData $ LnSynonym $ Synonym v{a=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnSynonym $ Synonym v{a=""})),
+      textArea_Label_WithClear "B" "b" v.b
+        (E.input (\s -> cLeuronMod $ SetData $ LnSynonym $ Synonym v{b=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnSynonym $ Synonym v{b=""}))
     ]
 
   antonym (Antonym v) =
     H.p_ [
       H.h2_ [H.text "Antonym"],
-      textArea_Label "A" "a" v.a (E.input (\s -> cLeuronMod $ SetData $ LnAntonym $ Antonym v{a=s})),
-      textArea_Label "B" "b" v.b (E.input (\s -> cLeuronMod $ SetData $ LnAntonym $ Antonym v{b=s}))
+      textArea_Label_WithClear "A" "a" v.a
+        (E.input (\s -> cLeuronMod $ SetData $ LnAntonym $ Antonym v{a=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnAntonym $ Antonym v{a=""})),
+      textArea_Label_WithClear "B" "b" v.b
+        (E.input (\s -> cLeuronMod $ SetData $ LnAntonym $ Antonym v{b=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnAntonym $ Antonym v{b=""}))
     ]
 
   qa (QA v) =
     H.p_ [
       H.h2_ [H.text "QA"],
-      textArea_Label "Question" "question" v.question (E.input (\s -> cLeuronMod $ SetData $ LnQA $ QA v{question=s})),
-      textArea_Label "Answer" "answer" v.answer (E.input (\s -> cLeuronMod $ SetData $ LnQA $ QA v{answer=s}))
+      textArea_Label_WithClear "Question" "question" v.question
+        (E.input (\s -> cLeuronMod $ SetData $ LnQA $ QA v{question=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnQA $ QA v{question=""})),
+      textArea_Label_WithClear "Answer" "answer" v.answer
+        (E.input (\s -> cLeuronMod $ SetData $ LnQA $ QA v{answer=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnQA $ QA v{answer=""}))
     ]
 
   leuron   = unwrapLeuronRequest leuron_req
