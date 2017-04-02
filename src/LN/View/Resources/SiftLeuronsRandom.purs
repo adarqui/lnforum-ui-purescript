@@ -37,8 +37,7 @@ renderView_Resources_SiftLeuronsRandom' :: LeuronPackResponse -> State -> Compon
 renderView_Resources_SiftLeuronsRandom' pack st =
   H.div_ [
     renderButtons pack st,
-    renderView_Leurons_Show' pack st,
-    renderButtons pack st
+    H.div [P.class_ B.preScrollable] [renderView_Leurons_Show' pack st]
   ]
 
 
