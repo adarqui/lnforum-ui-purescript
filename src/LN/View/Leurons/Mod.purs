@@ -352,10 +352,10 @@ TODO FIXME
     H.p_ [
       H.h2_ [H.text "FactList"],
       textArea_Label_WithClear "Fact" "fact" v.fact
-        (E.input (\s -> cLeuronMod $ SetData $ LnFactList $ FactList v{fact=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnFactList $ FactList v{fact=scrubbers s}))
         (E.input (\s -> cLeuronMod $ SetData $ LnFactList $ FactList v{fact=""})),
       textArea_LabelWithButton "List" "fact" lst.factList_listItem "Add"
-        (E.input (\s -> cLeuronMod $ SetSt $ lst{factList_listItem=s}))
+        (E.input (\s -> cLeuronMod $ SetSt $ lst{factList_listItem=scrubbers s}))
         (E.input_ (cLeuronMod $ SetData $ LnFactList $ FactList v{list=nub $ v.list<>[lst.factList_listItem]})),
       H.div_ $
         map (\(Tuple idx fact) ->
@@ -370,10 +370,10 @@ TODO FIXME
     H.p_ [
       H.h2_ [H.text "Card"],
       textArea_Label_WithClear "Front" "front" v.front
-        (E.input (\s -> cLeuronMod $ SetData $ LnCard $ Card v{front=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnCard $ Card v{front=scrubbers s}))
         (E.input (\s -> cLeuronMod $ SetData $ LnCard $ Card v{front=""})),
       textArea_Label_WithClear "Back" "back" v.back
-        (E.input (\s -> cLeuronMod $ SetData $ LnCard $ Card v{back=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnCard $ Card v{back=scrubbers s}))
         (E.input (\s -> cLeuronMod $ SetData $ LnCard $ Card v{back=""}))
     ]
 
@@ -381,10 +381,10 @@ TODO FIXME
     H.p_ [
       H.h2_ [H.text "DCard"],
       textArea_Label_WithClear "Front" "front" v.front
-        (E.input (\s -> cLeuronMod $ SetData $ LnDCard $ DCard v{front=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnDCard $ DCard v{front=scrubbers s}))
         (E.input (\s -> cLeuronMod $ SetData $ LnDCard $ DCard v{front=""})),
       textArea_Label_WithClear "Back" "back" v.back
-        (E.input (\s -> cLeuronMod $ SetData $ LnDCard $ DCard v{back=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnDCard $ DCard v{back=scrubbers s}))
         (E.input (\s -> cLeuronMod $ SetData $ LnDCard $ DCard v{back=""}))
     ]
 
@@ -394,10 +394,10 @@ TODO FIXME
     H.p_ [
       H.h2_ [H.text "Acronym"],
       textArea_Label_WithClear "Abbreviation" "abbreviation" v.abbreviation
-        (E.input (\s -> cLeuronMod $ SetData $ LnAcronym $ Acronym v{abbreviation=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnAcronym $ Acronym v{abbreviation=scrubbers s}))
         (E.input (\s -> cLeuronMod $ SetData $ LnAcronym $ Acronym v{abbreviation=""})),
       textArea_Label_WithClear "Meaning" "meaning" v.meaning
-        (E.input (\s -> cLeuronMod $ SetData $ LnAcronym $ Acronym v{meaning=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnAcronym $ Acronym v{meaning=scrubbers s}))
         (E.input (\s -> cLeuronMod $ SetData $ LnAcronym $ Acronym v{meaning=""}))
     ]
 
@@ -405,10 +405,10 @@ TODO FIXME
     H.p_ [
       H.h2_ [H.text "Synonym"],
       textArea_Label_WithClear "A" "a" v.a
-        (E.input (\s -> cLeuronMod $ SetData $ LnSynonym $ Synonym v{a=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnSynonym $ Synonym v{a=scrubbers s}))
         (E.input (\s -> cLeuronMod $ SetData $ LnSynonym $ Synonym v{a=""})),
       textArea_Label_WithClear "B" "b" v.b
-        (E.input (\s -> cLeuronMod $ SetData $ LnSynonym $ Synonym v{b=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnSynonym $ Synonym v{b=scrubbers s}))
         (E.input (\s -> cLeuronMod $ SetData $ LnSynonym $ Synonym v{b=""}))
     ]
 
@@ -416,10 +416,10 @@ TODO FIXME
     H.p_ [
       H.h2_ [H.text "Antonym"],
       textArea_Label_WithClear "A" "a" v.a
-        (E.input (\s -> cLeuronMod $ SetData $ LnAntonym $ Antonym v{a=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnAntonym $ Antonym v{a=scrubbers s}))
         (E.input (\s -> cLeuronMod $ SetData $ LnAntonym $ Antonym v{a=""})),
       textArea_Label_WithClear "B" "b" v.b
-        (E.input (\s -> cLeuronMod $ SetData $ LnAntonym $ Antonym v{b=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnAntonym $ Antonym v{b=scrubbers s}))
         (E.input (\s -> cLeuronMod $ SetData $ LnAntonym $ Antonym v{b=""}))
     ]
 
@@ -427,10 +427,10 @@ TODO FIXME
     H.p_ [
       H.h2_ [H.text "QA"],
       textArea_Label_WithClear "Question" "question" v.question
-        (E.input (\s -> cLeuronMod $ SetData $ LnQA $ QA v{question=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnQA $ QA v{question=scrubbers s}))
         (E.input (\s -> cLeuronMod $ SetData $ LnQA $ QA v{question=""})),
       textArea_Label_WithClear "Answer" "answer" v.answer
-        (E.input (\s -> cLeuronMod $ SetData $ LnQA $ QA v{answer=s}))
+        (E.input (\s -> cLeuronMod $ SetData $ LnQA $ QA v{answer=scrubbers s}))
         (E.input (\s -> cLeuronMod $ SetData $ LnQA $ QA v{answer=""}))
     ]
 

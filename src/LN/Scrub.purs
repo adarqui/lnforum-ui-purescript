@@ -30,11 +30,23 @@ scrubTrimLeft s = joinWith "\n" $ map (\s_ -> dropWhile (\c -> c == ' ') s_) l
 
 
 
+--
+-- Very ugly, but does the job for now. Accounts for consecutive newlines, newlines before chars, etc
+--
 scrubConcat :: String -> String
 scrubConcat s =
-  removeTrailingNewlines $ Array.foldl (\acc s -> if stripChars " " s == "" then acc <> "\n\n" else joinWith " " [acc, s]) "" l
+  removeTrailingNewlines $ Array.foldl go "__initial__" l
   where
-  l = lines s
+  l = Array.concat $ map (\a -> Array.nubBy (\x y -> x == y && x == "") a) $ map Array.fromFoldable $ Array.groupBy (\a b -> a == b && a == "") $ lines s
+  go "__initial__" s = s
+  go acc s =
+    if stripChars " " s == ""
+       then acc <> "\n\n"
+       else case (uncons $ reverse acc) of
+                 Nothing       -> acc <> " " <> s
+                 Just { head: h, tail: t } -> if h == '\n'
+                                                  then acc <> s
+                                                  else acc <> " " <> s
 
 
 
