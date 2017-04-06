@@ -268,6 +268,24 @@ radioMenu menu_label radio_name radios setter checked_value =
 
 
 
+-- | Creates a multiple radio menu
+--
+-- multipleCheckboxMenu "Leuron Type" "leuron-type" [NONE, FACT, CARD] SetLeuronType
+--
+multipleCheckboxMenu :: forall a b c d. String -> String -> Array String -> (String -> Unit -> a Unit) -> Array Boolean -> HTML b a
+multipleCheckboxMenu menu_label radio_name radios setter checked_values =
+  H.p_ $
+      H.label_ [H.text menu_label] `cons`
+      (concatMap (\(Tuple radio checked_value) ->
+          [H.label
+            [radioInlineClasses]
+            [H.text radio]
+           ,H.input [P.type_ P.InputCheckbox, P.name radio_name, P.value "", E.onChecked (E.input_ (setter radio)), P.checked checked_value]
+          ]
+      ) $ zip radios checked_values)
+
+
+
 -- | creates a simple info button
 --
 -- simpleInfoButton "Create!" CreateResource

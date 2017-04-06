@@ -56,7 +56,11 @@ type LeuronRequestState = {
   linearDemo        :: LinearDemo,
   table             :: Table,
   qa                :: QA,
-  ids               :: Array Int
+  ids               :: Array Int,
+  scrubTrim         :: Boolean,
+  scrubTrimLeft     :: Boolean,
+  scrubConcat       :: Boolean,
+  preview           :: Boolean
 }
 
 
@@ -79,7 +83,11 @@ defaultLeuronRequestState = {
   linearDemo:        defaultLinearDemo,
   table:             defaultTable,
   qa:                defaultQA,
-  ids:               []
+  ids:               [],
+  scrubTrim:         false,
+  scrubTrimLeft:     false,
+  scrubConcat:       false,
+  preview:           false
 }
 
 

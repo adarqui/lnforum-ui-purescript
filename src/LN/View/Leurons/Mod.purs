@@ -8,6 +8,7 @@ module LN.View.Leurons.Mod (
 
 
 import Data.Array                      (modifyAt, deleteAt, nub)
+import Data.Array                      as Array
 import Data.Maybe                      (Maybe(..), maybe)
 import Data.Tuple                      (Tuple(..))
 import Halogen                         (ComponentHTML)
@@ -16,7 +17,7 @@ import Halogen.HTML.Events             as E
 import Halogen.HTML.Properties as P
 -- import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
-import Prelude                         (id, map, show, const, ($), (<<<), (<>))
+import Prelude                         (id, map, show, const, not, ($), (<<<), (<>))
 
 {-
 import LN.Halogen.Util                 (simpleInfoButton, input_DeleteEdit, input_Label
@@ -34,10 +35,13 @@ import LN.Input.Types                  (Input, cLeuronMod)
 import LN.Router.Link                  (linkToP)
 import LN.Router.Types                 (Routes(..), CRUD(..))
 import LN.Router.Class.Params          (emptyParams)
+import LN.Scrub
 import LN.State.Loading                (getLoading, l_currentLeuron)
 import LN.State.Leuron                 (LeuronRequestState)
 import LN.State.Types                  (State)
 import LN.View.Module.Loading          (renderLoading)
+import LN.View.Leurons.Show            (renderLeuron)
+import LN.T.Convert
 import LN.T
 
 
@@ -179,6 +183,20 @@ renderView_Leurons_Mod' resource_id m_leuron_id leuron_req lst st =
       ) $ seqArrayFrom $ maybe [] id leuron.examples
 
 
+   , multipleCheckboxMenu
+      "Extra Options"
+      "extra-options"
+      [ "preview", "trim", "trim-left", "concat" ]
+      (\s ->
+        let n_lst =
+              case s of
+                "preview"   -> lst { preview = not lst.preview }
+                "trim"      -> lst { scrubTrim = not lst.scrubTrim }
+                "trim-left" -> lst { scrubTrimLeft = not lst.scrubTrimLeft }
+                "concat"    -> lst { scrubConcat = not lst.scrubConcat }
+                _           -> lst
+        in cLeuronMod $ SetSt n_lst)
+      [ lst.preview, lst.scrubTrim, lst.scrubTrimLeft, lst.scrubConcat ]
 
 
   -- Strengths
@@ -299,6 +317,10 @@ TODO FIXME
 
   , create_or_save
 
+  , if lst.preview
+       then renderLeuron (leuronRequestToLeuronResponse 0 0 0 true Nothing Nothing Nothing leuron_req)
+       else H.div_ []
+
   -- show a list of recently added leurons
   , H.ul_ $ map (\id_ -> H.li_ [linkToP [] (ResourcesLeurons resource_id (ShowI id_) emptyParams) (show id_)]) lst.ids
   ]
@@ -311,13 +333,16 @@ TODO FIXME
          Just leuron_id  -> simpleInfoButton "Save" (cLeuronMod $ EditP leuron_id)
          _               -> H.p_ [H.text "unexpected error."]
 
+  scrubbers s =
+    Array.foldl (\acc fn -> fn acc) s [scrubTrim, scrubTrimLeft, scrubConcat]
+
   empty = H.h2_ [H.text "NONE"]
 
   fact (Fact v) =
     H.p_ [
       H.h2_ [H.text "Fact"],
       textArea_Label_WithClear "Fact" "fact" v.text
-        (E.input (\s -> cLeuronMod $ SetData $ LnFact $ mkFact s))
+        (E.input (\s -> cLeuronMod $ SetData $ LnFact $ mkFact $ scrubbers s))
         (E.input (\s -> cLeuronMod $ SetData $ LnFact $ mkFact ""))
     ]
 
