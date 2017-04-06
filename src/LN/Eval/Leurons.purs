@@ -120,6 +120,13 @@ eval_GetLeuronRandom eval (GetLeuronRandom next) = do
 eval_Leuron :: Partial => EvalEff
 eval_Leuron eval (CompLeuron sub next) = do
 
+{-
+  _x <- gets _.currentLeuronRequest
+  modify (\st -> st { currentLeuronRequest = _x })
+  _y <- gets _.currentLeuronRequestSt
+  modify (\st -> st { currentLeuronRequestSt = _y })
+-}
+
   case sub of
     InputLeuron_Mod q -> do
       case q of
