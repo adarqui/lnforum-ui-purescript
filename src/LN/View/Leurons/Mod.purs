@@ -333,8 +333,10 @@ TODO FIXME
          Just leuron_id  -> simpleInfoButton "Save" (cLeuronMod $ EditP leuron_id)
          _               -> H.p_ [H.text "unexpected error."]
 
+  else_id b f = if b then f else id
+
   scrubbers s =
-    Array.foldl (\acc fn -> fn acc) s [scrubTrim, scrubTrimLeft, scrubConcat]
+    Array.foldl (\acc fn -> fn acc) s [else_id lst.scrubTrim scrubTrim, else_id lst.scrubTrimLeft scrubTrimLeft, else_id lst.scrubConcat scrubConcat]
 
   empty = H.h2_ [H.text "NONE"]
 
