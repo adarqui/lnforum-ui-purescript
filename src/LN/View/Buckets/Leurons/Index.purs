@@ -71,11 +71,12 @@ renderLeurons st =
           in
           H.li_ [
             H.div [P.class_ B.row] [
-                H.div [P.class_ B.colXs2] [renderGravatarForUser Small (usersMapLookup_ToUser st leuron.userId)]
+                H.div [P.class_ B.colSm1] [H.input [P.type_ P.InputCheckbox, P.name "select-leuron", P.value ""]]
+              , H.div [P.class_ B.colXs2] [renderGravatarForUser Small (usersMapLookup_ToUser st leuron.userId)]
               , H.div [P.class_ B.colXs2] [linkToP [] (ResourcesLeurons leuron.resourceId (ShowI leuron.id) emptyParams) (show leuron.id)]
               , H.div [P.class_ B.colXs2] [H.p_ [H.text $ show $ leuronToTyLeuron leuron.dataP]]
               , H.div [P.classes [B.colXs3, B.hiddenXs]] [H.p_ [H.text $ show leuron.createdAt]]
-              , H.div [P.classes [B.colXs3, B.hiddenXs]] []
+              , H.div [P.classes [B.colXs2, B.hiddenXs]] []
             ],
             H.div [P.class_ B.row] [
               H.div [P.class_ B.colXs1] [],

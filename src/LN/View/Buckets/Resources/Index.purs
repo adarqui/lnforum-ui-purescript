@@ -73,17 +73,14 @@ resources st =
           in
           H.li_ [
             H.div [P.class_ B.row] [
-                H.div [P.class_ B.colSm1] [
-                  renderGravatarForUser Small (usersMapLookup_ToUser st resource.userId)
-                ]
-              , H.div [P.classes [B.colSm9]] [
+                H.div [P.class_ B.colSm1] [H.input [P.type_ P.InputCheckbox, P.name "select-resource", P.value ""]]
+              , H.div [P.class_ B.colSm1] [renderGravatarForUser Small (usersMapLookup_ToUser st resource.userId)]
+              , H.div [P.classes [B.colSm8]] [
                     H.div [P.class_ B.listGroup] [linkToP_Classes [B.listGroupItem] [] (Resources (Show $ show resource.id) emptyParams) resource.displayName]
                   , H.p_ [H.text $ show resource.createdAt]
                   , H.p_ [H.text $ resource.description]
                 ]
-              , H.div [P.classes [B.colSm2, B.hiddenXs]] [
-                  H.p_ [H.text $ show stat.leurons <> " leurons"]
-                ]
+              , H.div [P.classes [B.colSm2, B.hiddenXs]] [H.p_ [H.text $ show stat.leurons <> " leurons"]]
             ]
           ])
         $ listToArray $ M.values st.resources
