@@ -1,0 +1,35 @@
+filter components:
+- filter by: tags, resource title, resource description, leuron data, leuron type, etc
+
+pagination controls:
+- ability to select items per page (10, 50, 100)
+
+order by controls:
+- ability to order by asc/desc
+
+buckets / resources / leurons / training
+- add sub-menu for easy navigation
+- filters (checkbox): only list resources, leurons, I own
+
+training:
+- training + training history
+- bucket training sessions, specify the quiz/training types: mult-choice, TF, provide, .. several can be selected
+-- can't change it after training session is created - create a new session instead
+-- start / finish / retrain a training session
+-- list training sessions
+-- training stats
+-- training graphs?
+-- difficulty etc
+-- "hidden" -> leurontraining is created, contains answer, frontend posts with that id, if it's correct -> know, if not, dont know etc
+
+templates:
+- images being templates would be pretty sick
+- need to add image support to leurons so i can quiz pictures
+- need to add audio / audio tags
+
+large font options:
+- for viewing while running 8|
+
+leurons:
+- need checksum badly
+-- checksum on leuron data -> to prevent duplicate inserts via auto ingest ln-tools
