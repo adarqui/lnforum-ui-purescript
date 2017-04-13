@@ -47,6 +47,9 @@ renderView_Buckets_Show' pack st =
     ],
     H.div [P.class_ B.container] [
       H.div [P.class_ B.listGroup] [
+        linkToP [] (BucketsResources bucket.id Index emptyParams) "resources",
+        linkToP [] (BucketsLeurons bucket.id Index emptyParams) "leurons",
+        linkToP [] (BucketsTraining bucket.id Index emptyParams) "training"
       ]
     ]
   ]

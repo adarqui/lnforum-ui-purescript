@@ -42,8 +42,9 @@ data Routes
   | ResourcesSiftLeuronsRandom Int Params
   | Leurons CRUD Params
   | Buckets CRUD Params
-  -- | BucketsLeurons CRUD Params
-  -- | BucketsResources CRUD Params
+  | BucketsLeurons Int CRUD Params
+  | BucketsResources Int CRUD Params
+  | BucketsTraining Int CRUD Params
   | Login
   | Logout
   | NotFound
@@ -94,6 +95,9 @@ instance routesHasLink :: HasLink Routes where
   link (Leurons crud params) = Tuple ("#/leurons" <> (fst $ link crud)) (fixParams params)
 
   link (Buckets crud params) = Tuple ("#/buckets" <> (fst $ link crud)) (fixParams params)
+  link (BucketsResources bucket_id crud params) = Tuple ("#/buckets/" <> show bucket_id <> "/resources" <> (fst $ link crud)) (fixParams params)
+  link (BucketsLeurons bucket_id crud params)   = Tuple ("#/buckets/" <> show bucket_id <> "/leurons" <> (fst $ link crud)) (fixParams params)
+  link (BucketsTraining bucket_id crud params)  = Tuple ("#/buckets/" <> show bucket_id <> "/training" <> (fst $ link crud)) (fixParams params)
 
   link Login    = Tuple "/auth/login" emptyParams
   link Logout   = Tuple "/auth/logout" emptyParams
@@ -316,7 +320,133 @@ instance routesHasCrumb :: HasCrumb Routes where
 
 
 
+      BucketsResources bucket_id Index params ->
+        [
+          Tuple (Buckets Index emptyParams) "Buckets",
+          bucket_pretty bucket_id emptyParams,
+          Tuple (BucketsResources bucket_id Index params) "Resources"
+        ]
+
+      BucketsResources bucket_id New params ->
+        [
+          Tuple (Buckets Index emptyParams) "Buckets",
+          bucket_pretty bucket_id emptyParams,
+          Tuple (BucketsResources bucket_id Index params) "Resources"
+        ]
+
+      BucketsResources bucket_id (EditI resource_id) params ->
+        [
+          Tuple (Buckets Index emptyParams) "Buckets",
+          bucket_pretty bucket_id emptyParams,
+          Tuple (BucketsResources bucket_id Index emptyParams) "Resources",
+          Tuple (BucketsResources bucket_id (ShowI resource_id) emptyParams) (show resource_id)
+        ]
+
+      BucketsResources bucket_id (DeleteI resource_id) params ->
+        [
+          Tuple (Buckets Index emptyParams) "Buckets",
+          bucket_pretty bucket_id emptyParams,
+          Tuple (BucketsResources bucket_id Index emptyParams) "Resources",
+          Tuple (BucketsResources bucket_id (ShowI resource_id) emptyParams) (show resource_id)
+        ]
+
+      BucketsResources bucket_id (ShowI resource_id) params ->
+        [
+          Tuple (Buckets Index emptyParams) "Buckets",
+          bucket_pretty bucket_id emptyParams,
+          Tuple (BucketsResources bucket_id Index emptyParams) "Resources",
+          Tuple (BucketsResources bucket_id (ShowI resource_id) params) (show resource_id)
+        ]
+
+
+
+
+
+      BucketsLeurons bucket_id Index params ->
+        [
+          Tuple (Buckets Index emptyParams) "Buckets",
+          bucket_pretty bucket_id emptyParams,
+          Tuple (BucketsLeurons bucket_id Index params) "Leurons"
+        ]
+
+      BucketsLeurons bucket_id New params ->
+        [
+          Tuple (Buckets Index emptyParams) "Buckets",
+          bucket_pretty bucket_id emptyParams,
+          Tuple (BucketsLeurons bucket_id Index params) "Leurons"
+        ]
+
+      BucketsLeurons bucket_id (EditI leuron_id) params ->
+        [
+          Tuple (Buckets Index emptyParams) "Buckets",
+          bucket_pretty bucket_id emptyParams,
+          Tuple (BucketsLeurons bucket_id Index emptyParams) "Leurons",
+          Tuple (BucketsLeurons bucket_id (ShowI leuron_id) emptyParams) (show leuron_id)
+        ]
+
+      BucketsLeurons bucket_id (DeleteI leuron_id) params ->
+        [
+          Tuple (Buckets Index emptyParams) "Buckets",
+          bucket_pretty bucket_id emptyParams,
+          Tuple (BucketsLeurons bucket_id Index emptyParams) "Leurons",
+          Tuple (BucketsLeurons bucket_id (ShowI leuron_id) emptyParams) (show leuron_id)
+        ]
+
+      BucketsLeurons bucket_id (ShowI leuron_id) params ->
+        [
+          Tuple (Buckets Index emptyParams) "Buckets",
+          bucket_pretty bucket_id emptyParams,
+          Tuple (BucketsLeurons bucket_id Index emptyParams) "Leurons",
+          Tuple (BucketsLeurons bucket_id (ShowI leuron_id) params) (show leuron_id)
+        ]
+
+
+
+
+
+      BucketsTraining bucket_id Index params ->
+        [
+          Tuple (Buckets Index emptyParams) "Buckets",
+          bucket_pretty bucket_id emptyParams,
+          Tuple (BucketsTraining bucket_id Index params) "Training"
+        ]
+
+      BucketsTraining bucket_id New params ->
+        [
+          Tuple (Buckets Index emptyParams) "Buckets",
+          bucket_pretty bucket_id emptyParams,
+          Tuple (BucketsTraining bucket_id Index params) "Training"
+        ]
+
+      BucketsTraining bucket_id (EditI training_id) params ->
+        [
+          Tuple (Buckets Index emptyParams) "Buckets",
+          bucket_pretty bucket_id emptyParams,
+          Tuple (BucketsTraining bucket_id Index emptyParams) "Training",
+          Tuple (BucketsTraining bucket_id (ShowI training_id) emptyParams) (show training_id)
+        ]
+
+      BucketsTraining bucket_id (DeleteI training_id) params ->
+        [
+          Tuple (Buckets Index emptyParams) "Buckets",
+          bucket_pretty bucket_id emptyParams,
+          Tuple (BucketsTraining bucket_id Index emptyParams) "Training",
+          Tuple (BucketsTraining bucket_id (ShowI training_id) emptyParams) (show training_id)
+        ]
+
+      BucketsTraining bucket_id (ShowI training_id) params ->
+        [
+          Tuple (Buckets Index emptyParams) "Buckets",
+          bucket_pretty bucket_id emptyParams,
+          Tuple (BucketsTraining bucket_id Index emptyParams) "Training",
+          Tuple (BucketsTraining bucket_id (ShowI training_id) params) (show training_id)
+        ]
+
+
+
+
       ViewExamples -> [Tuple ViewExamples "ViewExamples"]
+
 
 
 
@@ -362,6 +492,9 @@ instance routesShow :: Show Routes where
   show (ResourcesSiftLeuronsRandom resource_id params)      = "ResourcesSiftLeuronsRandom " <> show resource_id
   show (Leurons crud params)          = "Leurons " <> show crud
   show (Buckets crud params)          = "Buckets" <> show crud
+  show (BucketsResources bucket_id crud params) = "BucketsResources " <> show bucket_id <> sp <> show crud
+  show (BucketsLeurons bucket_id crud params)   = "BucketsLeurons " <> show bucket_id <> sp <> show crud
+  show (BucketsTraining bucket_id crud params)  = "BucketsTraining " <> show bucket_id <> sp <> show crud
   show Login    = "Login"
   show Logout   = "Logout"
   show NotFound = "NotFound"

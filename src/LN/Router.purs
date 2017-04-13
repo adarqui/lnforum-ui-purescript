@@ -133,6 +133,24 @@ routing =
       buckets_delete_int <|>
       buckets_index <|>
 
+      buckets_resources_new <|>
+      buckets_resources_edit_int <|>
+      buckets_resources_delete_int <|>
+      buckets_resources_show_int <|>
+      buckets_resources_index <|>
+
+      buckets_leurons_new <|>
+      buckets_leurons_edit_int <|>
+      buckets_leurons_delete_int <|>
+      buckets_leurons_show_int <|>
+      buckets_leurons_index <|>
+
+      buckets_training_new <|>
+      buckets_training_edit_int <|>
+      buckets_training_delete_int <|>
+      buckets_training_show_int <|>
+      buckets_training_index <|>
+
       login <|>
       logout <|>
 
@@ -328,6 +346,102 @@ routing =
     buckets_delete_int =
       Buckets
       <$> (lit "" *> lit "buckets" *> lit "_delete" *> (DeleteI <$> int))
+      <*> (params' <|> pure emptyParams)
+
+
+
+    buckets_resources_index =
+      BucketsResources
+      <$> (lit "" *> lit "buckets" *> int)
+      <*> (lit "resources" *> pure Index)
+      <*> (params' <|> pure emptyParams)
+
+    buckets_resources_new =
+      BucketsResources
+      <$> (lit "" *> lit "buckets" *> int)
+      <*> (lit "resources" *> lit "new" *> pure New)
+      <*> (params' <|> pure emptyParams)
+
+    buckets_resources_edit_int =
+      BucketsResources
+      <$> (lit "" *> lit "buckets" *> int)
+      <*> (lit "resources" *> lit "_edit" *> (EditI <$> int))
+      <*> (params' <|> pure emptyParams)
+
+    buckets_resources_delete_int =
+      BucketsResources
+      <$> (lit "" *> lit "buckets" *> int)
+      <*> (lit "resources" *> lit "_delete" *> (DeleteI <$> int))
+      <*> (params' <|> pure emptyParams)
+
+    buckets_resources_show_int =
+      BucketsResources
+      <$> (lit "" *> lit "buckets" *> int)
+      <*> (lit "resources" *> (ShowI <$> int))
+      <*> (params' <|> pure emptyParams)
+
+
+
+    buckets_leurons_index =
+      BucketsLeurons
+      <$> (lit "" *> lit "buckets" *> int)
+      <*> (lit "leurons" *> pure Index)
+      <*> (params' <|> pure emptyParams)
+
+    buckets_leurons_new =
+      BucketsLeurons
+      <$> (lit "" *> lit "buckets" *> int)
+      <*> (lit "leurons" *> lit "new" *> pure New)
+      <*> (params' <|> pure emptyParams)
+
+    buckets_leurons_edit_int =
+      BucketsLeurons
+      <$> (lit "" *> lit "buckets" *> int)
+      <*> (lit "leurons" *> lit "_edit" *> (EditI <$> int))
+      <*> (params' <|> pure emptyParams)
+
+    buckets_leurons_delete_int =
+      BucketsLeurons
+      <$> (lit "" *> lit "buckets" *> int)
+      <*> (lit "leurons" *> lit "_delete" *> (DeleteI <$> int))
+      <*> (params' <|> pure emptyParams)
+
+    buckets_leurons_show_int =
+      BucketsLeurons
+      <$> (lit "" *> lit "buckets" *> int)
+      <*> (lit "leurons" *> (ShowI <$> int))
+      <*> (params' <|> pure emptyParams)
+
+
+
+    buckets_training_index =
+      BucketsTraining
+      <$> (lit "" *> lit "buckets" *> int)
+      <*> (lit "training" *> pure Index)
+      <*> (params' <|> pure emptyParams)
+
+    buckets_training_new =
+      BucketsTraining
+      <$> (lit "" *> lit "buckets" *> int)
+      <*> (lit "training" *> lit "new" *> pure New)
+      <*> (params' <|> pure emptyParams)
+
+    buckets_training_edit_int =
+      BucketsTraining
+      <$> (lit "" *> lit "buckets" *> int)
+      <*> (lit "training" *> lit "_edit" *> (EditI <$> int))
+      <*> (params' <|> pure emptyParams)
+
+    buckets_training_delete_int =
+      BucketsTraining
+      <$> (lit "" *> lit "buckets" *> int)
+      <*> (lit "training" *> lit "_delete" *> (DeleteI <$> int))
+      <*> (params' <|> pure emptyParams)
+
+    buckets_training_show_int =
+      BucketsTraining
+      <$> (lit "" *> lit "buckets" *> int)
+      <*> (lit "training" *> (ShowI <$> int))
       <*> (params' <|> pure emptyParams)
 
 
