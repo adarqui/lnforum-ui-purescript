@@ -127,12 +127,6 @@ routing =
       leurons_delete_int <|>
       leurons_index <|>
 
-      buckets_new <|>
-      buckets_show_int <|>
-      buckets_edit_int <|>
-      buckets_delete_int <|>
-      buckets_index <|>
-
       buckets_resources_new <|>
       buckets_resources_edit_int <|>
       buckets_resources_delete_int <|>
@@ -150,6 +144,12 @@ routing =
       buckets_training_delete_int <|>
       buckets_training_show_int <|>
       buckets_training_index <|>
+
+      buckets_new <|>
+      buckets_show_int <|>
+      buckets_edit_int <|>
+      buckets_delete_int <|>
+      buckets_index <|>
 
       login <|>
       logout <|>
