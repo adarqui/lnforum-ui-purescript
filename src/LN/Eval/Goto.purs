@@ -249,6 +249,25 @@ eval_Goto eval (Goto route next) = do
 
 
 
+    (BucketsResources bucket_id Index params) -> do
+
+      pageInfo <- gets _.resourcesPageInfo
+      let offset = ebyam (lookupParam ParamTag_Offset params) defaultPageInfo_Resources.currentPage (\(Offset v) -> if v < 0 then pageInfo.totalPages else v)
+      modify (_{ resourcesPageInfo = pageInfo { currentPage = offset } })
+
+      eval (GetResources (Just bucket_id) next) $> unit
+
+
+
+    (BucketsLeurons bucket_id Index params) -> do
+
+      pageInfo <- gets _.leuronsPageInfo
+      let offset = ebyam (lookupParam ParamTag_Offset params) defaultPageInfo_Leurons.currentPage (\(Offset v) -> if v < 0 then pageInfo.totalPages else v)
+      modify (_{ leuronsPageInfo = pageInfo { currentPage = offset } })
+
+      eval (GetLeurons (Just bucket_id) next) $> unit
+
+
 
 
     -- Users
