@@ -46,6 +46,7 @@ import LN.View.Buckets.Index                   (renderView_Buckets_Index)
 import LN.View.Buckets.Mod                     ( renderView_Buckets_New, renderView_Buckets_Edit
                                                , renderView_Buckets_Delete)
 import LN.View.Buckets.Show                    (renderView_Buckets_Show)
+import LN.View.Buckets.Resources.Index           (renderView_Buckets_Resources_Index)
 
 
 
@@ -119,6 +120,8 @@ renderView (Buckets New params)                   = renderView_Buckets_New
 renderView (Buckets (EditI bucket_id) params)   = renderView_Buckets_Edit bucket_id
 renderView (Buckets (ShowI bucket_id) params)   = renderView_Buckets_Show bucket_id
 renderView (Buckets (DeleteI bucket_id) params) = renderView_Buckets_Delete bucket_id
+
+renderView (BucketsResources bucket_id Index params) = renderView_Buckets_Resources_Index bucket_id
 
 
 
