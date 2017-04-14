@@ -10,11 +10,11 @@ import Data.Array                    (head, deleteAt, modifyAt, nub, (:))
 import Data.Either                   (Either(..))
 import Data.Functor                  (($>))
 import Data.Int                      (fromString)
-import Data.Map                      as M
+import Data.Map                      as Map
 import Data.Maybe                    (Maybe(..), maybe)
 import Halogen                       (gets, modify)
 import Optic.Core                    ((^.), (..), (.~))
-import Prelude                       (class Eq, id, const, bind, pure, map, unit, ($), (<>), (<<<), (==))
+import Prelude                       (class Eq, id, const, bind, pure, map, unit, ($), (<>), (<<<), (==), (<$>), (*>), ($>))
 
 import LN.Api
 import LN.Helpers.Api                (rd)
@@ -29,6 +29,8 @@ import LN.State.PageInfo             (runPageInfo)
 import LN.T                          ( BucketPackResponses(..), BucketPackResponse(..)
                                      , BucketResponse(..)
                                      , BucketRequest(..)
+                                     , ResourcePackResponse(..)
+                                     , LeuronPackResponse(..)
                                      , _BucketRequest
                                      , displayName_, description_, scoreLo_, scoreHi_
                                      , Param(..), SortOrderBy(..))
@@ -38,7 +40,11 @@ import LN.T                          ( BucketPackResponses(..), BucketPackRespon
 eval_GetBuckets :: Partial => EvalEff
 eval_GetBuckets eval (GetBuckets next) = do
 
-  modify (_{ buckets = (M.empty :: M.Map Int BucketPackResponse) })
+  modify (_{
+           buckets = (Map.empty :: Map.Map Int BucketPackResponse)
+         , bucketResources = (Map.empty :: Map.Map Int ResourcePackResponse)
+         , bucketLeurons = (Map.empty :: Map.Map Int LeuronPackResponse)
+         })
 
   page_info <- gets _.bucketsPageInfo
 
@@ -76,7 +82,12 @@ eval_GetBuckets eval (GetBuckets next) = do
 eval_GetBucketId :: Partial => EvalEff
 eval_GetBucketId eval (GetBucketId bucket_id next) = do
 
-  modify (_{ currentBucket = Nothing })
+  modify (_{
+           currentBucket = Nothing
+         , bucketResources = (Map.empty :: Map.Map Int ResourcePackResponse)
+         , bucketLeurons = (Map.empty :: Map.Map Int LeuronPackResponse)
+         })
+
   modify $ setLoading l_currentBucket
 
   e_pack <- rd $ getBucketPack' bucket_id
@@ -117,12 +128,37 @@ eval_Bucket eval (CompBucket sub next) = do
                       e_bucket_resource <- rd $ postBucketResource' pack.bucketId resource_id unit
                       case e_bucket_resource of
                            Left err -> eval (AddErrorApi "eval_Bucket(SetBucketResource)::postBucketResource'" err next)
-                           Right _  -> pure next
-                    else
-                      pure next
+                           Right _  ->  do
+                             m_resource <- Map.lookup resource_id <$> gets _.resources
+                             case m_resource of
+                                  Nothing -> pure next
+                                  Just resource -> modify (\st->st{bucketResources = Map.insert resource_id resource st.bucketResources}) $> next
+                    else do
+                      e_bucket_resource <- rd $ deleteBucketResource' pack.bucketId resource_id
+                      case e_bucket_resource of
+                           Left err -> eval (AddErrorApi "eval_Bucket(SetBucketResource)::deleteBucketResource'" err next)
+                           Right _  -> modify (\st->st{bucketResources = Map.delete resource_id st.bucketResources}) $> next
 
-        SetBucketLeuron resource_id bool -> do
-          pure next
+        SetBucketLeuron leuron_id bool -> do
+          m_bucket <- gets _.currentBucket
+          case m_bucket of
+               Nothing     -> eval (AddError "eval_Bucket(SetBucketLeuron)" "Bucket doesn't exist" next)
+               Just (BucketPackResponse pack) -> do
+                 if bool
+                    then do
+                      e_bucket_leuron <- rd $ postBucketLeuron' pack.bucketId leuron_id unit
+                      case e_bucket_leuron of
+                           Left err -> eval (AddErrorApi "eval_Bucket(SetBucketLeuron)::postBucketLeuron'" err next)
+                           Right _  ->  do
+                             m_leuron <- Map.lookup leuron_id <$> gets _.leurons
+                             case m_leuron of
+                                  Nothing -> pure next
+                                  Just leuron -> modify (\st->st{bucketLeurons = Map.insert leuron_id leuron st.bucketLeurons}) $> next
+                    else do
+                      e_bucket_leuron <- rd $ deleteBucketLeuron' pack.bucketId leuron_id
+                      case e_bucket_leuron of
+                           Left err -> eval (AddErrorApi "eval_Bucket(SetBucketLeuron)::deleteBucketLeuron'" err next)
+                           Right _  -> modify (\st->st{bucketLeurons = Map.delete leuron_id st.bucketLeurons}) $> next
 
         Create -> do
 

@@ -51,6 +51,8 @@ initialState ch =
   , leurons:                      M.empty
   , resources:                    M.empty
   , buckets:                      M.empty
+  , bucketResources:              M.empty
+  , bucketLeurons:                M.empty
   , currentUser:                  Nothing
   , currentResource:              Nothing
   , currentResourceRequest:       Nothing

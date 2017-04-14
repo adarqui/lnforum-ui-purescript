@@ -5,14 +5,15 @@ module LN.View.Buckets.Resources.Index (
 
 
 import LN.ArrayList           (listToArray)
-import Data.Map                        as M
+import Data.Map                        as Map
+import Data.Maybe
 import Halogen                         (ComponentHTML)
 import Halogen.HTML            as H
 import Halogen.HTML.Properties as P
 import Halogen.HTML.Events     as E
 import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
-import Prelude                         (show, map, ($), (<>), (<<<))
+import Prelude                         (show, map, not, ($), (<>), (<<<))
 
 import LN.Input.Types                  (Input, cBucketMod)
 import LN.Input.Bucket
@@ -26,14 +27,14 @@ import LN.View.Module.Loading          (renderLoading)
 import LN.View.Module.OrderBy          (renderOrderBy)
 import LN.View.Module.PageNumbers      (renderPageNumbers)
 import LN.T                            ( Size(Small)
-                                       , _ResourceStatResponse, _ResourcePackResponse, _ResourceResponse
+                                       , ResourcePackResponse(..), _ResourceStatResponse, _ResourcePackResponse, _ResourceResponse
                                        , stat_, resource_)
 
 
 
 renderView_Buckets_Resources_Index :: Int -> State -> ComponentHTML Input
 renderView_Buckets_Resources_Index bucket_id st =
-  if M.isEmpty st.resources
+  if Map.isEmpty st.resources
      then renderLoading
      else renderView_Buckets_Resources_Index' bucket_id st
 
@@ -64,6 +65,7 @@ renderView_Buckets_Resources_Index' bucket_id st =
 
 resources :: Int -> State -> ComponentHTML Input
 resources bucket_id st =
+
   H.div [P.class_ B.containerFluid] [
     renderPageNumbers st.resourcesPageInfo st.currentPage
     , H.ul [P.class_ B.listUnstyled] $
@@ -72,11 +74,12 @@ resources bucket_id st =
             resource_pack = pack ^. _ResourcePackResponse
             resource      = pack ^. _ResourcePackResponse .. resource_ ^. _ResourceResponse
             stat          = pack ^. _ResourcePackResponse .. stat_ ^. _ResourceStatResponse
+            member        = Map.member resource.id m
           in
           H.li_ [
             H.div [P.class_ B.row] [
               H.div [P.class_ B.colSm1] [H.input [P.type_ P.InputCheckbox, P.name "select-resource", P.value "",
-                                         E.onChecked (E.input_ (cBucketMod $ SetBucketResource bucket_id true)), P.checked true]]
+                                         E.onChecked (E.input_ (cBucketMod $ SetBucketResource bucket_id (not member))), P.checked member]]
               , H.div [P.class_ B.colSm1] [renderGravatarForUser Small (usersMapLookup_ToUser st resource.userId)]
               , H.div [P.classes [B.colSm8]] [
                     H.div [P.class_ B.listGroup] [linkToP_Classes [B.listGroupItem] [] (Resources (Show $ show resource.id) emptyParams) resource.displayName]
@@ -86,6 +89,8 @@ resources bucket_id st =
               , H.div [P.classes [B.colSm2, B.hiddenXs]] [H.p_ [H.text $ show stat.leurons <> " leurons"]]
             ]
           ])
-        $ listToArray $ M.values st.resources
+        $ listToArray $ Map.values st.resources
     , renderPageNumbers st.resourcesPageInfo st.currentPage
   ]
+  where
+  m = st.bucketResources
