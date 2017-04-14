@@ -27,5 +27,8 @@ data Bucket_Mod
   | EditDescription String
   | RemoveDescription
 
+  | SetBucketResource Int Boolean
+  | SetBucketLeuron Int Boolean
+
   | Create
   | EditP Int -- edit bucket_id

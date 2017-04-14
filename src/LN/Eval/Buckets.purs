@@ -14,7 +14,7 @@ import Data.Map                      as M
 import Data.Maybe                    (Maybe(..), maybe)
 import Halogen                       (gets, modify)
 import Optic.Core                    ((^.), (..), (.~))
-import Prelude                       (class Eq, id, const, bind, pure, map, ($), (<>), (<<<), (==))
+import Prelude                       (class Eq, id, const, bind, pure, map, unit, ($), (<>), (<<<), (==))
 
 import LN.Api
 import LN.Helpers.Api                (rd)
@@ -105,6 +105,24 @@ eval_Bucket eval (CompBucket sub next) = do
         SetDescription desc  -> mod $ set (\req -> _BucketRequest .. description_ .~ Just desc $ req)
         EditDescription desc -> pure next
         RemoveDescription    -> pure next
+
+        SetBucketResource resource_id bool -> do
+
+          m_bucket <- gets _.currentBucket
+          case m_bucket of
+               Nothing     -> eval (AddError "eval_Bucket(SetBucketResource)" "Bucket doesn't exist" next)
+               Just (BucketPackResponse pack) -> do
+                 if bool
+                    then do
+                      e_bucket_resource <- rd $ postBucketResource' pack.bucketId resource_id unit
+                      case e_bucket_resource of
+                           Left err -> eval (AddErrorApi "eval_Bucket(SetBucketResource)::postBucketResource'" err next)
+                           Right _  -> pure next
+                    else
+                      pure next
+
+        SetBucketLeuron resource_id bool -> do
+          pure next
 
         Create -> do
 

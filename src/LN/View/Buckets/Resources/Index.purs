@@ -9,11 +9,13 @@ import Data.Map                        as M
 import Halogen                         (ComponentHTML)
 import Halogen.HTML            as H
 import Halogen.HTML.Properties as P
+import Halogen.HTML.Events     as E
 import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
-import Prelude                         (show, map, ($), (<>))
+import Prelude                         (show, map, ($), (<>), (<<<))
 
-import LN.Input.Types                  (Input)
+import LN.Input.Types                  (Input, cBucketMod)
+import LN.Input.Bucket
 import LN.Router.Link                  (linkToP_Classes)
 import LN.Router.Types                 (Routes(..), CRUD(..))
 import LN.Router.Class.Params          (emptyParams)
@@ -55,13 +57,13 @@ renderView_Buckets_Resources_Index' bucket_id st =
 --    H.div [P.class_ B.clearfix] [H.span [P.classes [B.pullLeft]] [renderOrderBy st.currentPage]],
 
     -- Resources
-    H.div [] [resources st]
+    H.div [] [resources bucket_id st]
   ]
 
 
 
-resources :: State -> ComponentHTML Input
-resources st =
+resources :: Int -> State -> ComponentHTML Input
+resources bucket_id st =
   H.div [P.class_ B.containerFluid] [
     renderPageNumbers st.resourcesPageInfo st.currentPage
     , H.ul [P.class_ B.listUnstyled] $
@@ -73,7 +75,8 @@ resources st =
           in
           H.li_ [
             H.div [P.class_ B.row] [
-                H.div [P.class_ B.colSm1] [H.input [P.type_ P.InputCheckbox, P.name "select-resource", P.value ""]]
+              H.div [P.class_ B.colSm1] [H.input [P.type_ P.InputCheckbox, P.name "select-resource", P.value "",
+                                         E.onChecked (E.input_ (cBucketMod $ SetBucketResource bucket_id true)), P.checked true]]
               , H.div [P.class_ B.colSm1] [renderGravatarForUser Small (usersMapLookup_ToUser st resource.userId)]
               , H.div [P.classes [B.colSm8]] [
                     H.div [P.class_ B.listGroup] [linkToP_Classes [B.listGroupItem] [] (Resources (Show $ show resource.id) emptyParams) resource.displayName]
