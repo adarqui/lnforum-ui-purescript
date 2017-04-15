@@ -8,6 +8,7 @@ module LN.State.Internal.Types (
 import Data.Map                     as M
 import Data.Maybe                   (Maybe)
 import Data.Tuple                   (Tuple)
+import Prelude                      (Unit)
 
 -- import LN.Input.Types               (Input)
 -- import LN.Router.Types              (Routes(..))
@@ -31,8 +32,10 @@ type InternalState routes {- TODO FIXME: driver_ch-} =
   , resources                    :: M.Map Int ResourcePackResponse
   , leurons                      :: M.Map Int LeuronPackResponse
   , buckets                      :: M.Map Int BucketPackResponse
-  , bucketResources              :: M.Map Int ResourcePackResponse
-  , bucketLeurons                :: M.Map Int LeuronPackResponse
+  , bucketResources              :: M.Map Int Unit
+  , bucketLeurons                :: M.Map Int Unit
+  -- , bucketResources              :: M.Map Int ResourcePackResponse
+  -- , bucketLeurons                :: M.Map Int LeuronPackResponse
 --  , workouts                   :: M.Map Int WorkoutPackResponse
   , currentUser                  :: Maybe UserSanitizedPackResponse
   , currentResource              :: Maybe ResourcePackResponse

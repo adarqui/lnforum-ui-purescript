@@ -12,9 +12,11 @@ import Data.Functor                  (($>))
 import Data.Int                      (fromString)
 import Data.Map                      as Map
 import Data.Maybe                    (Maybe(..), maybe)
+import Data.Tuple
+import Data.Tuple.Nested
 import Halogen                       (gets, modify)
 import Optic.Core                    ((^.), (..), (.~))
-import Prelude                       (class Eq, id, const, bind, pure, map, unit, ($), (<>), (<<<), (==), (<$>), (*>), ($>))
+import Prelude                       (class Eq, id, const, bind, pure, map, Unit, unit, ($), (<>), (<<<), (==), (<$>), (*>), ($>))
 
 import LN.Api
 import LN.Helpers.Api                (rd)
@@ -33,7 +35,8 @@ import LN.T                          ( BucketPackResponses(..), BucketPackRespon
                                      , LeuronPackResponse(..)
                                      , _BucketRequest
                                      , displayName_, description_, scoreLo_, scoreHi_
-                                     , Param(..), SortOrderBy(..))
+                                     , Param(..), SortOrderBy(..)
+                                     , SimpleIntsResponse (..))
 
 
 
@@ -42,8 +45,8 @@ eval_GetBuckets eval (GetBuckets next) = do
 
   modify (_{
            buckets = (Map.empty :: Map.Map Int BucketPackResponse)
-         , bucketResources = (Map.empty :: Map.Map Int ResourcePackResponse)
-         , bucketLeurons = (Map.empty :: Map.Map Int LeuronPackResponse)
+         , bucketResources = (Map.empty :: Map.Map Int Unit)
+         , bucketLeurons = (Map.empty :: Map.Map Int Unit)
          })
 
   page_info <- gets _.bucketsPageInfo
@@ -84,8 +87,8 @@ eval_GetBucketId eval (GetBucketId bucket_id next) = do
 
   modify (_{
            currentBucket = Nothing
-         , bucketResources = (Map.empty :: Map.Map Int ResourcePackResponse)
-         , bucketLeurons = (Map.empty :: Map.Map Int LeuronPackResponse)
+         , bucketResources = (Map.empty :: Map.Map Int Unit)
+         , bucketLeurons = (Map.empty :: Map.Map Int Unit)
          })
 
   modify $ setLoading l_currentBucket
@@ -94,11 +97,16 @@ eval_GetBucketId eval (GetBucketId bucket_id next) = do
 
   modify $ clearLoading l_currentBucket
 
-  case e_pack of
-    Left err   -> eval (AddErrorApi "eval_GetBucketId::getBucketPack'" err next)
-    Right pack -> do
-      modify (_{ currentBucket = Just pack })
+  e_bucket_resource_ids <- rd $ getBucketResourceIds' bucket_id
+  e_bucket_leuron_ids <- rd $ getBucketLeuronIds' bucket_id
+
+  case e_pack, e_bucket_resource_ids, e_bucket_leuron_ids of
+    -- (Right pack) /\ (Right bucket_resource_ids) /\ (Right bucket_leuron_ids) -> do
+    (Right pack), (Right (SimpleIntsResponse bucket_resource_ids)), (Right (SimpleIntsResponse bucket_leuron_ids)) -> do
+      modify (_{ currentBucket = Just pack, bucketResources = Map.fromFoldable $ map (\x -> Tuple x unit) bucket_resource_ids.simpleIntsResponse })
+      modify (_{ currentBucket = Just pack, bucketLeurons = Map.fromFoldable $ map (\x -> Tuple x unit) bucket_leuron_ids.simpleIntsResponse })
       pure next
+    _, _, _ -> pure next
 
 
 
@@ -132,7 +140,7 @@ eval_Bucket eval (CompBucket sub next) = do
                              m_resource <- Map.lookup resource_id <$> gets _.resources
                              case m_resource of
                                   Nothing -> pure next
-                                  Just resource -> modify (\st->st{bucketResources = Map.insert resource_id resource st.bucketResources}) $> next
+                                  Just resource -> modify (\st->st{bucketResources = Map.insert resource_id unit st.bucketResources}) $> next
                     else do
                       e_bucket_resource <- rd $ deleteBucketResource' pack.bucketId resource_id
                       case e_bucket_resource of
@@ -153,7 +161,7 @@ eval_Bucket eval (CompBucket sub next) = do
                              m_leuron <- Map.lookup leuron_id <$> gets _.leurons
                              case m_leuron of
                                   Nothing -> pure next
-                                  Just leuron -> modify (\st->st{bucketLeurons = Map.insert leuron_id leuron st.bucketLeurons}) $> next
+                                  Just leuron -> modify (\st->st{bucketLeurons = Map.insert leuron_id unit st.bucketLeurons}) $> next
                     else do
                       e_bucket_leuron <- rd $ deleteBucketLeuron' pack.bucketId leuron_id
                       case e_bucket_leuron of
