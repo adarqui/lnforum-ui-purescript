@@ -195,6 +195,8 @@ eval_Bucket eval (CompBucket sub next) = do
                       Right (BucketResponse bucket) -> pure next
 --                        eval (Goto (Buckets (ShowI bucket.id) []) next)
 
+        ModSt f -> modSt f
+
     InputBucket_Nop         -> pure next
 
   where
@@ -203,4 +205,4 @@ eval_Bucket eval (CompBucket sub next) = do
   append (Just arr) a = Just $ nub $ arr <> [a]
   set v req                = Just (v req)
   mod new                  = modify (\st->st{ currentBucketRequest = maybe Nothing new st.currentBucketRequest }) $> next
-  -- modSt new                = modify (\st->st{ currentBucketRequestSt = maybe Nothing (Just <<< new) st.currentBucketRequestSt }) $> next
+  modSt new                = modify (\st->st{ currentBucketRequestSt = maybe Nothing (Just <<< new) st.currentBucketRequestSt }) $> next

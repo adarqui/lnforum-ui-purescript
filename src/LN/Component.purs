@@ -74,7 +74,7 @@ ui st =
     GetResourceLeuronRandom _ _                -> eval_GetResourceLeuronRandom eval ev
     GetResourcesSiftLeurons _ _                -> eval_GetResourcesSiftLeurons eval ev
 
-    GetLeurons _ _                             -> eval_GetLeurons eval ev
+    GetLeurons _ _ _                           -> eval_GetLeurons eval ev
     GetLeuronId _ _                            -> eval_GetLeuronId eval ev
     GetLeuronRandom _                          -> eval_GetLeuronRandom eval ev
 

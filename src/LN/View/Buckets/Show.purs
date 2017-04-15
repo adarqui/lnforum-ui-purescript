@@ -19,6 +19,7 @@ import LN.Router.Class.Params          (emptyParams)
 import LN.State.Loading                (getLoading, l_currentBucket)
 import LN.State.Types                  (State)
 import LN.View.Module.Loading          (renderLoading)
+import LN.View.Buckets.Nav             (renderView_Buckets_Nav)
 import LN.T                            ( BucketPackResponse, _BucketPackResponse, _BucketResponse
                                        , bucket_)
 
@@ -45,13 +46,7 @@ renderView_Buckets_Show' pack st =
       linkToP [] (Buckets (EditI bucket.id) emptyParams) "edit",
       linkToP [] (Buckets (DeleteI bucket.id) emptyParams) "delete"
     ],
-    H.div [P.class_ B.container] [
-      H.div [P.class_ B.listGroup] [
-        linkToP [] (BucketsResources bucket.id Index emptyParams) "resources",
-        linkToP [] (BucketsLeurons bucket.id Index emptyParams) "leurons",
-        linkToP [] (BucketsTraining bucket.id Index emptyParams) "training"
-      ]
-    ]
+    renderView_Buckets_Nav pack st
   ]
 
  where

@@ -30,5 +30,7 @@ data Bucket_Mod
   | SetBucketResource Int Boolean
   | SetBucketLeuron Int Boolean
 
+  | ModSt (BucketRequestState -> BucketRequestState)
+
   | Create
   | EditP Int -- edit bucket_id

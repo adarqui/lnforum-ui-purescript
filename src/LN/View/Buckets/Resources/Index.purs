@@ -20,28 +20,32 @@ import LN.Input.Bucket
 import LN.Router.Link                  (linkToP_Classes)
 import LN.Router.Types                 (Routes(..), CRUD(..))
 import LN.Router.Class.Params          (emptyParams)
+import LN.State.Loading
 import LN.State.Types                  (State)
 import LN.State.User                   (usersMapLookup_ToUser)
 import LN.View.Module.Gravatar         (renderGravatarForUser)
 import LN.View.Module.Loading          (renderLoading)
 import LN.View.Module.OrderBy          (renderOrderBy)
 import LN.View.Module.PageNumbers      (renderPageNumbers)
+import LN.View.Buckets.Nav
 import LN.T                            ( Size(Small)
                                        , ResourcePackResponse(..), _ResourceStatResponse, _ResourcePackResponse, _ResourceResponse
-                                       , stat_, resource_)
+                                       , stat_, resource_
+                                       , BucketPackResponse)
 
 
 
 renderView_Buckets_Resources_Index :: Int -> State -> ComponentHTML Input
 renderView_Buckets_Resources_Index bucket_id st =
-  if Map.isEmpty st.resources
-     then renderLoading
-     else renderView_Buckets_Resources_Index' bucket_id st
+  case st.resources, st.currentBucket, getLoading l_currentBucket st.loading of
+     _, _, true -> renderLoading
+     _, Nothing, false -> H.div_ [H.p_ [H.text "bucket unavailable."]]
+     _, Just pack, false -> renderView_Buckets_Resources_Index' bucket_id pack st
 
 
 
-renderView_Buckets_Resources_Index' :: Int -> State -> ComponentHTML Input
-renderView_Buckets_Resources_Index' bucket_id st =
+renderView_Buckets_Resources_Index' :: Int -> BucketPackResponse -> State -> ComponentHTML Input
+renderView_Buckets_Resources_Index' bucket_id pack st =
 
   H.div [P.class_ B.containerFluid] [
 
@@ -49,9 +53,7 @@ renderView_Buckets_Resources_Index' bucket_id st =
       H.h2_ [H.text "Resources"]
     ],
 
-    H.div [P.classes [B.colLg2, B.colMd2, B.colXs12]] [
-      linkToP_Classes [B.btn, B.btnLg, B.btnInfo, B.btnBlock] [] (Resources New emptyParams) "new"
-    ],
+    renderView_Buckets_Nav pack st,
 
 -- TODO FIXME: Bring back renderOrderBy once we figure out how we want to sort (LN.Sort)
 -- Page Numbers

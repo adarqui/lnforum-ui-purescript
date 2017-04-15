@@ -39,7 +39,7 @@ import LN.T                          ( LeuronPackResponses(..), LeuronPackRespon
 
 
 eval_GetLeurons :: Partial => EvalEff
-eval_GetLeurons eval (GetLeurons m_resource_id next) = do
+eval_GetLeurons eval (GetLeurons m_resource_id extra_params next) = do
 
   modify (_{ leurons = (M.empty :: M.Map Int LeuronPackResponse) })
 
@@ -75,8 +75,8 @@ eval_GetLeurons eval (GetLeurons m_resource_id next) = do
              pure next
   where
   params = case m_resource_id of
-                Just resource_id -> [ByResourceId resource_id]
-                _                -> []
+                Just resource_id -> [ByResourceId resource_id] <> extra_params
+                _                -> extra_params
 
 
 
