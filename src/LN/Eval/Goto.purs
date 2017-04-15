@@ -249,7 +249,7 @@ eval_Goto eval (Goto route next) = do
 
 
 
-    (BucketsResources bucket_id Index params) -> do
+    (BucketsResources bucket_id _ params) -> do
 
       eval (GetBucketId bucket_id next) $> unit
 
@@ -261,7 +261,7 @@ eval_Goto eval (Goto route next) = do
 
 
 
-    (BucketsLeurons bucket_id Index params) -> do
+    (BucketsLeurons bucket_id _ params) -> do
 
       eval (GetBucketId bucket_id next) $> unit
 
