@@ -5,16 +5,18 @@ module LN.View.Buckets.Leurons.Index (
 
 
 import LN.ArrayList           (listToArray)
-import Data.Map                        as M
+import Data.Map                        as Map
 import Halogen                         (ComponentHTML)
 import Halogen.HTML            as H
+import Halogen.HTML.Events     as E
 import Halogen.HTML.Properties as P
 import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
-import Prelude                         (show, map, ($), (<>))
+import Prelude                         (show, map, not, ($), (<>))
 
 import LN.Internal.Leuron              (leuronToTyLeuron)
-import LN.Input.Types                  (Input)
+import LN.Input.Types                  (Input, cBucketMod)
+import LN.Input.Bucket
 import LN.Router.Link                  (linkToP)
 import LN.Router.Types                 (Routes(..), CRUD(..))
 import LN.Router.Class.Params          (emptyParams)
@@ -33,7 +35,7 @@ import LN.T                            ( Size(Small)
 
 renderView_Buckets_Leurons_Index :: Int -> State -> ComponentHTML Input
 renderView_Buckets_Leurons_Index bucket_id st =
-  if M.isEmpty st.leurons
+  if Map.isEmpty st.leurons
      then renderLoading
      else renderView_Buckets_Leurons_Index' bucket_id st
 
@@ -53,13 +55,13 @@ renderView_Buckets_Leurons_Index' bucket_id st =
 --    H.div [P.class_ B.clearfix] [H.span [P.classes [B.pullLeft]] [renderOrderBy st.currentPage]],
 
     -- Leurons
-    H.div [] [renderLeurons st]
+    H.div [] [renderLeurons bucket_id st]
   ]
 
 
 
-renderLeurons :: State -> ComponentHTML Input
-renderLeurons st =
+renderLeurons :: Int -> State -> ComponentHTML Input
+renderLeurons bucket_id st =
   H.div_ [
     renderPageNumbers st.leuronsPageInfo st.currentPage
     , H.ul [P.class_ B.listUnstyled] $
@@ -68,10 +70,12 @@ renderLeurons st =
             leuron_pack = pack ^. _LeuronPackResponse
             leuron      = pack ^. _LeuronPackResponse .. leuron_ ^. _LeuronResponse
             stat        = pack ^. _LeuronPackResponse .. stat_ ^. _LeuronStatResponse
+            member      = Map.member leuron.id m
           in
           H.li_ [
             H.div [P.class_ B.row] [
-                H.div [P.class_ B.colSm1] [H.input [P.type_ P.InputCheckbox, P.name "select-leuron", P.value ""]]
+                H.div [P.class_ B.colSm1] [H.input [P.type_ P.InputCheckbox, P.name "select-leuron",
+                                           E.onChecked (E.input_ (cBucketMod $ SetBucketLeuron leuron.id (not member))), P.checked member]]
               , H.div [P.class_ B.colXs2] [renderGravatarForUser Small (usersMapLookup_ToUser st leuron.userId)]
               , H.div [P.class_ B.colXs2] [linkToP [] (ResourcesLeurons leuron.resourceId (ShowI leuron.id) emptyParams) (show leuron.id)]
               , H.div [P.class_ B.colXs2] [H.p_ [H.text $ show $ leuronToTyLeuron leuron.dataP]]
@@ -84,6 +88,8 @@ renderLeurons st =
               H.div [P.class_ B.colXs1] []
             ]
           ])
-        $ listToArray $ M.values st.leurons
+        $ listToArray $ Map.values st.leurons
     , renderPageNumbers st.leuronsPageInfo st.currentPage
   ]
+  where
+  m = st.bucketLeurons

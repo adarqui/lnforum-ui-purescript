@@ -79,7 +79,7 @@ resources bucket_id st =
           H.li_ [
             H.div [P.class_ B.row] [
               H.div [P.class_ B.colSm1] [H.input [P.type_ P.InputCheckbox, P.name "select-resource", P.value "",
-                                         E.onChecked (E.input_ (cBucketMod $ SetBucketResource bucket_id (not member))), P.checked member]]
+                                         E.onChecked (E.input_ (cBucketMod $ SetBucketResource resource.id (not member))), P.checked member]]
               , H.div [P.class_ B.colSm1] [renderGravatarForUser Small (usersMapLookup_ToUser st resource.userId)]
               , H.div [P.classes [B.colSm8]] [
                     H.div [P.class_ B.listGroup] [linkToP_Classes [B.listGroupItem] [] (Resources (Show $ show resource.id) emptyParams) resource.displayName]
