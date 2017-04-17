@@ -39,7 +39,7 @@ data Input a
   | GetUsers a
   | GetUsers_MergeMap_ByUser (Array UserSanitizedResponse) a
   | GetUsers_MergeMap_ByUserId (Array Int) a
-  | GetResources a
+  | GetResources (Array Param) a
   | GetResourceId Int a
   | GetResourcesLeurons Int a
   | GetResourceLeuronLinear Int Int a

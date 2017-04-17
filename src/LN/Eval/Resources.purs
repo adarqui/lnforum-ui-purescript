@@ -21,7 +21,7 @@ import Halogen                       (get, gets, modify)
 import Optic.Core                    ((^.), (..), (.~))
 import Prelude                       (class Eq, id, const, bind, pure, map, ($), (<>), show, (==))
 
-import LN.Api                        ( getResourcesCount', getResourcePacks, getResourcePack'
+import LN.Api                        ( getResourcesCount, getResourcePacks, getResourcePack'
                                      , getLeuronPacks_ByResourceId
                                      , postResource', putResource')
 import LN.Helpers.Api                (rd)
@@ -49,15 +49,15 @@ import LN.T                          ( Param(..), SortOrderBy(..)
 
 
 eval_GetResources :: Partial => EvalEff
-eval_GetResources eval (GetResources next) = do
+eval_GetResources eval (GetResources extra_params next) = do
 
   modify (_{ resources = (M.empty :: M.Map Int ResourcePackResponse) })
 
   page_info <- gets _.resourcesPageInfo
 
-  e_count <- rd $ getResourcesCount'
+  e_count <- rd $ getResourcesCount extra_params
   case e_count of
-    Left err     -> eval (AddErrorApi "eval_GetResources::getResourcesCount'" err next)
+    Left err     -> eval (AddErrorApi "eval_GetResources::getResourcesCount" err next)
     Right counts -> do
 
       let new_page_info = runPageInfo counts page_info
@@ -65,7 +65,7 @@ eval_GetResources eval (GetResources next) = do
       modify (_{ resourcesPageInfo = new_page_info.pageInfo })
       modify $ setLoading l_resources
 
-      e_resource_packs <- rd $ getResourcePacks new_page_info.params
+      e_resource_packs <- rd $ getResourcePacks (new_page_info.params <> extra_params)
 
       modify $ clearLoading l_resources
 

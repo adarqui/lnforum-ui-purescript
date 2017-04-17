@@ -66,7 +66,7 @@ ui st =
     GetUsers_MergeMap_ByUser _ _               -> eval_GetUsers_MergeMap_ByUser eval ev
     GetUsers_MergeMap_ByUserId _ _             -> eval_GetUsers_MergeMap_ByUserId eval ev
 
-    GetResources _                             -> eval_GetResources eval ev
+    GetResources _ _                           -> eval_GetResources eval ev
     GetResourceId _ _                          -> eval_GetResourceId eval ev
 
     GetResourcesLeurons _ _                    -> eval_GetResources eval ev
