@@ -4,7 +4,6 @@ module LN.View.Buckets.Resources.Index (
 
 
 
-import LN.ArrayList           (listToArray)
 import Data.Map                        as Map
 import Data.Maybe
 import Halogen                         (ComponentHTML)
@@ -15,6 +14,7 @@ import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
 import Prelude                         (show, map, not, ($), (<>), (<<<))
 
+import LN.ArrayList           (listToArray)
 import LN.Input.Types                  (Input, cBucketMod)
 import LN.Input.Bucket
 import LN.Router.Link                  (linkToP_Classes)
@@ -54,10 +54,6 @@ renderView_Buckets_Resources_Index' bucket_id pack st =
     ],
 
     renderView_Buckets_Nav pack st,
-
--- TODO FIXME: Bring back renderOrderBy once we figure out how we want to sort (LN.Sort)
--- Page Numbers
---    H.div [P.class_ B.clearfix] [H.span [P.classes [B.pullLeft]] [renderOrderBy st.currentPage]],
 
     -- Resources
     H.div [] [resources bucket_id st]

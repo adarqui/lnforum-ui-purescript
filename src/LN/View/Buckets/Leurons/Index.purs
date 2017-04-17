@@ -4,8 +4,8 @@ module LN.View.Buckets.Leurons.Index (
 
 
 
-import LN.ArrayList           (listToArray)
 import Data.Map                        as Map
+import Data.Maybe
 import Halogen                         (ComponentHTML)
 import Halogen.HTML            as H
 import Halogen.HTML.Events     as E
@@ -14,12 +14,14 @@ import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
 import Prelude                         (show, map, not, ($), (<>))
 
+import LN.ArrayList           (listToArray)
 import LN.Internal.Leuron              (leuronToTyLeuron)
 import LN.Input.Types                  (Input, cBucketMod)
 import LN.Input.Bucket
 import LN.Router.Link                  (linkToP)
 import LN.Router.Types                 (Routes(..), CRUD(..))
 import LN.Router.Class.Params          (emptyParams)
+import LN.State.Loading
 import LN.State.Types                  (State)
 import LN.State.User                   (usersMapLookup_ToUser)
 import LN.View.Module.Gravatar         (renderGravatarForUser)
@@ -27,22 +29,25 @@ import LN.View.Module.Loading          (renderLoading)
 import LN.View.Module.OrderBy          (renderOrderBy)
 import LN.View.Module.PageNumbers      (renderPageNumbers)
 import LN.View.Leurons.Show
+import LN.View.Buckets.Nav
 import LN.T                            ( Size(Small)
                                        , _LeuronStatResponse, _LeuronPackResponse, _LeuronResponse
-                                       , stat_, leuron_)
+                                       , stat_, leuron_
+                                       , BucketPackResponse)
 
 
 
 renderView_Buckets_Leurons_Index :: Int -> State -> ComponentHTML Input
 renderView_Buckets_Leurons_Index bucket_id st =
-  if Map.isEmpty st.leurons
-     then renderLoading
-     else renderView_Buckets_Leurons_Index' bucket_id st
+  case st.resources, st.currentBucket, getLoading l_currentBucket st.loading of
+       _, _, true -> renderLoading
+       _, Nothing, false -> H.div_ [H.p_ [H.text "bucket unavailable."]]
+       _, Just pack, false -> renderView_Buckets_Leurons_Index' bucket_id pack st
 
 
 
-renderView_Buckets_Leurons_Index' :: Int -> State -> ComponentHTML Input
-renderView_Buckets_Leurons_Index' bucket_id st =
+renderView_Buckets_Leurons_Index' :: Int -> BucketPackResponse -> State -> ComponentHTML Input
+renderView_Buckets_Leurons_Index' bucket_id pack st =
 
   H.div [P.class_ B.containerFluid] [
 
@@ -50,9 +55,7 @@ renderView_Buckets_Leurons_Index' bucket_id st =
       H.h2_ [H.text "Leurons"]
     ],
 
--- TODO FIXME: Bring back renderOrderBy once we figure out how we want to sort (LN.Sort)
--- Page Numbers
---    H.div [P.class_ B.clearfix] [H.span [P.classes [B.pullLeft]] [renderOrderBy st.currentPage]],
+    renderView_Buckets_Nav pack st,
 
     -- Leurons
     H.div [] [renderLeurons bucket_id st]
