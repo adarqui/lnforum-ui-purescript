@@ -85,10 +85,11 @@ eval_GetBuckets eval (GetBuckets next) = do
 eval_GetBucketId :: Partial => EvalEff
 eval_GetBucketId eval (GetBucketId bucket_id next) = do
 
-  modify (_{
+  modify (\st->st{
            currentBucket = Nothing
          , bucketResources = (Map.empty :: Map.Map Int Unit)
          , bucketLeurons = (Map.empty :: Map.Map Int Unit)
+         , currentBucketRequestSt = maybe (Just defaultBucketRequestState) Just st.currentBucketRequestSt
          })
 
   modify $ setLoading l_currentBucket
@@ -195,7 +196,10 @@ eval_Bucket eval (CompBucket sub next) = do
                       Right (BucketResponse bucket) -> pure next
 --                        eval (Goto (Buckets (ShowI bucket.id) []) next)
 
-        ModSt f -> modSt f
+        ModSt f -> do
+          modSt f
+          route <- gets _.currentPage
+          eval (Goto route next)
 
     InputBucket_Nop         -> pure next
 
