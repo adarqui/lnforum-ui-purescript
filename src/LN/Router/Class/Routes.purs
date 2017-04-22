@@ -44,7 +44,7 @@ data Routes
   | Buckets CRUD Params
   | BucketsLeurons Int CRUD Params
   | BucketsResources Int CRUD Params
-  | BucketsTraining Int CRUD Params
+  | BucketsRounds Int CRUD Params
   | Login
   | Logout
   | NotFound
@@ -97,7 +97,7 @@ instance routesHasLink :: HasLink Routes where
   link (Buckets crud params) = Tuple ("#/buckets" <> (fst $ link crud)) (fixParams params)
   link (BucketsResources bucket_id crud params) = Tuple ("#/buckets/" <> show bucket_id <> "/resources" <> (fst $ link crud)) (fixParams params)
   link (BucketsLeurons bucket_id crud params)   = Tuple ("#/buckets/" <> show bucket_id <> "/leurons" <> (fst $ link crud)) (fixParams params)
-  link (BucketsTraining bucket_id crud params)  = Tuple ("#/buckets/" <> show bucket_id <> "/training" <> (fst $ link crud)) (fixParams params)
+  link (BucketsRounds bucket_id crud params)  = Tuple ("#/buckets/" <> show bucket_id <> "/rounds" <> (fst $ link crud)) (fixParams params)
 
   link Login    = Tuple "/auth/login" emptyParams
   link Logout   = Tuple "/auth/logout" emptyParams
@@ -404,42 +404,42 @@ instance routesHasCrumb :: HasCrumb Routes where
 
 
 
-      BucketsTraining bucket_id Index params ->
+      BucketsRounds bucket_id Index params ->
         [
           Tuple (Buckets Index emptyParams) "Buckets",
           bucket_pretty bucket_id emptyParams,
-          Tuple (BucketsTraining bucket_id Index params) "Training"
+          Tuple (BucketsRounds bucket_id Index params) "Rounds"
         ]
 
-      BucketsTraining bucket_id New params ->
+      BucketsRounds bucket_id New params ->
         [
           Tuple (Buckets Index emptyParams) "Buckets",
           bucket_pretty bucket_id emptyParams,
-          Tuple (BucketsTraining bucket_id Index params) "Training"
+          Tuple (BucketsRounds bucket_id Index params) "Rounds"
         ]
 
-      BucketsTraining bucket_id (EditI training_id) params ->
+      BucketsRounds bucket_id (EditI rounds_id) params ->
         [
           Tuple (Buckets Index emptyParams) "Buckets",
           bucket_pretty bucket_id emptyParams,
-          Tuple (BucketsTraining bucket_id Index emptyParams) "Training",
-          Tuple (BucketsTraining bucket_id (ShowI training_id) emptyParams) (show training_id)
+          Tuple (BucketsRounds bucket_id Index emptyParams) "Rounds",
+          Tuple (BucketsRounds bucket_id (ShowI rounds_id) emptyParams) (show rounds_id)
         ]
 
-      BucketsTraining bucket_id (DeleteI training_id) params ->
+      BucketsRounds bucket_id (DeleteI rounds_id) params ->
         [
           Tuple (Buckets Index emptyParams) "Buckets",
           bucket_pretty bucket_id emptyParams,
-          Tuple (BucketsTraining bucket_id Index emptyParams) "Training",
-          Tuple (BucketsTraining bucket_id (ShowI training_id) emptyParams) (show training_id)
+          Tuple (BucketsRounds bucket_id Index emptyParams) "Rounds",
+          Tuple (BucketsRounds bucket_id (ShowI rounds_id) emptyParams) (show rounds_id)
         ]
 
-      BucketsTraining bucket_id (ShowI training_id) params ->
+      BucketsRounds bucket_id (ShowI rounds_id) params ->
         [
           Tuple (Buckets Index emptyParams) "Buckets",
           bucket_pretty bucket_id emptyParams,
-          Tuple (BucketsTraining bucket_id Index emptyParams) "Training",
-          Tuple (BucketsTraining bucket_id (ShowI training_id) params) (show training_id)
+          Tuple (BucketsRounds bucket_id Index emptyParams) "Rounds",
+          Tuple (BucketsRounds bucket_id (ShowI rounds_id) params) (show rounds_id)
         ]
 
 
@@ -494,7 +494,7 @@ instance routesShow :: Show Routes where
   show (Buckets crud params)          = "Buckets" <> show crud
   show (BucketsResources bucket_id crud params) = "BucketsResources " <> show bucket_id <> sp <> show crud
   show (BucketsLeurons bucket_id crud params)   = "BucketsLeurons " <> show bucket_id <> sp <> show crud
-  show (BucketsTraining bucket_id crud params)  = "BucketsTraining " <> show bucket_id <> sp <> show crud
+  show (BucketsRounds bucket_id crud params)  = "BucketsRounds " <> show bucket_id <> sp <> show crud
   show Login    = "Login"
   show Logout   = "Logout"
   show NotFound = "NotFound"

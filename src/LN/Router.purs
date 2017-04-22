@@ -139,11 +139,11 @@ routing =
       buckets_leurons_show_int <|>
       buckets_leurons_index <|>
 
-      buckets_training_new <|>
-      buckets_training_edit_int <|>
-      buckets_training_delete_int <|>
-      buckets_training_show_int <|>
-      buckets_training_index <|>
+      buckets_rounds_new <|>
+      buckets_rounds_edit_int <|>
+      buckets_rounds_delete_int <|>
+      buckets_rounds_show_int <|>
+      buckets_rounds_index <|>
 
       buckets_new <|>
       buckets_show_int <|>
@@ -414,34 +414,34 @@ routing =
 
 
 
-    buckets_training_index =
-      BucketsTraining
+    buckets_rounds_index =
+      BucketsRounds
       <$> (lit "" *> lit "buckets" *> int)
-      <*> (lit "training" *> pure Index)
+      <*> (lit "rounds" *> pure Index)
       <*> (params' <|> pure emptyParams)
 
-    buckets_training_new =
-      BucketsTraining
+    buckets_rounds_new =
+      BucketsRounds
       <$> (lit "" *> lit "buckets" *> int)
-      <*> (lit "training" *> lit "new" *> pure New)
+      <*> (lit "rounds" *> lit "new" *> pure New)
       <*> (params' <|> pure emptyParams)
 
-    buckets_training_edit_int =
-      BucketsTraining
+    buckets_rounds_edit_int =
+      BucketsRounds
       <$> (lit "" *> lit "buckets" *> int)
-      <*> (lit "training" *> lit "_edit" *> (EditI <$> int))
+      <*> (lit "rounds" *> lit "_edit" *> (EditI <$> int))
       <*> (params' <|> pure emptyParams)
 
-    buckets_training_delete_int =
-      BucketsTraining
+    buckets_rounds_delete_int =
+      BucketsRounds
       <$> (lit "" *> lit "buckets" *> int)
-      <*> (lit "training" *> lit "_delete" *> (DeleteI <$> int))
+      <*> (lit "rounds" *> lit "_delete" *> (DeleteI <$> int))
       <*> (params' <|> pure emptyParams)
 
-    buckets_training_show_int =
-      BucketsTraining
+    buckets_rounds_show_int =
+      BucketsRounds
       <$> (lit "" *> lit "buckets" *> int)
-      <*> (lit "training" *> (ShowI <$> int))
+      <*> (lit "rounds" *> (ShowI <$> int))
       <*> (params' <|> pure emptyParams)
 
 

@@ -33,7 +33,7 @@ renderView_Buckets_Nav pack st =
     H.div [P.class_ B.listGroup] [
       linkToP [] (BucketsResources bucket.id Index emptyParams) "resources",
       linkToP [] (BucketsLeurons bucket.id Index emptyParams) "leurons",
-      linkToP [] (BucketsTraining bucket.id Index emptyParams) "training",
+      linkToP [] (BucketsRounds bucket.id Index emptyParams) "rounds",
       H.input [P.type_ P.InputCheckbox, P.name "my-stuff", P.value "",
               E.onChecked (E.input_ (cBucketMod $ ModSt modify_bst)), P.checked myStuff_checked]
 
