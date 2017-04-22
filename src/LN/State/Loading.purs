@@ -4,18 +4,32 @@ module LN.State.Loading (
   getLoading,
   setLoading,
   clearLoading,
+
   l_me,
   l_users,
   l_resources,
   l_leurons,
   l_buckets,
+  l_bucketRounds,
+  l_bucketNodes,
+  l_leuronNodes,
+
   l_currentUser,
+
   l_currentResource,
   l_currentResourceRequest,
+
   l_currentLeuron,
   l_currentLeuronRequest,
+
   l_currentBucket,
-  l_currentBucketRequest
+  l_currentBucketRequest,
+
+  l_currentBucketRound,
+  l_currentBucketRoundRequest,
+
+  l_currentBucketNode,
+  l_currentBucketNodeRequest
 ) where
 
 
@@ -109,3 +123,30 @@ l_currentBucket                 = 10
 
 l_currentBucketRequest          :: Int
 l_currentBucketRequest          = 11
+
+l_bucketRounds                  :: Int
+l_bucketRounds                  = 12
+
+l_currentBucketRound            :: Int
+l_currentBucketRound            = 13
+
+l_currentBucketRoundRequest     :: Int
+l_currentBucketRoundRequest     = 14
+
+l_bucketNodes                   :: Int
+l_bucketNodes                   = 15
+
+l_currentBucketNode             :: Int
+l_currentBucketNode             = 16
+
+l_currentBucketNodeRequest      :: Int
+l_currentBucketNodeRequest      = 17
+
+l_leuronNodes                   :: Int
+l_leuronNodes                   = 15
+
+l_currentLeuronNode             :: Int
+l_currentLeuronNode             = 16
+
+l_currentLeuronNodeRequest      :: Int
+l_currentLeuronNodeRequest      = 17

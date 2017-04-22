@@ -7,6 +7,8 @@ module LN.Input.Types (
   cLeuronMod,
   cBucket,
   cBucketMod,
+  cBucketRound,
+  cBucketRoundMod,
   cArrayString
 ) where
 
@@ -19,6 +21,7 @@ import Purescript.Api.Helpers  (ApiError, class QueryParam)
 import LN.Input.ArrayString    (InputArrayString)
 import LN.Input.Leuron         (InputLeuron(..), Leuron_Mod)
 import LN.Input.Bucket         (InputBucket(..), Bucket_Mod)
+import LN.Input.BucketRound    (InputBucketRound(..), BucketRound_Mod)
 import LN.Input.OrderBy        (InputOrderBy)
 import LN.Input.Profile        (InputProfile)
 import LN.Input.Resource       (InputResource(..), Resource_Mod)
@@ -50,6 +53,8 @@ data Input a
   | GetLeuronRandom a
   | GetBuckets a
   | GetBucketId Int a
+  | GetBucketRounds Int a
+  | GetBucketRoundId Int a
   | ConnectSocket a
   | CompArrayString    InputArrayString  a
   | CompOrderBy        InputOrderBy      a
@@ -57,6 +62,7 @@ data Input a
   | CompResource       InputResource     a
   | CompLeuron         InputLeuron       a
   | CompBucket         InputBucket       a
+  | CompBucketRound    InputBucketRound  a
   | Nop a
 
 
@@ -85,6 +91,14 @@ cBucket sub next = CompBucket sub next
 
 cBucketMod :: forall a. Bucket_Mod -> a -> Input a
 cBucketMod mod next = CompBucket (InputBucket_Mod mod) next
+
+
+
+cBucketRound :: forall a. InputBucketRound -> a -> Input a
+cBucketRound sub next = CompBucketRound sub next
+
+cBucketRoundMod :: forall a. BucketRound_Mod -> a -> Input a
+cBucketRoundMod mod next = CompBucketRound (InputBucketRound_Mod mod) next
 
 
 

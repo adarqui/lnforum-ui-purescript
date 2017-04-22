@@ -26,7 +26,8 @@ import LN.Router.Class.Params   (lookupParam)
 import LN.State.PageInfo        ( defaultPageInfo_Resources
                                 , defaultPageInfo_Leurons
                                 , defaultPageInfo_Users
-                                , defaultPageInfo_Buckets)
+                                , defaultPageInfo_Buckets
+                                , defaultPageInfo_BucketRounds)
 import LN.State.Leuron          (defaultLeuronRequestState, leuronRequestStateFromLeuronData)
 import LN.State.Resource        (defaultResourceRequestState)
 import LN.State.Bucket          (defaultBucketRequestState)
@@ -277,6 +278,18 @@ eval_Goto eval (Goto route next) = do
       let params = if mine then [ByBucketId bucket_id] else []
       eval (GetLeurons Nothing params next) $> unit
 
+
+
+
+    (BucketsRounds bucket_id _ params) -> do
+
+      eval (GetBucketId bucket_id next) $> unit
+
+      pageInfo <- gets _.bucketRoundsPageInfo
+      let offset = ebyam (lookupParam ParamTag_Offset params) defaultPageInfo_BucketRounds.currentPage (\(Offset v) -> if v < 0 then pageInfo.totalPages else v)
+      modify (_{ bucketRoundsPageInfo = pageInfo { currentPage = offset } })
+
+      eval (GetBucketRounds bucket_id next) $> unit
 
 
 

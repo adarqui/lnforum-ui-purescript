@@ -24,6 +24,7 @@ import LN.Eval.Users
 import LN.Eval.Resources
 import LN.Eval.Leurons
 import LN.Eval.Buckets
+import LN.Eval.BucketRounds
 import LN.Eval.Socket
 import LN.Eval.Nop
 
@@ -81,6 +82,9 @@ ui st =
     GetBuckets _                               -> eval_GetBuckets eval ev
     GetBucketId _ _                            -> eval_GetBucketId eval ev
 
+    GetBucketRounds _ _                        -> eval_GetBucketRounds eval ev
+    GetBucketRoundId _ _                       -> eval_GetBucketRoundId eval ev
+
     ConnectSocket _                            -> eval_ConnectSocket eval ev
 
   -- Components
@@ -90,5 +94,6 @@ ui st =
     CompResource _ _                           -> eval_Resource eval ev
     CompLeuron _ _                             -> eval_Leuron eval ev
     CompBucket _ _                             -> eval_Bucket eval ev
+    CompBucketRound _ _                        -> eval_BucketRound eval ev
     CompOrderBy _ _                            -> eval_OrderBy eval ev
     Nop _                                      -> eval_Nop eval ev
