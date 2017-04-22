@@ -5,6 +5,7 @@ module LN.State.PageInfo (
   defaultPageInfo_Resources,
   defaultPageInfo_Leurons,
   defaultPageInfo_Buckets,
+  defaultPageInfo_BucketRounds,
   RunPageInfo,
   runPageInfo
 ) where
@@ -57,6 +58,11 @@ defaultPageInfo_Leurons = defaultPageInfo -- { orderBy = OrderBy_CreatedAt }
 
 defaultPageInfo_Buckets :: PageInfo
 defaultPageInfo_Buckets = defaultPageInfo -- { orderBy = OrderBy_CreatedAt }
+
+
+
+defaultPageInfo_BucketRounds :: PageInfo
+defaultPageInfo_BucketRounds = defaultPageInfo -- { orderBy = OrderBy_CreatedAt }
 
 
 

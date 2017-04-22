@@ -4,16 +4,14 @@ module LN.State.Internal.Types (
 
 
 
--- import Control.Monad.Aff.AVar       (AVar())
 import Data.Map                     as M
 import Data.Maybe                   (Maybe)
 import Data.Tuple                   (Tuple)
 import Prelude                      (Unit)
 
--- import LN.Input.Types               (Input)
--- import LN.Router.Types              (Routes(..))
 import LN.State.ArrayString         (ArrayStringState)
 import LN.State.Bucket              (BucketRequestState)
+import LN.State.BucketRound         (BucketRoundRequestState)
 import LN.State.Leuron              (LeuronRequestState)
 import LN.State.Loading             (LoadingMap)
 import LN.State.Resource            (ResourceRequestState)
@@ -34,9 +32,7 @@ type InternalState routes {- TODO FIXME: driver_ch-} =
   , buckets                      :: M.Map Int BucketPackResponse
   , bucketResources              :: M.Map Int Unit
   , bucketLeurons                :: M.Map Int Unit
-  -- , bucketResources              :: M.Map Int ResourcePackResponse
-  -- , bucketLeurons                :: M.Map Int LeuronPackResponse
---  , workouts                   :: M.Map Int WorkoutPackResponse
+  , bucketRounds                 :: M.Map Int BucketRoundResponse
   , currentUser                  :: Maybe UserSanitizedPackResponse
   , currentResource              :: Maybe ResourcePackResponse
   , currentResourceRequest       :: Maybe ResourceRequest
@@ -47,13 +43,15 @@ type InternalState routes {- TODO FIXME: driver_ch-} =
   , currentBucket                :: Maybe BucketPackResponse
   , currentBucketRequest         :: Maybe BucketRequest
   , currentBucketRequestSt       :: Maybe BucketRequestState
+  , currentBucketRound           :: Maybe BucketRoundResponse
+  , currentBucketRoundRequest    :: Maybe BucketRoundRequest
+  , currentBucketRoundRequestSt  :: Maybe BucketRoundRequestState
   , currentPageInfo              :: PageInfo
   , usersPageInfo                :: PageInfo
   , resourcesPageInfo            :: PageInfo
   , leuronsPageInfo              :: PageInfo
   , bucketsPageInfo              :: PageInfo
+  , bucketRoundsPageInfo         :: PageInfo
   , arrayStringSt                :: ArrayStringState
---  , driverCh                     :: driver_ch
---  , driverCh                   :: AVar (Input Unit)
   , loading                      :: LoadingMap
   }
