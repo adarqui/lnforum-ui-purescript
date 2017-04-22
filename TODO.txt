@@ -36,3 +36,6 @@ leurons:
 
 loading:
 - revamp "loading" using the style I came up with in the GHCJS app - it's much cleaner
+
+remove most sub-inputs:
+- make more use of ModSt's instead of things like AddDescription/RemoveDescription etc.. then can more easily share routines to update fields in various request state's
