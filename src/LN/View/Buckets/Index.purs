@@ -17,6 +17,7 @@ import LN.Input.Types                  (Input)
 import LN.Router.Link                  (linkToP_Classes)
 import LN.Router.Types                 (Routes(..), CRUD(..))
 import LN.Router.Class.Params          (emptyParams)
+import LN.State.Loading                (getLoading, l_buckets)
 import LN.State.Types                  (State)
 import LN.State.User                   (usersMapLookup_ToUser)
 import LN.View.Module.Gravatar         (renderGravatarForUser)
@@ -31,9 +32,10 @@ import LN.T                            ( Size(Small)
 
 renderView_Buckets_Index :: State -> ComponentHTML Input
 renderView_Buckets_Index st =
-  if M.isEmpty st.buckets
-     then renderLoading
-     else renderView_Buckets_Index' st
+
+  case getLoading l_buckets st.loading of
+       true  -> renderLoading
+       false -> renderView_Buckets_Index' st
 
 
 
@@ -46,7 +48,8 @@ renderView_Buckets_Index' st =
       H.h2_ [H.text "Buckets"]
     ],
 
-    H.div [P.classes [B.colLg2, B.colMd2, B.colXs12]] [
+    -- H.div [P.classes [B.colLg2, B.colMd2, B.colXs12]] [
+    H.div [P.class_ B.row] [
       linkToP_Classes [B.btn, B.btnLg, B.btnInfo, B.btnBlock] [] (Buckets New emptyParams) "new"
     ],
 

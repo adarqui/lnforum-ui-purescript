@@ -17,6 +17,7 @@ import LN.Input.Types                  (Input)
 import LN.Router.Link                  (linkToP_Classes)
 import LN.Router.Types                 (Routes(..), CRUD(..))
 import LN.Router.Class.Params          (emptyParams)
+import LN.State.Loading                (getLoading, l_resources)
 import LN.State.Types                  (State)
 import LN.State.User                   (usersMapLookup_ToUser)
 import LN.View.Module.Gravatar         (renderGravatarForUser)
@@ -31,9 +32,10 @@ import LN.T                            ( Size(Small)
 
 renderView_Resources_Index :: State -> ComponentHTML Input
 renderView_Resources_Index st =
-  if M.isEmpty st.resources
-     then renderLoading
-     else renderView_Resources_Index' st
+
+  case getLoading l_resources st.loading of
+       true  -> renderLoading
+       false -> renderView_Resources_Index' st
 
 
 

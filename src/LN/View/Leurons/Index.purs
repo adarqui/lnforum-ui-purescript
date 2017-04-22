@@ -18,6 +18,7 @@ import LN.Input.Types                  (Input)
 import LN.Router.Link                  (linkToP)
 import LN.Router.Types                 (Routes(..), CRUD(..))
 import LN.Router.Class.Params          (emptyParams)
+import LN.State.Loading                (getLoading, l_leurons)
 import LN.State.Types                  (State)
 import LN.State.User                   (usersMapLookup_ToUser)
 import LN.View.Module.Gravatar         (renderGravatarForUser)
@@ -33,9 +34,10 @@ import LN.T                            ( Size(Small)
 
 renderView_Leurons_Index :: State -> ComponentHTML Input
 renderView_Leurons_Index st =
-  if M.isEmpty st.leurons
-     then renderLoading
-     else renderView_Leurons_Index' st
+
+  case getLoading l_leurons st.loading of
+       true  -> renderLoading
+       false -> renderView_Leurons_Index' st
 
 
 
