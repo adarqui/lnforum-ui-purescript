@@ -33,3 +33,6 @@ large font options:
 leurons:
 - need checksum badly
 -- checksum on leuron data -> to prevent duplicate inserts via auto ingest ln-tools
+
+loading:
+- revamp "loading" using the style I came up with in the GHCJS app - it's much cleaner
