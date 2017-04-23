@@ -45,12 +45,12 @@ renderView_Buckets_Rounds_Index' bucket_id st =
   H.div [P.class_ B.containerFluid] [
 
     H.div [P.class_ B.pageHeader] [
-      H.h2_ [H.text "Buckets"]
+      H.h2_ [H.text "Rounds"]
     ],
 
     -- H.div [P.classes [B.colLg2, B.colMd2, B.colXs12]] [
     H.div [P.class_ B.row] [
-      linkToP_Classes [B.btn, B.btnLg, B.btnInfo, B.btnBlock] [] (Buckets New emptyParams) "new"
+      linkToP_Classes [B.btn, B.btnLg, B.btnInfo, B.btnBlock] [] (BucketsRounds bucket_id New emptyParams) "Go!"
     ],
 
     -- Rounds
