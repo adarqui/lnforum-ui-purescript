@@ -294,6 +294,9 @@ eval_Goto eval (Goto route next) = do
       eval (GetBucketRounds bucket_id next) $> unit
 
     (BucketsRounds bucket_id New params) -> do
+
+      eval (GetBucketId bucket_id next) $> unit
+
       modify (_{ currentBucketRoundRequest = Just defaultBucketRoundRequest, currentBucketRoundRequestSt = Just defaultBucketRoundRequestState })
       pure unit
 
