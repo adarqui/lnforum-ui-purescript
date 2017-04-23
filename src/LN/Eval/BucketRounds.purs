@@ -22,8 +22,10 @@ import LN.Api
 import LN.Helpers.Api                (rd)
 import LN.Component.Types            (EvalEff)
 import LN.Helpers.Map                (idmapFrom)
-import LN.Input.BucketRound               (InputBucketRound(..), BucketRound_Mod(..))
+import LN.Input.BucketRound          (InputBucketRound(..), BucketRound_Mod(..))
 import LN.Input.Types                (Input(..))
+import LN.Router.Types               (Routes(..), CRUD(..))
+import LN.Router.Class.Params        (emptyParams)
 import LN.State.BucketRound
 import LN.State.Loading              (l_currentBucketRound, l_bucketRounds)
 import LN.State.Loading.Helpers      (setLoading, clearLoading)
@@ -34,7 +36,8 @@ import LN.T                          ( BucketRoundResponses(..), BucketRoundResp
                                      , _BucketRoundRequest
                                      , displayName_, description_, scoreLo_, scoreHi_
                                      , Param(..), SortOrderBy(..)
-                                     , SimpleIntsResponse (..))
+                                     , SimpleIntsResponse (..)
+                                     , BucketPackResponse (..))
 
 
 
@@ -107,28 +110,23 @@ eval_BucketRound eval (CompBucketRound sub next) = do
                Nothing  -> eval (AddError "eval_BucketRound(Create)" "BucketRound request doesn't exist" next)
                Just req -> do
 
-                 e_bucket <- rd $ postBucketRound' req
-                 case e_bucket of
-                      Left err                      -> eval (AddErrorApi "eval_BucketRound(Create)::postBucketRound'" err next)
-                      Right (BucketRoundResponse bucket) -> pure next
+                 m_bucket <- gets _.currentBucket
+                 case m_bucket of
+                      Nothing -> eval (AddError "eval_BucketRound(Create)" "Bucket doesn't exist" next)
+                      Just (BucketPackResponse pack) -> do
 
-        EditP bucket_round_id    -> do
-
-          m_req <- gets _.currentBucketRoundRequest
-
-          case m_req of
-               Nothing  -> eval (AddError "eval_BucketRound(Edit)" "BucketRound request doesn't exist" next)
-               Just req -> do
-
-                 e_bucket <- rd $ putBucketRound' bucket_round_id req
-                 case e_bucket of
-                      Left err                          -> eval (AddErrorApi "eval_BucketRound(Edit)::putBucketRound'" err next)
-                      Right (BucketRoundResponse bucket) -> pure next
+                        e_bucket <- rd $ postBucketRound [ByBucketId pack.bucketId] req
+                        case e_bucket of
+                             Left err                      -> eval (AddErrorApi "eval_BucketRound(Create)::postBucketRound'" err next)
+                             Right (BucketRoundResponse round) -> eval (Goto (BucketsRounds pack.bucketId (ShowI round.id) emptyParams) next)
 
         ModSt f -> do
           modSt f
           route <- gets _.currentPage
           eval (Goto route next)
+
+        ModReq f -> do
+          modReq f
 
     InputBucketRound_Nop         -> pure next
 
@@ -139,3 +137,4 @@ eval_BucketRound eval (CompBucketRound sub next) = do
 --  set v req                = Just (v req)
 --  mod new                  = modify (\st->st{ currentBucketRoundRequest = maybe Nothing new st.currentBucketRoundRequest }) $> next
   modSt new                = modify (\st->st{ currentBucketRoundRequestSt = maybe Nothing (Just <<< new) st.currentBucketRoundRequestSt }) $> next
+  modReq new               = modify (\st->st{ currentBucketRoundRequest = maybe Nothing (Just <<< new) st.currentBucketRoundRequest }) $> next

@@ -17,6 +17,7 @@ import Data.Maybe          (maybe)
 import Optic.Core          ((^.), (..))
 import Prelude             ((+), (-), (/), (*))
 import LN.T
+import LN.T.Param
 
 {-
 import LN.T.Internal.Types (SortOrderBy(..), OrderBy(..), CountResponses, Param(..)
@@ -42,32 +43,31 @@ defaultPageInfo = { currentPage: 1, resultsPerPage: 20, totalResults: 0, totalPa
 
 
 defaultPageInfo_Users :: PageInfo
-defaultPageInfo_Users = defaultPageInfo -- { orderBy = OrderBy_CreatedAt }
+defaultPageInfo_Users = defaultPageInfo
 
 
 
 defaultPageInfo_Resources :: PageInfo
-defaultPageInfo_Resources = defaultPageInfo -- { orderBy = OrderBy_CreatedAt }
+defaultPageInfo_Resources = defaultPageInfo
 
 
 
 defaultPageInfo_Leurons :: PageInfo
-defaultPageInfo_Leurons = defaultPageInfo -- { orderBy = OrderBy_CreatedAt }
+defaultPageInfo_Leurons = defaultPageInfo
 
 
 
 defaultPageInfo_Buckets :: PageInfo
-defaultPageInfo_Buckets = defaultPageInfo -- { orderBy = OrderBy_CreatedAt }
+defaultPageInfo_Buckets = defaultPageInfo
 
 
 
 defaultPageInfo_BucketRounds :: PageInfo
-defaultPageInfo_BucketRounds = defaultPageInfo -- { orderBy = OrderBy_CreatedAt }
+defaultPageInfo_BucketRounds = defaultPageInfo { sortOrder = SortOrderBy_Dsc, order = OrderBy_CreatedAt }
 
 
 
 -- For page numbers stuff, inside Eval components
-
 
 type RunPageInfo = {
   count    :: Int,

@@ -5,9 +5,10 @@ module LN.Input.BucketRound (
 
 
 
-import Data.Maybe         (Maybe)
+import Data.Maybe              (Maybe)
 
 import LN.State.BucketRound    (BucketRoundRequestState)
+import LN.T                    (BucketRoundRequest)
 
 
 
@@ -20,6 +21,7 @@ data InputBucketRound
 
 data BucketRound_Mod
   = ModSt (BucketRoundRequestState -> BucketRoundRequestState)
+  | ModReq (BucketRoundRequest -> BucketRoundRequest)
 
   | Create
   | EditP Int -- edit bucket_round_id

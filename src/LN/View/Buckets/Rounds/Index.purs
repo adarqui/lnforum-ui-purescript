@@ -26,7 +26,8 @@ import LN.View.Module.OrderBy          (renderOrderBy)
 import LN.View.Module.PageNumbers      (renderPageNumbers)
 import LN.T                            ( Size(Small)
                                        , BucketRoundResponse(..), _BucketRoundResponse
-                                       , bucketRound_)
+                                       , bucketRound_
+                                       , _TrainingNode)
 
 
 
@@ -65,17 +66,20 @@ rounds bucket_id st =
     renderPageNumbers st.bucketsPageInfo st.currentPage
     , H.ul [P.class_ B.listUnstyled] $
         map (\(BucketRoundResponse round) ->
-          H.li_ [
-            H.div [P.class_ B.row] [
-              H.div [P.classes [B.colSm9]] [
-                    H.div [P.class_ B.listGroup] [linkToP_Classes [B.listGroupItem] [] (BucketsRounds bucket_id (Show $ show round.id) emptyParams) $ show round.id]
-                  , H.p_ [H.text $ show round.createdAt]
+          let
+            tr = round.trainingNode ^. _TrainingNode
+          in
+            H.li_ [
+              H.div [P.class_ B.row] [
+                H.div [P.classes [B.colSm12]] [
+                      H.div [P.class_ B.listGroup] [linkToP_Classes [B.listGroupItem] [] (BucketsRounds bucket_id (Show $ show round.id) emptyParams) $ show round.id]
+                    , H.p_ [H.text $ "styles: " <> show round.trainingStyles]
+                    , H.p_ [H.text $ "threshold: " <> show round.threshold]
+                    , H.p_ [H.text $ "numTotal: " <> show tr.numTotal]
+                    , H.p_ [H.text $ "createdAt: " <> show round.createdAt]
                 ]
-              , H.div [P.classes [B.colSm2, B.hiddenXs]] [
-                  H.p_ [H.text "empty_stats"]
-                ]
-            ]
-          ])
+              ]
+            ])
         $ listToArray $ M.values st.bucketRounds
     , renderPageNumbers st.bucketRoundsPageInfo st.currentPage
   ]
