@@ -1,5 +1,6 @@
 module LN.View.Helpers (
   buttons_CreateEditCancel,
+  buttons_CreateCancel,
 
   glyphButton,
 
@@ -166,6 +167,14 @@ buttons_CreateEditCancel m_edit_id save edit cancel =
     case m_edit_id of
          Nothing      -> simpleInfoButton "Create" save
          Just edit_id -> simpleInfoButton "Save" (edit edit_id)
+
+
+
+buttons_CreateCancel m_edit_id save cancel =
+  H.div_ [
+    simpleInfoButton "Create" save,
+    simpleInfoButton "Cancel" (Goto cancel)
+  ]
 
 
 

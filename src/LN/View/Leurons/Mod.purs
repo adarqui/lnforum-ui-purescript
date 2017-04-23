@@ -318,7 +318,7 @@ TODO FIXME
   , create_or_save
 
   , if lst.preview
-       then renderLeuron (leuronRequestToLeuronResponse 0 0 0 true Nothing Nothing Nothing leuron_req)
+       then renderLeuron (leuronRequestToLeuronResponse 0 0 0 "" true Nothing Nothing Nothing leuron_req)
        else H.div_ []
 
   -- show a list of recently added leurons

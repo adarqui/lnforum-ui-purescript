@@ -20,6 +20,7 @@ import LN.Input.Types
 import LN.Internal.Leuron       (defaultLeuronRequest, leuronToTyLeuron)
 import LN.Internal.Resource     (defaultResourceRequest, resourceTypeToTyResourceType)
 import LN.Internal.Bucket       (defaultBucketRequest)
+import LN.Internal.BucketRound  (defaultBucketRoundRequest)
 import LN.Router.Link           (updateUrl)
 import LN.Router.Types          (Routes(..), CRUD(..))
 import LN.Router.Class.Params   (lookupParam)
@@ -31,6 +32,7 @@ import LN.State.PageInfo        ( defaultPageInfo_Resources
 import LN.State.Leuron          (defaultLeuronRequestState, leuronRequestStateFromLeuronData)
 import LN.State.Resource        (defaultResourceRequestState)
 import LN.State.Bucket          (defaultBucketRequestState)
+import LN.State.BucketRound     (defaultBucketRoundRequestState)
 import LN.T
 import LN.T.Convert
 
@@ -281,7 +283,7 @@ eval_Goto eval (Goto route next) = do
 
 
 
-    (BucketsRounds bucket_id _ params) -> do
+    (BucketsRounds bucket_id Index params) -> do
 
       eval (GetBucketId bucket_id next) $> unit
 
@@ -290,6 +292,10 @@ eval_Goto eval (Goto route next) = do
       modify (_{ bucketRoundsPageInfo = pageInfo { currentPage = offset } })
 
       eval (GetBucketRounds bucket_id next) $> unit
+
+    (BucketsRounds bucket_id New params) -> do
+      modify (_{ currentBucketRoundRequest = Just defaultBucketRoundRequest, currentBucketRoundRequestSt = Just defaultBucketRoundRequestState })
+      pure unit
 
 
 
