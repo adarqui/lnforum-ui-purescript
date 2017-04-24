@@ -28,7 +28,7 @@ data Bucket_Mod
   | RemoveDescription
 
   | SetBucketResource Int Boolean
-  | SetBucketLeuron Int Boolean
+  | SetBucketLeuron Int Int Boolean
 
   | ModSt (BucketRequestState -> BucketRequestState)
 

@@ -148,14 +148,14 @@ eval_Bucket eval (CompBucket sub next) = do
                            Left err -> eval (AddErrorApi "eval_Bucket(SetBucketResource)::deleteBucketResource'" err next)
                            Right _  -> modify (\st->st{bucketResources = Map.delete resource_id st.bucketResources}) $> next
 
-        SetBucketLeuron leuron_id bool -> do
+        SetBucketLeuron resource_id leuron_id bool -> do
           m_bucket <- gets _.currentBucket
           case m_bucket of
                Nothing     -> eval (AddError "eval_Bucket(SetBucketLeuron)" "Bucket doesn't exist" next)
                Just (BucketPackResponse pack) -> do
                  if bool
                     then do
-                      e_bucket_leuron <- rd $ postBucketLeuron' pack.bucketId leuron_id unit
+                      e_bucket_leuron <- rd $ postBucketLeuron [ByResourceId resource_id] pack.bucketId leuron_id unit
                       case e_bucket_leuron of
                            Left err -> eval (AddErrorApi "eval_Bucket(SetBucketLeuron)::postBucketLeuron'" err next)
                            Right _  ->  do

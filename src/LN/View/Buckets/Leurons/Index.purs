@@ -78,7 +78,7 @@ renderLeurons bucket_id st =
           H.li_ [
             H.div [P.class_ B.row] [
                 H.div [P.class_ B.colSm1] [H.input [P.type_ P.InputCheckbox, P.name "select-leuron",
-                                           E.onChecked (E.input_ (cBucketMod $ SetBucketLeuron leuron.id (not member))), P.checked member]]
+                                           E.onChecked (E.input_ (cBucketMod $ SetBucketLeuron leuron.resourceId leuron.id (not member))), P.checked member]]
               , H.div [P.class_ B.colXs2] [renderGravatarForUser Small (usersMapLookup_ToUser st leuron.userId)]
               , H.div [P.class_ B.colXs2] [linkToP [] (ResourcesLeurons leuron.resourceId (ShowI leuron.id) emptyParams) (show leuron.id)]
               , H.div [P.class_ B.colXs2] [H.p_ [H.text $ show $ leuronToTyLeuron leuron.dataP]]
