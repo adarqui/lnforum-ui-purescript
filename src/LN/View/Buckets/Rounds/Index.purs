@@ -4,7 +4,7 @@ module LN.View.Buckets.Rounds.Index (
 
 
 
-import LN.ArrayList                    (listToArray)
+import Data.Array                      as Array
 import Data.Map                        as M
 import Halogen                         (ComponentHTML)
 import Halogen.HTML            as H
@@ -13,6 +13,7 @@ import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
 import Prelude                         (show, map, ($), (<>))
 
+import LN.ArrayList                    (listToArray)
 import LN.Input.Types                  (Input)
 import LN.Router.Link                  (linkToP_Classes)
 import LN.Router.Types                 (Routes(..), CRUD(..))
@@ -80,6 +81,7 @@ rounds bucket_id st =
                 ]
               ]
             ])
-        $ listToArray $ M.values st.bucketRounds
+        -- reverse: because we order by id, descending .. and we're converting a map to a list
+        $ Array.reverse $ listToArray $ M.values st.bucketRounds
     , renderPageNumbers st.bucketRoundsPageInfo st.currentPage
   ]

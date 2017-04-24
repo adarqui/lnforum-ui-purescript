@@ -63,7 +63,7 @@ defaultPageInfo_Buckets = defaultPageInfo
 
 
 defaultPageInfo_BucketRounds :: PageInfo
-defaultPageInfo_BucketRounds = defaultPageInfo { sortOrder = SortOrderBy_Dsc, order = OrderBy_CreatedAt }
+defaultPageInfo_BucketRounds = defaultPageInfo { sortOrder = SortOrderBy_Dsc }
 
 
 
