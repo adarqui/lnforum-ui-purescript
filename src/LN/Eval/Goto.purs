@@ -300,6 +300,9 @@ eval_Goto eval (Goto route next) = do
       modify (_{ currentBucketRoundRequest = Just defaultBucketRoundRequest, currentBucketRoundRequestSt = Just defaultBucketRoundRequestState })
       pure unit
 
+    (BucketsRounds bucket_id (ShowI round_id) params) -> do
+      eval (GetBucketId bucket_id next)
+      eval (GetBucketRoundId round_id next) $> unit
 
 
     -- Users

@@ -50,6 +50,7 @@ import LN.View.Buckets.Resources.Index         (renderView_Buckets_Resources_Ind
 import LN.View.Buckets.Leurons.Index           (renderView_Buckets_Leurons_Index)
 import LN.View.Buckets.Rounds.Index            (renderView_Buckets_Rounds_Index)
 import LN.View.Buckets.Rounds.Mod              (renderView_Buckets_Rounds_New)
+import LN.View.Buckets.Rounds.Show             (renderView_Buckets_Rounds_Show)
 
 
 
@@ -129,6 +130,7 @@ renderView (BucketsLeurons bucket_id Index params)   = renderView_Buckets_Leuron
 
 renderView (BucketsRounds bucket_id Index params)    = renderView_Buckets_Rounds_Index bucket_id
 renderView (BucketsRounds bucket_id New params)      = renderView_Buckets_Rounds_New bucket_id
+renderView (BucketsRounds bucket_id (ShowI round_id) params) = renderView_Buckets_Rounds_Show
 
 
 
