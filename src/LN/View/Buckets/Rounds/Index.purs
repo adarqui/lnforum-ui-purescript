@@ -64,7 +64,7 @@ renderView_Buckets_Rounds_Index' bucket_id st =
 rounds :: Int -> State -> ComponentHTML Input
 rounds bucket_id st =
   H.div [P.class_ B.containerFluid] [
-    renderPageNumbers st.bucketsPageInfo st.currentPage
+    renderPageNumbers st.bucketRoundsPageInfo st.currentPage
     , H.ul [P.class_ B.listUnstyled] $
         map (\(BucketRoundResponse round) ->
           let
