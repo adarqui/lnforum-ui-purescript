@@ -17,6 +17,7 @@ import Purescript.Api.Helpers   (qp)
 
 import LN.Component.Types       (EvalEff)
 import LN.Input.Types
+import LN.Input.BucketRound
 import LN.Internal.Leuron       (defaultLeuronRequest, leuronToTyLeuron)
 import LN.Internal.Resource     (defaultResourceRequest, resourceTypeToTyResourceType)
 import LN.Internal.Bucket       (defaultBucketRequest)
@@ -302,7 +303,8 @@ eval_Goto eval (Goto route next) = do
 
     (BucketsRounds bucket_id (ShowI round_id) params) -> do
       eval (GetBucketId bucket_id next)
-      eval (GetBucketRoundId round_id next) $> unit
+      eval (GetBucketRoundId round_id next)
+      eval (CompBucketRound InputBucketRound_GetLeuron next) $> unit
 
 
     -- Users

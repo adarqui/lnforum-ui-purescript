@@ -63,12 +63,12 @@ renderView_Buckets_Rounds_Mod' bucket_id bucket_round_req rst st =
               case s of
                 "simple"   -> Array.nub $ TS_Simple : styles
                 "boolean"  -> Array.nub $ TS_Boolean : styles
-                "matching" -> Array.nub $ TS_Matching : styles
+                "matching" -> Array.nub $ TS_Match : styles
                 "subs"     -> Array.nub $ TS_Subs : styles
                 "splits"   -> Array.nub $ TS_Splits : styles
                 _          -> styles
         in cBucketRoundMod $ ModReq (\(BucketRoundRequest req) -> BucketRoundRequest (req { trainingStyles = new_styles})))
-      $ map (flip Array.elem styles) [TS_Simple, TS_Boolean, TS_Matching, TS_Subs, TS_Splits ]
+      $ map (flip Array.elem styles) [TS_Simple, TS_Boolean, TS_Match, TS_Subs, TS_Splits ]
 
   , buttons_CreateCancel (Just bucket_id) (cBucketRoundMod $ Create) About
 

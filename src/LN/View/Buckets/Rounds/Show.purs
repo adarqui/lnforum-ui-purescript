@@ -16,7 +16,7 @@ import Optic.Core                      ((^.), (..))
 import Prelude                         (show, map, ($))
 
 import LN.Input.Types                  (Input)
-import LN.Router.Link                  (linkTo, linkToP)
+import LN.Router.Link                  (linkTo, linkToP, linkToP_Classes)
 import LN.Router.Types                 (Routes(..), CRUD(..))
 import LN.Router.Class.Params          (emptyParams)
 import LN.State.Loading                (getLoading, l_currentLeuron)
@@ -53,6 +53,21 @@ renderView_Buckets_Rounds_Show' :: LeuronPackResponse -> State -> ComponentHTML 
 renderView_Buckets_Rounds_Show' pack st =
 
   H.div [P.class_ B.containerFluid] [
+    H.div [P.class_ B.row] [
+      H.div [P.classes [B.colLg3, B.colMd3, B.colXs3]] [
+        linkToP_Classes [B.btn, B.btnSm, B.btnSuccess, B.btnBlock] [] (ResourcesSiftLeuronsLinear leuron.resourceId (ShowI 0) emptyParams) "KNOW"
+      ],
+      H.div [P.classes [B.colLg3, B.colMd3, B.colXs3]] [
+        linkToP_Classes [B.btn, B.btnSm, B.btnWarning, B.btnBlock] [] (ResourcesSiftLeuronsLinear leuron.resourceId (ShowI 0) emptyParams) "?"
+      ],
+      H.div [P.classes [B.colLg3, B.colMd3, B.colXs3]] [
+        linkToP_Classes [B.btn, B.btnSm, B.btnDanger, B.btnBlock] [] (ResourcesSiftLeuronsLinear leuron.resourceId (ShowI 0) emptyParams) "~CARE"
+      ],
+      H.div [P.classes [B.colLg3, B.colMd3, B.colXs3]] [
+        linkToP_Classes [B.btn, B.btnSm, B.btnDanger, B.btnBlock] [] (ResourcesSiftLeuronsLinear leuron.resourceId (ShowI 0) emptyParams) "FLAG"
+      ]
+    ],
+
     H.div [P.class_ B.container] [
       renderLeuron leuron'
     ]

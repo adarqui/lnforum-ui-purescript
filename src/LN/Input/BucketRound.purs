@@ -15,6 +15,7 @@ import LN.T                    (BucketRoundRequest)
 data InputBucketRound
   = InputBucketRound_Nop1
   | InputBucketRound_Mod BucketRound_Mod
+  | InputBucketRound_GetLeuron
   | InputBucketRound_Nop
 
 

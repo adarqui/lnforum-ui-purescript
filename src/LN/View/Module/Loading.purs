@@ -16,5 +16,5 @@ import LN.Input.Types                  (Input)
 renderLoading :: ComponentHTML Input
 renderLoading =
   H.div_ [
-    H.img [P.src "https://leuro.adarq.org/static/img/loading/2.gif"]
+    H.img [P.src "/static/img/loading/2.gif"]
   ]

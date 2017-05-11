@@ -27,17 +27,10 @@ import LN.Input.Types                (Input(..))
 import LN.Router.Types               (Routes(..), CRUD(..))
 import LN.Router.Class.Params        (emptyParams)
 import LN.State.BucketRound
-import LN.State.Loading              (l_currentBucketRound, l_bucketRounds)
+import LN.State.Loading              (l_currentLeuron, l_currentBucketRound, l_bucketRounds)
 import LN.State.Loading.Helpers      (setLoading, clearLoading)
 import LN.State.PageInfo             (runPageInfo)
-import LN.T                          ( BucketRoundResponses(..), BucketRoundResponse(..)
-                                     , BucketRoundResponse(..)
-                                     , BucketRoundRequest(..)
-                                     , _BucketRoundRequest
-                                     , displayName_, description_, scoreLo_, scoreHi_
-                                     , Param(..), SortOrderBy(..)
-                                     , SimpleIntsResponse (..)
-                                     , BucketPackResponse (..))
+import LN.T
 
 
 
@@ -99,6 +92,29 @@ eval_BucketRound :: Partial => EvalEff
 eval_BucketRound eval (CompBucketRound sub next) = do
 
   case sub of
+
+    InputBucketRound_GetLeuron -> do
+
+      m_bucket_round <- gets _.currentBucketRound
+      case m_bucket_round of
+           Nothing -> eval (AddError "eval_BucketRound(GetLeuron)" "BucketRound doesn't exist" next)
+           Just (BucketRoundResponse bucket_round) -> do
+
+             modify (_{ currentLeuron = Nothing })
+             modify $ setLoading l_currentLeuron
+
+             e_packs <- rd $ getLeuronPacks [ByBucketRoundId bucket_round.id]
+
+             modify $ clearLoading l_currentLeuron
+
+             case e_packs of
+               Left err                          -> eval (AddErrorApi "eval_GetResourceLeuronRandom::getLeuronPacks_ByResourceId" err next)
+               Right (LeuronPackResponses packs) -> do
+                 case head packs.leuronPackResponses of
+                   Nothing   -> pure next
+                   Just pack -> modify (_{ currentLeuron = Just pack }) $> next
+
+
     InputBucketRound_Mod q -> do
       case q of
 
