@@ -100,6 +100,13 @@ eval_BucketRound eval (CompBucketRound sub next) = do
            Nothing -> eval (AddError "eval_BucketRound(GetLeuron)" "BucketRound doesn't exist" next)
            Just (BucketRoundResponse bucket_round) -> do
 
+             e_counts <- rd $ getBucketRoundLeuronsCount' bucket_round.id
+             case e_counts of
+                  Left err -> eval (AddErrorApi "eval_BucketRounds::getBucketRoundLeuronsCount'" err next)
+                  Right (CountResponse x) -> do
+                    modify (_ { currentBucketRoundLeuronsCount = x.n })
+                    pure next
+
              modify (_{ currentLeuron = Nothing })
              modify $ setLoading l_currentLeuron
 
@@ -113,6 +120,13 @@ eval_BucketRound eval (CompBucketRound sub next) = do
                  case head packs.leuronPackResponses of
                    Nothing   -> pure next
                    Just pack -> modify (_{ currentLeuron = Just pack }) $> next
+
+
+
+    InputBucketRound_Op leuron_id status -> do
+
+      eval (CompBucketRound InputBucketRound_GetLeuron next)
+
 
 
     InputBucketRound_Mod q -> do

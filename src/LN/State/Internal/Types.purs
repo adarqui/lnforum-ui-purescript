@@ -46,6 +46,7 @@ type InternalState routes {- TODO FIXME: driver_ch-} =
   , currentBucketRound           :: Maybe BucketRoundResponse
   , currentBucketRoundRequest    :: Maybe BucketRoundRequest
   , currentBucketRoundRequestSt  :: Maybe BucketRoundRequestState
+  , currentBucketRoundLeuronsCount :: Int
   , currentPageInfo              :: PageInfo
   , usersPageInfo                :: PageInfo
   , resourcesPageInfo            :: PageInfo

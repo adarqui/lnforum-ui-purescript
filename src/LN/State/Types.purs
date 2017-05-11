@@ -68,6 +68,7 @@ initialState ch =
   , currentBucketRound:                Nothing
   , currentBucketRoundRequest:         Nothing
   , currentBucketRoundRequestSt:       Nothing
+  , currentBucketRoundLeuronsCount:    0
   , currentPageInfo:              defaultPageInfo
   , usersPageInfo:                defaultPageInfo_Users
   -- need dsc by modifiedAt !!!!!!!! TODO FIXME

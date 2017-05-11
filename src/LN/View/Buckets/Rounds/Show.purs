@@ -10,12 +10,14 @@ import CSS                             as CSS
 import Halogen.HTML.CSS        as HCSS
 import Halogen                         (ComponentHTML)
 import Halogen.HTML            as H
+import Halogen.HTML.Events     as E
 import Halogen.HTML.Properties as P
 import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
-import Prelude                         (show, map, ($))
+import Prelude                         (show, map, ($), (<>))
 
-import LN.Input.Types                  (Input)
+import LN.Input.BucketRound
+import LN.Input.Types                  (Input, cBucketRound)
 import LN.Router.Link                  (linkTo, linkToP, linkToP_Classes)
 import LN.Router.Types                 (Routes(..), CRUD(..))
 import LN.Router.Class.Params          (emptyParams)
@@ -53,21 +55,27 @@ renderView_Buckets_Rounds_Show' :: LeuronPackResponse -> State -> ComponentHTML 
 renderView_Buckets_Rounds_Show' pack st =
 
   H.div [P.class_ B.containerFluid] [
+    H.div_ [H.p_ [H.text $ "Remaining: " <> show st.currentBucketRoundLeuronsCount]],
     H.div [P.class_ B.row] [
       H.div [P.classes [B.colLg3, B.colMd3, B.colXs3]] [
         H.button [P.classes [B.btn, B.btnSm, B.btnSuccess, B.btnBlock],
-          E.onClick (E.input_ $ cBucketRoundMod $ Op "know")
+          E.onClick (E.input_ $ cBucketRound $ InputBucketRound_Op leuron.id "know")
         ] [H.text "KNOW"]
-        -- linkToP_Classes [B.btn, B.btnSm, B.btnSuccess, B.btnBlock] [] (ResourcesSiftLeuronsLinear leuron.resourceId (ShowI 0) emptyParams) "KNOW"
       ],
       H.div [P.classes [B.colLg3, B.colMd3, B.colXs3]] [
-        linkToP_Classes [B.btn, B.btnSm, B.btnWarning, B.btnBlock] [] (ResourcesSiftLeuronsLinear leuron.resourceId (ShowI 0) emptyParams) "?"
+        H.button [P.classes [B.btn, B.btnSm, B.btnWarning, B.btnBlock],
+          E.onClick (E.input_ $ cBucketRound $ InputBucketRound_Op leuron.id "dont_know")
+        ] [H.text "DONT-KNOW"]
       ],
       H.div [P.classes [B.colLg3, B.colMd3, B.colXs3]] [
-        linkToP_Classes [B.btn, B.btnSm, B.btnDanger, B.btnBlock] [] (ResourcesSiftLeuronsLinear leuron.resourceId (ShowI 0) emptyParams) "~CARE"
+        H.button [P.classes [B.btn, B.btnSm, B.btnDanger, B.btnBlock],
+          E.onClick (E.input_ $ cBucketRound $ InputBucketRound_Op leuron.id "dont_care")
+        ] [H.text "DONT-CARE"]
       ],
       H.div [P.classes [B.colLg3, B.colMd3, B.colXs3]] [
-        linkToP_Classes [B.btn, B.btnSm, B.btnDanger, B.btnBlock] [] (ResourcesSiftLeuronsLinear leuron.resourceId (ShowI 0) emptyParams) "FLAG"
+        H.button [P.classes [B.btn, B.btnSm, B.btnDanger, B.btnBlock],
+          E.onClick (E.input_ $ cBucketRound $ InputBucketRound_Op leuron.id "flag")
+        ] [H.text "FLAG"]
       ]
     ],
 
