@@ -80,7 +80,7 @@ renderView_Buckets_Rounds_Show' pack st =
     ],
 
     H.div [P.class_ B.container] [
-      renderLeuron leuron'
+      renderLeuron leuron' { categories = [] }
     ]
   ]
 
