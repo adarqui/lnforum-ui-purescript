@@ -55,7 +55,10 @@ renderView_Buckets_Rounds_Show' pack st =
   H.div [P.class_ B.containerFluid] [
     H.div [P.class_ B.row] [
       H.div [P.classes [B.colLg3, B.colMd3, B.colXs3]] [
-        linkToP_Classes [B.btn, B.btnSm, B.btnSuccess, B.btnBlock] [] (ResourcesSiftLeuronsLinear leuron.resourceId (ShowI 0) emptyParams) "KNOW"
+        H.button [P.classes [B.btn, B.btnSm, B.btnSuccess, B.btnBlock],
+          E.onClick (E.input_ $ cBucketRoundMod $ Op "know")
+        ] [H.text "KNOW"]
+        -- linkToP_Classes [B.btn, B.btnSm, B.btnSuccess, B.btnBlock] [] (ResourcesSiftLeuronsLinear leuron.resourceId (ShowI 0) emptyParams) "KNOW"
       ],
       H.div [P.classes [B.colLg3, B.colMd3, B.colXs3]] [
         linkToP_Classes [B.btn, B.btnSm, B.btnWarning, B.btnBlock] [] (ResourcesSiftLeuronsLinear leuron.resourceId (ShowI 0) emptyParams) "?"
