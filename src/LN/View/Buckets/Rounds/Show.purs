@@ -16,6 +16,7 @@ import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
 import Prelude                         (show, map, ($), (<>))
 
+import LN.Internal.Leuron
 import LN.Input.BucketRound
 import LN.Input.Types                  (Input, cBucketRound)
 import LN.Router.Link                  (linkTo, linkToP, linkToP_Classes)
@@ -25,19 +26,8 @@ import LN.State.Loading                (getLoading, l_currentLeuron)
 import LN.State.Types                  (State)
 import LN.View.Module.Loading          (renderLoading)
 import LN.View.Leurons.Show            (renderView_Leurons_Show, renderLeuron)
-import LN.T                            ( LeuronPackResponse, LeuronResponse
-                                       , LeuronResponseR
-                                       , LeuronData(..)
-                                       , unwrapFact, unwrapFactList, unwrapCard, unwrapDCard, unwrapDCardX
-                                       , unwrapAcronym, unwrapSynonym, unwrapAntonym, unwrapTemplate
-                                       , unwrapImageAssociation, unwrapLinearDemo, unwrapScript, unwrapQA
-                                       , unwrapTable
-                                       , FactR, FactListR, CardR, DCardR, DCardXR
-                                       , AcronymR, SynonymR, AntonymR, TemplateR
-                                       , ImageAssociationR, LinearDemoR, ScriptR, QAR
-                                       , TableR
-                                       , _LeuronPackResponse, _LeuronResponse
-                                       , leuron_)
+import LN.T
+
 
 
 
@@ -80,10 +70,11 @@ renderView_Buckets_Rounds_Show' pack st =
     ],
 
     H.div [P.class_ B.container] [
-      renderLeuron leuron' { categories = [] }
+      renderLeuron $ LeuronResponse $ def { dataP = leuron.dataP }
     ]
   ]
 
  where
  leuron  = pack ^. _LeuronPackResponse .. leuron_ ^. _LeuronResponse
  leuron' = pack ^. _LeuronPackResponse .. leuron_
+ def = unwrapLeuronResponse defaultLeuronResponse

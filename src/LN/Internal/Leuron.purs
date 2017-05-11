@@ -1,6 +1,7 @@
 module LN.Internal.Leuron (
   LeuronSift (..),
   leuronToTyLeuron,
+  defaultLeuronResponse,
   defaultLeuronRequest,
   defaultFact,
   defaultFactList,
@@ -24,7 +25,8 @@ import Data.Generic                (class Generic)
 import Data.Maybe                  (Maybe(..))
 import Prelude                     (class Eq, class Show, eq, show)
 
-import LN.T                        (LeuronRequest, mkLeuronRequest, LeuronData(..), TyLeuron(..)
+import LN.T                        ( LeuronResponse (..)
+                                   , LeuronRequest, mkLeuronRequest, LeuronData(..), TyLeuron(..)
                                    , mkFact, Fact
                                    , mkFactList, FactList
                                    , mkCard, Card
@@ -84,6 +86,33 @@ leuronToTyLeuron ld =
        LnScript _           -> TyLnScript
        LnQA _               -> TyLnQA
        _                    -> TyLnEmpty
+
+
+
+defaultLeuronResponse :: LeuronResponse
+defaultLeuronResponse = LeuronResponse {
+  id: 0,
+  userId: 0,
+  resourceId: 0,
+  dataP: LnEmpty,
+  title: Nothing,
+  description: Nothing,
+  section: Nothing,
+  page: Nothing,
+  examples: Nothing,
+  strengths: Nothing,
+  categories: [],
+  splits: Nothing,
+  substitutions: Nothing,
+  tags: [],
+  style: Nothing,
+  checksum: "",
+  active: true,
+  guard: 0,
+  createdAt: Nothing,
+  modifiedAt: Nothing,
+  activityAt: Nothing
+}
 
 
 
