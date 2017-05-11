@@ -64,8 +64,8 @@ renderView_Buckets_Rounds_Show' pack st =
       ],
       H.div [P.classes [B.colLg3, B.colMd3, B.colXs3]] [
         H.button [P.classes [B.btn, B.btnSm, B.btnDanger, B.btnBlock],
-          E.onClick (E.input_ $ cBucketRound $ InputBucketRound_Op leuron.id "flag")
-        ] [H.text "FLAG"]
+          E.onClick (E.input_ $ cBucketRound $ InputBucketRound_Op leuron.id "protest")
+        ] [H.text "PROTEST"]
       ]
     ],
 
