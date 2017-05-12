@@ -106,7 +106,7 @@ eval_BucketRound eval (CompBucketRound sub next) = do
                   Right (CountResponse x) -> do
                     modify (_ { currentBucketRoundLeuronsCount = x.n })
 
-                    eval (GetBucketRoundId bucket_round.id next)
+                    -- eval (GetBucketRoundId bucket_round.id next)
 
                     modify (_{ currentLeuron = Nothing })
                     modify $ setLoading l_currentLeuron
