@@ -105,23 +105,22 @@ eval_BucketRound eval (CompBucketRound sub next) = do
                   Left err -> eval (AddErrorApi "eval_BucketRounds::getBucketRoundLeuronsCount'" err next)
                   Right (CountResponse x) -> do
                     modify (_ { currentBucketRoundLeuronsCount = x.n })
-                    pure next
 
-             eval (GetBucketRoundId bucket_round.id next)
+                    eval (GetBucketRoundId bucket_round.id next)
 
-             modify (_{ currentLeuron = Nothing })
-             modify $ setLoading l_currentLeuron
+                    modify (_{ currentLeuron = Nothing })
+                    modify $ setLoading l_currentLeuron
 
-             e_packs <- rd $ getLeuronPacks [ByBucketRoundId bucket_round.id]
+                    e_packs <- rd $ getLeuronPacks [ByBucketRoundId bucket_round.id]
 
-             modify $ clearLoading l_currentLeuron
+                    modify $ clearLoading l_currentLeuron
 
-             case e_packs of
-               Left err                          -> eval (AddErrorApi "eval_GetResourceLeuronRandom::getLeuronPacks_ByResourceId" err next)
-               Right (LeuronPackResponses packs) -> do
-                 case head packs.leuronPackResponses of
-                   Nothing   -> pure next
-                   Just pack -> modify (_{ currentLeuron = Just pack }) $> next
+                    case e_packs of
+                      Left err                          -> eval (AddErrorApi "eval_GetResourceLeuronRandom::getLeuronPacks_ByResourceId" err next)
+                      Right (LeuronPackResponses packs) -> do
+                        case head packs.leuronPackResponses of
+                          Nothing   -> pure next
+                          Just pack -> modify (_{ currentLeuron = Just pack }) $> next
 
 
 
@@ -136,9 +135,8 @@ eval_BucketRound eval (CompBucketRound sub next) = do
              case e of
                   Left err -> eval (AddErrorApi "eval_BucketRounds::postBucketRoundLeuronOp'" err next)
                   Right _ -> do
-                    pure next
 
-      eval (CompBucketRound InputBucketRound_GetLeuron next)
+                    eval (CompBucketRound InputBucketRound_GetLeuron next)
 
 
 
