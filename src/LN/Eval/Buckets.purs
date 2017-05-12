@@ -24,6 +24,8 @@ import LN.Component.Types            (EvalEff)
 import LN.Helpers.Map                (idmapFrom)
 import LN.Input.Bucket               (InputBucket(..), Bucket_Mod(..))
 import LN.Input.Types                (Input(..))
+import LN.Router.Types               (Routes(..), CRUD(..))
+import LN.Router.Class.Params        (emptyParams)
 import LN.State.Bucket
 import LN.State.Loading              (l_currentBucket, l_buckets)
 import LN.State.Loading.Helpers      (setLoading, clearLoading)
@@ -180,7 +182,7 @@ eval_Bucket eval (CompBucket sub next) = do
                  e_bucket <- rd $ postBucket' req
                  case e_bucket of
                       Left err                      -> eval (AddErrorApi "eval_Bucket(Create)::postBucket'" err next)
-                      Right (BucketResponse bucket) -> pure next
+                      Right (BucketResponse bucket) -> eval (Goto (Buckets (ShowI bucket.id) emptyParams) next)
 
         EditP bucket_id    -> do
 

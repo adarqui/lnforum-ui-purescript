@@ -474,5 +474,5 @@ hashChangeProducer = CRA.produceAff \emit -> do
 -- producer.
 hashChangeConsumer :: forall eff. (Input ~> Aff (HA.HalogenEffects eff)) -> CR.Consumer Routes (Aff (HA.HalogenEffects eff)) Unit
 hashChangeConsumer query = CR.consumer \route -> do
-  query $ H.action $ Goto route
+  query $ H.action $ GotoH route
   pure Nothing

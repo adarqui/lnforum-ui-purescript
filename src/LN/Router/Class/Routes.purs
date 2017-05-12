@@ -11,7 +11,7 @@ import Data.Map                    as M
 import Data.Maybe                  (maybe)
 import Data.Tuple                  (Tuple(..), fst)
 import Optic.Core                  ((^.), (..))
-import Prelude                     (class Eq, class Show, show, (<>), ($), (==))
+import Prelude                     (class Eq, class Show, show, (<>), ($), (==), (&&))
 
 import LN.T
 import LN.Router.Util              (slash)
@@ -53,6 +53,41 @@ data Routes
 
 
 
+{-
+instance routersEq :: Eq Routes where
+  eq Home Home = true
+  eq About About = true
+  eq Me Me  = true
+  eq Errors Errors = true
+  eq Portal Portal = true
+  eq (Users c1 p1) (Users c2 p2) = c1 == c2 && p1 == p2
+  eq (Buckets c1 p1) (Buckets c2 p2) = c1 == c2 && p1 == p2
+
+  eq _ _ = false
+  -}
+
+  {-
+  | Users CRUD Params
+  | UsersProfile String Params
+  | UsersSettings String Params
+  | UsersResources String Params
+  | UsersLeurons String Params
+  | Resources CRUD Params
+  | ResourcesLeurons Int CRUD Params
+  | ResourcesSiftLeurons Int Params
+  | ResourcesSiftLeuronsLinear Int CRUD Params
+  | ResourcesSiftLeuronsRandom Int Params
+  | Leurons CRUD Params
+  | Buckets CRUD Params
+  | BucketsLeurons Int CRUD Params
+  | BucketsResources Int CRUD Params
+  | BucketsRounds Int CRUD Params
+  | Login
+  | Logout
+  | NotFound
+  -- | Other
+  | ViewExamples
+  -}
 -- derive instance genericRoutes :: Generic Routes
 
 

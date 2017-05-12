@@ -32,6 +32,7 @@ import LN.T
 
 data Input a
   = Goto Routes a
+  | GotoH Routes a
   | AddError String String a
   | AddErrorF String ForeignError a
   | AddErrorApi String (ApiError ApplicationError) a

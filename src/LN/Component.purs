@@ -51,6 +51,7 @@ ui st =
   eval :: Partial => CompEff
   eval ev = case ev of
     Goto _ _                                   -> eval_Goto eval ev
+    GotoH _ _                                  -> eval_GotoH eval ev
 
     AddError _ _ _                             -> eval_AddError eval ev
     AddErrorF _ _ _                            -> eval_AddErrorF eval ev

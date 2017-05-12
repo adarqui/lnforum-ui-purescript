@@ -1,5 +1,6 @@
 module LN.Eval.Goto (
-  eval_Goto
+  eval_Goto,
+  eval_GotoH
 ) where
 
 
@@ -9,13 +10,16 @@ import Data.Ebyam               (ebyam)
 import Data.Functor             (($>))
 import Data.Map                 as M
 import Data.Maybe               (Maybe(..), maybe)
+import Control.Monad.Aff.Console (log)
 import Halogen                  (get, gets, modify, liftAff)
+import Halogen                  as H
 import Optic.Core               ((^.),(..))
-import Prelude                  (show, bind, pure, unit, id, (==), (/=), (<), ($), (<$>))
+import Prelude                  (show, bind, pure, unit, id, (==), (/=), (<), ($), (<$>), (<>))
 
 import Purescript.Api.Helpers   (qp)
 
 import LN.Component.Types       (EvalEff)
+import LN.Debug
 import LN.Input.Types
 import LN.Input.BucketRound
 import LN.Internal.Leuron       (defaultLeuronRequest, leuronToTyLeuron)
@@ -45,14 +49,28 @@ import LN.T.Convert
 -- eval_Goto :: forall eff. String -> Input -> NaturalTransformation Input (ComponentDSL State Input Void (LNEff eff))
 -- eval_Goto eval route nxxt = do
 
+
+
 eval_Goto :: Partial => EvalEff
 eval_Goto eval (Goto route next) = do
 
-  modify (_ { currentPage = route })
+  st <- get
+
+  ifDebug st (\_ -> H.liftAff $ log $ "Goto Route: " <> show route) (\_ -> pure unit)
+
   liftAff $ updateUrl route
+  pure next
+
+
+
+eval_GotoH :: Partial => EvalEff
+eval_GotoH eval (GotoH route next) = do
 
   st <- get
 
+  ifDebug st (\_ -> H.liftAff $ log $ "GotoH Route: " <> show route) (\_ -> pure unit)
+
+  modify (_ { currentPage = route })
   case route of
 
 
