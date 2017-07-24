@@ -38,7 +38,7 @@ import LN.T
 
 infixl 9 apply' as </>
 
-apply' :: forall a b. (HasLink a, HasLink b) => (a -> b) -> a -> b
+apply' :: forall a b. HasLink a => HasLink b => (a -> b) -> a -> b
 apply' = ($)
 
 
