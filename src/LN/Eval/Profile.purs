@@ -8,7 +8,7 @@ import Data.Date.Helpers  (dateFromString)
 import Data.Maybe         (Maybe(..), fromJust)
 import Halogen            (gets, modify)
 import Optic.Core         ((^.),(..), (.~))
-import Prelude            (bind, pure, ($))
+import Prelude            (bind, pure, discard, ($))
 
 import LN.Component.Types (EvalEff)
 import LN.Input.Profile   (InputProfile(..))
@@ -45,7 +45,7 @@ eval_Profile eval (CompProfile InputProfile_Post next) = do
            profile_id  = me ^. _UserPackResponse .. profile_ ^. _ProfileResponse .. id_
            profile_req = (profileResponseToProfileRequest [] Nothing $ me ^. _UserPackResponse .. profile_)
 
-         rd $ putUserProfile' profile_id profile_req
+         _ <- rd $ putUserProfile' profile_id profile_req
          pure next
 
 

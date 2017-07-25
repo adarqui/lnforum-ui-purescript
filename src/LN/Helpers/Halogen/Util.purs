@@ -27,21 +27,21 @@ import Unsafe.Coerce                   as U
 dataToggle :: forall i r. String -> P.IProp r i
 dataToggle = U.unsafeCoerce dtoggle
   where
-  dtoggle = C.attr (C.AttrName "data-toggle")
+  dtoggle = C.attr Nothing (C.AttrName "data-toggle")
 
 
 
 dataHelper :: forall i r. String -> String -> P.IProp r i
 dataHelper prefix = U.unsafeCoerce dhelper
   where
-  dhelper = C.attr (C.AttrName $ "data-" <> prefix)
+  dhelper = C.attr Nothing (C.AttrName $ "data-" <> prefix)
 
 
 
 ariaHelper :: forall i r. String -> String -> P.IProp r i
 ariaHelper prefix = U.unsafeCoerce dhelper
   where
-  dhelper = C.attr (C.AttrName $ "aria-" <> prefix)
+  dhelper = C.attr Nothing (C.AttrName $ "aria-" <> prefix)
 
 
 

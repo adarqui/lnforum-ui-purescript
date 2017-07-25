@@ -19,7 +19,7 @@ import Data.Maybe                    (Maybe(..), maybe)
 import Halogen                       as H
 import Halogen                       (get, gets, modify)
 import Optic.Core                    ((^.), (..), (.~))
-import Prelude                       (class Eq, id, const, bind, pure, map, ($), (<>), show, (==))
+import Prelude                       (class Eq, id, const, bind, pure, map, discard, ($), (<>), show, (==))
 
 import LN.Api                        ( getResourcesCount, getResourcePacks, getResourcePack'
                                      , getLeuronPacks_ByResourceId
@@ -77,7 +77,7 @@ eval_GetResources eval (GetResources extra_params next) = do
               users         = map (\(ResourcePackResponse pack) -> pack.user) resource_packs.resourcePackResponses
               resources_map = idmapFrom (\(ResourcePackResponse p) -> p.resourceId) resource_packs.resourcePackResponses
 
-             eval (GetUsers_MergeMap_ByUser users next)
+             _ <- eval (GetUsers_MergeMap_ByUser users next)
 
              modify (_{ resources = resources_map })
              pure next

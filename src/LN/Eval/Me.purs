@@ -9,7 +9,7 @@ import Data.Maybe                      (Maybe(..))
 import Halogen                         (modify)
 import Halogen as H
 import Optic.Core                      ((^.), (..))
-import Prelude                         (bind, pure, ($))
+import Prelude                         (bind, pure, discard, ($))
 
 import LN.Api                          (getMePack')
 import LN.Helpers.Api                  (rd)

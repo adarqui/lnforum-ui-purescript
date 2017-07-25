@@ -38,7 +38,7 @@ import DOM.HTML.Types (windowToEventTarget) as DOM
 -- import Halogen                 hiding (set)
 import Halogen as H
 import Halogen.Aff as HA
-import Prelude                 (Unit, bind, pure, const, unit, (<$>), (<*>), ($), (<<<), (>), (>>=), (>>>), (/=))
+import Prelude                 (Unit, bind, pure, const, unit, discard, (<$>), (<*>), ($), (<<<), (>), (>>=), (>>>), (/=))
 import Routing                 (matchesAff)
 import Routing.Match           (Match(..))
 import Routing.Match.Class     (class MatchClass, lit, str, params)

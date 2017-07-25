@@ -46,7 +46,7 @@ apply' = ($)
 updateUrl :: forall e. Routes -> Aff (dom :: DOM | e) Unit
 updateUrl route =
   let l = link route
-   in setHash $ drop 1 $ mkUri $ ((fst l) <> "/" <> (mkQueryString $ flattenParams $ listToArray $ StrM.values $ snd l))
+   in setHash $ drop 1 $ mkUri $ ((fst l) <> "/" <> (mkQueryString $ flattenParams $ StrM.values $ snd l))
 --   in setHash $ drop 1 $ mkUri $ ((fst l) <> "/")
 --   in setHash $ drop 1 $ mkUri $ ((fst l) <> "/" <> (mkQueryString $ flattenParams $ listToArray $ M.toList $ snd l))
 --   in setHash $ drop 1 $ mkUri "hi"

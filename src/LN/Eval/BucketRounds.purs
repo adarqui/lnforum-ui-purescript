@@ -6,19 +6,14 @@ module LN.Eval.BucketRounds (
 
 
 
-import Data.Array                    (head, deleteAt, modifyAt, nub, (:))
+import Data.Array (head)
 import Data.Either                   (Either(..))
-import Data.Functor                  (($>))
-import Data.Int                      (fromString)
 import Data.Map                      as Map
 import Data.Maybe                    (Maybe(..), maybe)
-import Data.Tuple
-import Data.Tuple.Nested
 import Halogen                       (gets, modify)
-import Optic.Core                    ((^.), (..), (.~))
-import Prelude                       (class Eq, id, const, bind, pure, map, Unit, unit, ($), (<>), (<<<), (==), (<$>), (*>), ($>))
+import Prelude (bind, discard, pure, unit, void, ($), ($>), (<<<), (<>))
 
-import LN.Api
+import LN.Api (getBucketRound', getBucketRoundLeuronsCount', getBucketRounds, getBucketRoundsCount, getLeuronPacks, postBucketRound, postBucketRoundLeuronOp')
 import LN.Helpers.Api                (rd)
 import LN.Component.Types            (EvalEff)
 import LN.Helpers.Map                (idmapFrom)
@@ -26,7 +21,7 @@ import LN.Input.BucketRound          (InputBucketRound(..), BucketRound_Mod(..))
 import LN.Input.Types                (Input(..))
 import LN.Router.Types               (Routes(..), CRUD(..))
 import LN.Router.Class.Params        (emptyParams)
-import LN.State.BucketRound
+import LN.State.BucketRound (defaultBucketRoundRequestState)
 import LN.State.Loading              (l_currentLeuron, l_currentBucketRound, l_bucketRounds)
 import LN.State.Loading.Helpers      (setLoading, clearLoading)
 import LN.State.PageInfo             (runPageInfo)
@@ -101,13 +96,13 @@ eval_BucketRound eval (CompBucketRound sub next) = do
            Just (BucketRoundResponse bucket_round) -> do
 
              e_counts <- rd $ getBucketRoundLeuronsCount' bucket_round.id
-             case e_counts of
+             void $ case e_counts of
                   Left err -> eval (AddErrorApi "eval_BucketRounds::getBucketRoundLeuronsCount'" err next)
                   Right (CountResponse x) -> do
                     modify (_ { currentBucketRoundLeuronsCount = x.n })
                     pure next
 
-             eval (GetBucketRoundId bucket_round.id next)
+             void $ eval (GetBucketRoundId bucket_round.id next)
 
              modify (_{ currentLeuron = Nothing })
              modify $ setLoading l_currentLeuron
@@ -163,7 +158,7 @@ eval_BucketRound eval (CompBucketRound sub next) = do
                              Right (BucketRoundResponse round) -> eval (Goto (BucketsRounds pack.bucketId (ShowI round.id) emptyParams) next)
 
         ModSt f -> do
-          modSt f
+          void $ modSt f
           route <- gets _.currentPage
           eval (Goto route next)
 

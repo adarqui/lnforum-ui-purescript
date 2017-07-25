@@ -13,7 +13,7 @@ import Data.Functor                    (($>))
 import Data.Maybe                      (Maybe(..))
 import Data.Tuple                      (Tuple(..))
 import Halogen                         (gets, modify)
-import Prelude                         (bind, pure, show, (<>))
+import Prelude                         (bind, pure, show, discard, (<>))
 
 import LN.Component.Types              (EvalEff)
 import LN.Input.Types                  (Input(..))

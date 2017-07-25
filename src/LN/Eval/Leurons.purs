@@ -15,7 +15,7 @@ import Data.Map                      as M
 import Data.Maybe                    (Maybe(..), maybe)
 import Halogen                       (gets, modify)
 import Optic.Core                    ((^.), (..), (.~))
-import Prelude                       (class Eq, id, const, bind, pure, map, ($), (<>), (<<<), (==))
+import Prelude                       (class Eq, id, const, bind, pure, map, discard, ($), (<>), (<<<), (==))
 
 import LN.Api                        ( getLeuronsCount, getLeuronPack', getLeuronPacks
                                      , postLeuron_ByResourceId', putLeuron')
@@ -152,7 +152,7 @@ eval_Leuron eval (CompLeuron sub next) = do
           if ex == ""
              then pure next
              else do
-               mod (\(LeuronRequest req)->Just $ LeuronRequest req{examples = Just $ maybe [ex] (\examples->examples <> [ex]) req.examples})
+               _ <- mod (\(LeuronRequest req)->Just $ LeuronRequest req{examples = Just $ maybe [ex] (\examples->examples <> [ex]) req.examples})
                modSt (_{exampleItem = ""})
                pure next
         EditExample idx new -> do

@@ -6,19 +6,16 @@ module LN.Eval.Buckets (
 
 
 
-import Data.Array                    (head, deleteAt, modifyAt, nub, (:))
+import Data.Array (nub)
 import Data.Either                   (Either(..))
-import Data.Functor                  (($>))
-import Data.Int                      (fromString)
 import Data.Map                      as Map
 import Data.Maybe                    (Maybe(..), maybe)
-import Data.Tuple
-import Data.Tuple.Nested
+import Data.Tuple (Tuple(..))
 import Halogen                       (gets, modify)
-import Optic.Core                    ((^.), (..), (.~))
-import Prelude                       (class Eq, id, const, bind, pure, map, Unit, unit, ($), (<>), (<<<), (==), (<$>), (*>), ($>))
+import Optic.Core ((..), (.~))
+import Prelude (class Eq, Unit, bind, discard, map, pure, unit, void, ($), ($>), (<$>), (<<<), (<>))
 
-import LN.Api
+import LN.Api (deleteBucketLeuron', deleteBucketResource', getBucketLeuronIds', getBucketPack', getBucketPacks, getBucketResourceIds', getBucketsCount', postBucket', postBucketLeuron, postBucketResource', putBucket')
 import LN.Helpers.Api                (rd)
 import LN.Component.Types            (EvalEff)
 import LN.Helpers.Map                (idmapFrom)
@@ -30,15 +27,7 @@ import LN.State.Bucket
 import LN.State.Loading              (l_currentBucket, l_buckets)
 import LN.State.Loading.Helpers      (setLoading, clearLoading)
 import LN.State.PageInfo             (runPageInfo)
-import LN.T                          ( BucketPackResponses(..), BucketPackResponse(..)
-                                     , BucketResponse(..)
-                                     , BucketRequest(..)
-                                     , ResourcePackResponse(..)
-                                     , LeuronPackResponse(..)
-                                     , _BucketRequest
-                                     , displayName_, description_, scoreLo_, scoreHi_
-                                     , Param(..), SortOrderBy(..)
-                                     , SimpleIntsResponse (..))
+import LN.T (BucketPackResponse(BucketPackResponse), BucketPackResponses(BucketPackResponses), BucketResponse(BucketResponse), Param(ByResourceId), SimpleIntsResponse(SimpleIntsResponse), _BucketRequest, description_, displayName_)
 
 
 
@@ -76,7 +65,7 @@ eval_GetBuckets eval (GetBuckets next) = do
               buckets_map = idmapFrom (\(BucketPackResponse p) -> p.bucketId) bucket_packs.bucketPackResponses
 
 
-             eval (GetUsers_MergeMap_ByUser users next)
+             _ <- eval (GetUsers_MergeMap_ByUser users next)
 
 
              modify (_{ buckets = buckets_map })
@@ -199,7 +188,7 @@ eval_Bucket eval (CompBucket sub next) = do
 --                        eval (Goto (Buckets (ShowI bucket.id) []) next)
 
         ModSt f -> do
-          modSt f
+          void $ modSt f
           route <- gets _.currentPage
           eval (Goto route next)
 

@@ -8,7 +8,7 @@ module LN.Scrub (
 
 import Data.Maybe                  (Maybe(..))
 import Data.String
-import Data.String.Utils
+import Data.String.Utils (fromCharArray, lines, stripChars)
 import Data.String.Utils as SU
 import Data.Array as Array
 import Data.List as List

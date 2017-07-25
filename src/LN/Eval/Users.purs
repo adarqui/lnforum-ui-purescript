@@ -15,7 +15,7 @@ import Data.Map                      as M
 import Data.Maybe                    (Maybe(..))
 import Data.Tuple                    (Tuple(..))
 import Optic.Core                    ((^.), (..))
-import Prelude                       (bind, pure, not, map, ($), (==))
+import Prelude                       (bind, pure, not, map, discard, ($), (==))
 
 import LN.Api                        (getUsersCount' , getUserSanitizedPacks
                                      , getUserSanitizedPacks_ByUsersIds')

@@ -6,7 +6,7 @@ module LN.Component.Util (
 
 import Control.Monad.Aff     (Aff(), runAff)
 import Control.Monad.Eff     (Eff())
-import Prelude               (Unit, const, pure, bind, unit)
+import Prelude               (Unit, const, pure, bind, unit, discard)
 
 
 

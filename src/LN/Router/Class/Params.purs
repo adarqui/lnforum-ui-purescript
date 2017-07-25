@@ -50,8 +50,7 @@ fixParams = id
 
 psRoutingParamsToParams :: PSRoutingParams -> Params
 psRoutingParamsToParams ps =
---  StrM.fromList $ catMaybes $ map (\(Tuple k v) -> (paramFromKV' k v)) $ M.toList ps
-  StrM.fromFoldable $ catMaybes $ map (\(Tuple k v) -> (paramFromKV' k v)) $ M.toList ps
+  StrM.fromFoldable $ catMaybes $ map (\(Tuple k v) -> (paramFromKV' k v)) $ M.toUnfoldable ps
 
 
 
