@@ -14,7 +14,7 @@ import Control.Monad.Aff.Console (log)
 import Halogen                  (get, gets, modify, liftAff)
 import Halogen                  as H
 import Optic.Core               ((^.),(..))
-import Prelude                  (show, bind, pure, unit, id, (==), (/=), (<), ($), (<$>), (<>))
+import Prelude                  (show, bind, pure, unit, id, discard, void, (==), (/=), (<), ($), (<$>), (<>))
 
 import Purescript.Api.Helpers   (qp)
 
@@ -100,7 +100,7 @@ eval_GotoH eval (GotoH route next) = do
       pure unit
 
     (Resources (EditI resource_id) params)   -> do
-      eval (GetResourceId resource_id next)
+      void $ eval (GetResourceId resource_id next)
       m_pack <- gets _.currentResource
       case m_pack of
            Nothing                          -> pure unit
@@ -113,7 +113,7 @@ eval_GotoH eval (GotoH route next) = do
              pure unit
 
     (Resources (DeleteI resource_id) params) -> do
-      eval (GetResourceId resource_id next)
+      void $ eval (GetResourceId resource_id next)
       m_pack <- gets _.currentResource
       case m_pack of
            Nothing                          -> pure unit
@@ -137,14 +137,14 @@ eval_GotoH eval (GotoH route next) = do
     (ResourcesLeurons resource_id New params) -> do
       -- Important: don't over-write leuron request state.. we want to hold on to that info to make our lives easier
       -- when adding leurons fast
-      eval (GetResourceId resource_id next) -- TODO FIXME
+      void $ eval (GetResourceId resource_id next) -- TODO FIXME
       lst <- gets _.currentLeuronRequestSt
       modify (_{ currentLeuronRequest = Just defaultLeuronRequest, currentLeuronRequestSt = Just $ maybe defaultLeuronRequestState id lst })
       pure unit
 
     (ResourcesLeurons resource_id (EditI leuron_id) params)   -> do
-      eval (GetResourceId resource_id next) -- TODO FIXME
-      eval (GetLeuronId leuron_id next)
+      void $ eval (GetResourceId resource_id next) -- TODO FIXME
+      void $ eval (GetLeuronId leuron_id next)
       m_pack <- gets _.currentLeuron
       case m_pack of
            Nothing                          -> pure unit
@@ -158,8 +158,8 @@ eval_GotoH eval (GotoH route next) = do
              pure unit
 
     (ResourcesLeurons resource_id (DeleteI leuron_id) params) -> do
-      eval (GetResourceId resource_id next) -- TODO FIXME
-      eval (GetLeuronId leuron_id next)
+      void $ eval (GetResourceId resource_id next) -- TODO FIXME
+      void $ eval (GetLeuronId leuron_id next)
       m_pack <- gets _.currentLeuron
       case m_pack of
            Nothing                          -> pure unit
@@ -168,8 +168,8 @@ eval_GotoH eval (GotoH route next) = do
              pure unit
 
     (ResourcesLeurons resource_id (ShowI leuron_id) params) -> do
-      eval (GetResourceId resource_id next) -- TODO FIXME
-      eval (GetLeuronId leuron_id next) $> unit
+      void $ eval (GetResourceId resource_id next) -- TODO FIXME
+      void $ eval (GetLeuronId leuron_id next) $> unit
 
 
 
@@ -177,13 +177,13 @@ eval_GotoH eval (GotoH route next) = do
       pure unit
 
     (ResourcesSiftLeuronsLinear resource_id (ShowI offset) params) -> do
-      eval (GetResourceId resource_id next) -- TODO FIXME
-      eval (GetResourceLeuronLinear resource_id offset next)
+      void $ eval (GetResourceId resource_id next) -- TODO FIXME
+      void $ eval (GetResourceLeuronLinear resource_id offset next)
       pure unit
 
     (ResourcesSiftLeuronsRandom resource_id params) -> do
-      eval (GetResourceId resource_id next) -- TODO FIXME
-      eval (GetResourceLeuronRandom resource_id next)
+      void $ eval (GetResourceId resource_id next) -- TODO FIXME
+      void $ eval (GetResourceLeuronRandom resource_id next)
       pure unit
 
 
@@ -206,7 +206,7 @@ eval_GotoH eval (GotoH route next) = do
       pure unit
 
     (Leurons (EditI leuron_id) params)   -> do
-      eval (GetLeuronId leuron_id next)
+      void $ eval (GetLeuronId leuron_id next)
       m_pack <- gets _.currentLeuron
       case m_pack of
            Nothing                          -> pure unit
@@ -219,7 +219,7 @@ eval_GotoH eval (GotoH route next) = do
              pure unit
 
     (Leurons (DeleteI leuron_id) params) -> do
-      eval (GetLeuronId leuron_id next)
+      void $ eval (GetLeuronId leuron_id next)
       m_pack <- gets _.currentLeuron
       case m_pack of
            Nothing                          -> pure unit
@@ -248,7 +248,7 @@ eval_GotoH eval (GotoH route next) = do
       pure unit
 
     (Buckets (EditI bucket_id) params)   -> do
-      eval (GetBucketId bucket_id next)
+      void $ eval (GetBucketId bucket_id next)
       m_pack <- gets _.currentBucket
       case m_pack of
            Nothing                          -> pure unit
@@ -259,7 +259,7 @@ eval_GotoH eval (GotoH route next) = do
              pure unit
 
     (Buckets (DeleteI bucket_id) params) -> do
-      eval (GetBucketId bucket_id next)
+      void $ eval (GetBucketId bucket_id next)
       m_pack <- gets _.currentBucket
       case m_pack of
            Nothing                          -> pure unit
@@ -273,7 +273,7 @@ eval_GotoH eval (GotoH route next) = do
 
     (BucketsResources bucket_id _ params) -> do
 
-      eval (GetBucketId bucket_id next) $> unit
+      void $ eval (GetBucketId bucket_id next) $> unit
 
       pageInfo <- gets _.resourcesPageInfo
       let offset = ebyam (lookupParam ParamTag_Offset params) defaultPageInfo_Resources.currentPage (\(Offset v) -> if v < 0 then pageInfo.totalPages else v)
@@ -288,7 +288,7 @@ eval_GotoH eval (GotoH route next) = do
 
     (BucketsLeurons bucket_id _ params) -> do
 
-      eval (GetBucketId bucket_id next) $> unit
+      void $ eval (GetBucketId bucket_id next) $> unit
 
       pageInfo <- gets _.leuronsPageInfo
       let offset = ebyam (lookupParam ParamTag_Offset params) defaultPageInfo_Leurons.currentPage (\(Offset v) -> if v < 0 then pageInfo.totalPages else v)
@@ -304,7 +304,7 @@ eval_GotoH eval (GotoH route next) = do
 
     (BucketsRounds bucket_id Index params) -> do
 
-      eval (GetBucketId bucket_id next) $> unit
+      void $ eval (GetBucketId bucket_id next) $> unit
 
       pageInfo <- gets _.bucketRoundsPageInfo
       let offset = ebyam (lookupParam ParamTag_Offset params) defaultPageInfo_BucketRounds.currentPage (\(Offset v) -> if v < 0 then pageInfo.totalPages else v)
@@ -314,14 +314,14 @@ eval_GotoH eval (GotoH route next) = do
 
     (BucketsRounds bucket_id New params) -> do
 
-      eval (GetBucketId bucket_id next) $> unit
+      void $ eval (GetBucketId bucket_id next) $> unit
 
       modify (_{ currentBucketRoundRequest = Just defaultBucketRoundRequest, currentBucketRoundRequestSt = Just defaultBucketRoundRequestState })
       pure unit
 
     (BucketsRounds bucket_id (ShowI round_id) params) -> do
-      eval (GetBucketId bucket_id next)
-      eval (GetBucketRoundId round_id next)
+      void $ eval (GetBucketId bucket_id next)
+      void $ eval (GetBucketRoundId round_id next)
       eval (CompBucketRound InputBucketRound_GetLeuron next) $> unit
 
 

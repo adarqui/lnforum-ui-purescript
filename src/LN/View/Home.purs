@@ -8,10 +8,6 @@ import Halogen                (ComponentHTML)
 import Halogen.HTML   as H
 
 import LN.Input.Types         (Input)
-import LN.Router.Link         (linkToP)
-import LN.Router.Class.CRUD   (CRUD(..))
-import LN.Router.Class.Routes (Routes(..))
-import LN.Router.Class.Params (emptyParams)
 
 
 

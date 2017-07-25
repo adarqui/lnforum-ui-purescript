@@ -10,7 +10,7 @@ import Halogen                         (ComponentHTML, HTML)
 import Halogen.HTML            as H
 import Halogen.HTML.Properties as P
 import Halogen.Themes.Bootstrap3       as B
-import Prelude                         (show, map, ($), (+), (-), (<), (>), (<=), (>=), (==), (/=), (<>), (&&), (||), (*))
+import Prelude (map, show, ($), (&&), (*), (+), (-), (<), (<=), (<>), (==), (>), (>=), (||))
 
 import LN.Input.Types                  (Input)
 import LN.Router.Link                  (linkToP_Classes')
@@ -49,7 +49,8 @@ renderPageNumbers pageInfo route =
 
 
 
-renderPageNumbers' :: PageInfo -> Routes -> Array (HTML _ _)
+renderPageNumbers' :: PageInfo -> Routes -> Array (HTML _
+ _)
 renderPageNumbers' pageInfo route =
 
   [H.li [] [linkToP_Classes' [Limit pageInfo.resultsPerPage, Offset prev] route "prev"]]

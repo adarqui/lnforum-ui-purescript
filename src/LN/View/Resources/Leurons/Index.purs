@@ -6,8 +6,6 @@ module LN.View.Resources.Leurons.Index (
 
 import Halogen                         (ComponentHTML)
 import Halogen.HTML            as H
-import Halogen.HTML.Properties as P
-import Halogen.Themes.Bootstrap3       as B
 
 import LN.Input.Types                  (Input)
 import LN.Router.Link                  (linkToP)

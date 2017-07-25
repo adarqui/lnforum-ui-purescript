@@ -4,21 +4,16 @@ module LN.Eval.ArrayString (
 
 
 
-import Data.Array                      (head, deleteAt, updateAt, nub, sort, (:))
-import Data.Either                     (Either(..))
+import Data.Array (deleteAt, nub, sort, updateAt, (:))
 import Data.Functor                    (($>))
 import Data.Map                        as M
 import Data.Maybe                      (Maybe(..), maybe)
-import Halogen                         (gets, modify)
-import Optic.Core                      ((^.), (..), (.~))
-import Prelude                         (class Eq, id, bind, pure, const, ($), (<>), (<<<))
+import Halogen (modify)
+import Prelude (class Eq, const, id, pure, ($), (<<<), (<>))
 
 import LN.Component.Types              (EvalEff)
-import LN.Helpers.Map                  (idmapFrom)
 import LN.Input.ArrayString            (InputArrayString(..))
 import LN.Input.Types                  (Input(..))
-import LN.State.Loading.Helpers        (setLoading, clearLoading)
-import LN.State.ArrayString            (ArrayStringState, defaultArrayStringState)
 
 
 

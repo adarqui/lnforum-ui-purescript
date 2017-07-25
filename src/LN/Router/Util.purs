@@ -9,9 +9,7 @@ module LN.Router.Util (
 
 
 
-import Data.Map               as M
 import Data.String            (joinWith, split, Pattern (..))
-import Data.Tuple             (Tuple)
 import Global                 (encodeURI, decodeURI)
 import Prelude                ((<<<), (<>))
 

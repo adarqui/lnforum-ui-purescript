@@ -30,6 +30,25 @@ import LN.T
 
 
 -- eval_GetUsers :: Partial => EvalEff
+eval_GetUsers :: forall t117 t118 t124 t131.
+  Partial => Bind t117 => MonadState
+                            { usersPageInfo :: { currentPage :: Int
+                                               , resultsPerPage :: Int
+                                               , totalResults :: Int
+                                               , totalPages :: Int
+                                               , sortOrder :: SortOrderBy
+                                               , order :: OrderBy
+                                               }
+                            | t124
+                            }
+                            t117
+                           => MonadAff
+                                ( ajax :: AJAX
+                                , console :: CONSOLE
+                                | t131
+                                )
+                                t117
+                               => (Input t118 -> t117 t118) -> Input t118 -> t117 t118
 eval_GetUsers eval (GetUsers next) = do
 
   page_info <- gets _.usersPageInfo

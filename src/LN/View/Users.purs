@@ -24,7 +24,8 @@ import LN.T
 
 
 
-usersLayout :: String -> State -> Array (HTML _ _) -> HTML _ _
+usersLayout :: String -> State -> Array (HTML _
+ _) -> HTML _ _
 usersLayout user_name st page =
   H.div [P.class_ B.containerFluid] [
     H.div [P.classes [B.colSm2]] [

@@ -15,8 +15,6 @@ module LN.Router.Link (
 
 
 import Control.Monad.Aff               (Aff)
-import LN.ArrayList           (listToArray)
-import Data.Map                        as M
 import Data.StrMap                     as StrM
 import Data.String                     (drop)
 import Data.Tuple                      (fst, snd)
@@ -99,7 +97,8 @@ linkToP_Classes' = linkToP_Classes []
 
 -- | Create a link with Params, with a glyphicon
 --
-linkToP_Glyph :: Array Param -> Routes -> H.ClassName -> HTML _ _
+linkToP_Glyph :: Array Param -> Routes -> H.ClassName -> HTML _
+ _
 linkToP_Glyph params r glyph =
   H.a [
       P.href $ mkUri $ (fst l) <> "/" <> (mkQueryString $ flattenParams $ map qp params)

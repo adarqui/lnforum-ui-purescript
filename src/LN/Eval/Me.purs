@@ -7,9 +7,8 @@ module LN.Eval.Me (
 import Data.Either                     (Either(..))
 import Data.Maybe                      (Maybe(..))
 import Halogen                         (modify)
-import Halogen as H
 import Optic.Core                      ((^.), (..))
-import Prelude                         (bind, pure, discard, ($))
+import Prelude (bind, discard, pure)
 
 import LN.Api                          (getMePack')
 import LN.Helpers.Api                  (rd)

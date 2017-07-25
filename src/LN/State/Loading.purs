@@ -36,7 +36,7 @@ module LN.State.Loading (
 
 import LN.ArrayList          (arrayToList)
 import Data.List             (List)
-import Data.Maybe            (Maybe(..), fromJust)
+import Data.Maybe (Maybe(Just))
 import Data.Map              as M
 import Data.Tuple            (Tuple(..))
 import Prelude               (map, const, ($))

@@ -11,24 +11,14 @@ import LN.State.Internal.Types      (InternalState)
 import Control.Monad.Aff.AVar       (AVar())
 import Data.Map                     as M
 import Data.Maybe                   (Maybe(..))
-import Data.Tuple                   (Tuple)
 import Prelude                      (Unit)
 
 -- import LN.Router.Types              (Routes(..))
 import LN.Input.Types               (Input)
 import LN.Router.Class.Routes       (Routes(..))
 import LN.State.ArrayString         (defaultArrayStringState)
-import LN.State.Leuron              (LeuronRequestState, defaultLeuronRequestState)
-import LN.State.Loading             (LoadingMap, defaultLoadingMap)
-import LN.State.Resource            (ResourceRequestState, defaultResourceRequestState)
-import LN.State.PageInfo            ( PageInfo
-                                    , defaultPageInfo
-                                    , defaultPageInfo_Users
-                                    , defaultPageInfo_Resources
-                                    , defaultPageInfo_Leurons
-                                    , defaultPageInfo_Buckets
-                                    , defaultPageInfo_BucketRounds)
-import LN.T
+import LN.State.Loading (defaultLoadingMap)
+import LN.State.PageInfo (defaultPageInfo, defaultPageInfo_BucketRounds, defaultPageInfo_Buckets, defaultPageInfo_Leurons, defaultPageInfo_Resources, defaultPageInfo_Users)
 
 
 

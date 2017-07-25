@@ -10,7 +10,7 @@ import Halogen.HTML as H
 import Prelude              (show, ($), (<>))
 
 import LN.Input.Types       (Input)
-import LN.Internal.Leuron   (LeuronSift(..))
+import LN.Internal.Leuron (LeuronSift)
 import LN.State.Types       (State)
 
 

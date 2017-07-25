@@ -23,10 +23,8 @@ module LN.Access (
 
 -- import Data.Array                      (elem)
 import Data.Foldable (elem)
-import Halogen                         (ComponentHTML, HTML)
+import Halogen (HTML)
 import Halogen.HTML            as H
-import Halogen.HTML.Properties as P
-import Halogen.Themes.Bootstrap3       as B
 import Prelude                         (Unit, unit, (==), (/=))
 
 import LN.T
@@ -72,7 +70,8 @@ permissionsHTML' perms create_cb read_cb update_cb delete_cb execute_cb =
 
 
 
-unitDiv :: Unit -> HTML _ _
+unitDiv :: Unit -> HTML _
+ _
 unitDiv _ = H.div_ []
 
 

@@ -4,18 +4,15 @@ module LN.View.Module.OrderBy (
 
 
 
-import Data.Array                      (range, concat)
-import Data.Maybe                      (Maybe(..))
+import Data.Array (concat)
 import Halogen                         (ComponentHTML)
-import Halogen.HTML.Core               as C
 import Halogen.HTML            as H
 import Halogen.HTML.Properties as P
 import Halogen.Themes.Bootstrap3       as B
 import Prelude                         (show, map, ($), (<>))
-import Unsafe.Coerce                   as U
 
 import LN.Input.Types                  (Input)
-import LN.Helpers.Halogen.Util
+import LN.Helpers.Halogen.Util (dataToggle)
 import LN.Router.Link                  (linkToP_Classes')
 import LN.Router.Types                 (Routes, orderBy)
 import LN.T

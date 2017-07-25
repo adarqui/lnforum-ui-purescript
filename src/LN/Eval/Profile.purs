@@ -15,10 +15,7 @@ import LN.Input.Profile   (InputProfile(..))
 import LN.Input.Types     (Input(..))
 import LN.Api             (putUserProfile')
 import LN.Helpers.Api     (rd)
-import LN.T               (UserPackResponse(..), _UserPackResponse
-                          , ProfileResponse(..), _ProfileResponse
-                          , ProfileGender(..)
-                          , profile_, id_, gender_, birthdate_, signature_, website_, location_, debug_)
+import LN.T (ProfileGender(GenderMale), _ProfileResponse, _UserPackResponse, birthdate_, debug_, gender_, id_, location_, profile_, signature_, website_)
 import LN.T.Convert
 
 
@@ -87,6 +84,46 @@ eval_Profile eval (CompProfile (InputProfile_SetDebug b) next) = do
 
 
 
+eval_Profile_Setter :: forall t11 t19 t20 t4 t56.
+  Bind t4 => MonadState
+               { me :: Maybe UserPackResponse
+               | t11
+               }
+               t4
+              => ((t20 -> Identity t19)
+                  -> { id :: Int
+                     , ent :: Ent
+                     , entId :: Int
+                     , gender :: ProfileGender
+                     , birthdate :: Date
+                     , website :: Maybe String
+                     , location :: Maybe String
+                     , signature :: Maybe String
+                     , debug :: Boolean
+                     , karmaGood :: Int
+                     , karmaBad :: Int
+                     , guard :: Int
+                     , createdAt :: Maybe Date
+                     , modifiedAt :: Maybe Date
+                     }
+                     -> Identity
+                          { id :: Int
+                          , ent :: Ent
+                          , entId :: Int
+                          , gender :: ProfileGender
+                          , birthdate :: Date
+                          , website :: Maybe String
+                          , location :: Maybe String
+                          , signature :: Maybe String
+                          , debug :: Boolean
+                          , karmaGood :: Int
+                          , karmaBad :: Int
+                          , guard :: Int
+                          , createdAt :: Maybe Date
+                          , modifiedAt :: Maybe Date
+                          }
+                 )
+                 -> t19 -> t56 -> t4 t56
 eval_Profile_Setter accessor value next = do
   m_me <- gets _.me
 

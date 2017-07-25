@@ -6,9 +6,8 @@ module LN.Router.Class.CRUD (
 
 
 -- import Data.Generic                (class Generic, gEq)
-import Data.Map                    as M
-import Data.Tuple                  (Tuple(..), fst)
-import Prelude                     (class Eq, class Show, show, (<>), ($), (==))
+import Data.Tuple (Tuple(Tuple))
+import Prelude (class Eq, class Show, show, (<>), (==))
 
 import LN.Router.Class.Link        (class HasLink)
 import LN.Router.Class.Params      (emptyParams)

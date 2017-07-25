@@ -16,7 +16,7 @@ import Data.Array          (head)
 import Data.Maybe          (maybe)
 import Optic.Core          ((^.), (..))
 import Prelude             ((+), (-), (/), (*))
-import LN.T
+import LN.T (CountResponses, _CountResponse, _CountResponses, countResponses_, n_)
 import LN.T.Param
 
 {-

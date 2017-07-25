@@ -4,9 +4,6 @@ module LN.Internal.BucketRound (
 
 
 
-import Data.Generic                (class Generic)
-import Data.Maybe                  (Maybe(..))
-import Prelude                     (class Eq, class Show, eq, show)
 
 import LN.T                        (BucketRoundRequest, mkBucketRoundRequest)
 

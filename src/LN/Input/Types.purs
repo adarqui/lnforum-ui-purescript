@@ -16,7 +16,7 @@ module LN.Input.Types (
 
 import Data.Foreign            (ForeignError)
 import Data.Maybe              (Maybe())
-import Purescript.Api.Helpers  (ApiError, class QueryParam)
+import Purescript.Api.Helpers (ApiError)
 
 import LN.Input.ArrayString    (InputArrayString)
 import LN.Input.Leuron         (InputLeuron(..), Leuron_Mod)

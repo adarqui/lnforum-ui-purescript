@@ -4,25 +4,15 @@ module LN.View.ViewExamples (
 
 
 
-import Data.Maybe                      (Maybe(..))
 import Halogen                         (ComponentHTML)
 import Halogen.HTML            as H
 import Halogen.HTML.Properties as P
 import Halogen.Themes.Bootstrap3       as B
-import Optic.Core                      ((^.), (..))
-import Prelude                         (map, bind, (==), (+), (-), ($))
+import Prelude (map, ($))
 
 import LN.Input.Types                  (Input)
-import LN.Router.Types                 (Routes(..), CRUD(..))
+import LN.Router.Types (Routes(Home))
 import LN.Router.Link                  (linkToP_Classes)
-import LN.Router.Class.Params          (emptyParams)
-import LN.State.Loading                (getLoading, l_currentLeuron)
-import LN.State.Types                  (State)
-import LN.View.Leurons.Show            (renderView_Leurons_Show')
-import LN.View.Module.Loading          (renderLoading)
-import LN.T                            ( LeuronPackResponse
-                                       , _LeuronPackResponse, _LeuronResponse
-                                       , leuron_)
 
 
 

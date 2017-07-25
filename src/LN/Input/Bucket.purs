@@ -5,7 +5,6 @@ module LN.Input.Bucket (
 
 
 
-import Data.Maybe         (Maybe)
 
 import LN.State.Bucket    (BucketRequestState)
 

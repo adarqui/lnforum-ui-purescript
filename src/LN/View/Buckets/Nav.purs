@@ -4,7 +4,7 @@ module LN.View.Buckets.Nav (
 
 
 
-import Prelude                         (($), show, id, not)
+import Prelude (not, ($))
 import Data.Maybe                      (Maybe(..))
 import Halogen                         (ComponentHTML)
 import Halogen.HTML            as H
@@ -15,13 +15,10 @@ import Optic.Core                      ((^.), (..))
 
 import LN.Input.Types                  (Input, cBucketMod)
 import LN.Input.Bucket
-import LN.Router.Link                  (linkToP_Classes, linkToP)
+import LN.Router.Link (linkToP)
 import LN.Router.Types                 (Routes(..), CRUD(..))
 import LN.Router.Class.Params          (emptyParams)
-import LN.State.Loading                (getLoading, l_currentBucket)
 import LN.State.Types                  (State)
-import LN.State.Bucket                 (BucketRequestState)
-import LN.View.Module.Loading          (renderLoading)
 import LN.T                            ( BucketPackResponse, _BucketPackResponse, _BucketResponse
                                        , bucket_)
 

@@ -4,9 +4,9 @@ module LN.Layout (
 
 
 
-import Data.Array                      ((:), length, concat)
+import Data.Array (concat, length)
 import Data.Maybe                      (Maybe(..))
-import Halogen.HTML            (HTML(), ClassName())
+import Halogen.HTML (HTML)
 import Halogen.HTML            as H
 import Halogen.HTML.Core       as C
 import Halogen.HTML.Properties as P
@@ -15,7 +15,7 @@ import Optic.Core                      ((^.), (..))
 import Prelude                         (map, show, ($), (<>))
 
 import LN.Debug                        (ifDebug_ByUser)
-import LN.Helpers.Halogen.Util
+import LN.Helpers.Halogen.Util (ariaHelper, container_, dataHelper, dataToggle, row)
 import LN.Router.Link                  (linkToHref, linkTo)
 import LN.Router.Types                 (Routes(..), CRUD(..))
 import LN.Router.Class.Params          (emptyParams)
@@ -41,7 +41,8 @@ defaultLayout st page =
 
 
 
-header :: Maybe UserPackResponse -> Int -> HTML _ _
+header :: Maybe UserPackResponse -> Int -> HTML _
+ _
 header muser n_errors =
   H.div [P.class_ B.containerFluid] [
 

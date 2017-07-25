@@ -10,7 +10,7 @@ import Halogen                         (ComponentHTML)
 import Halogen.HTML            as H
 import Halogen.HTML.Properties as P
 import Halogen.Themes.Bootstrap3       as B
-import Optic.Core                      ((^.), (..))
+import Optic.Core ((^.))
 import Prelude                         (show, map, ($), (<>))
 
 import LN.ArrayList                    (listToArray)
@@ -20,15 +20,9 @@ import LN.Router.Types                 (Routes(..), CRUD(..))
 import LN.Router.Class.Params          (emptyParams)
 import LN.State.Loading                (getLoading, l_bucketRounds)
 import LN.State.Types                  (State)
-import LN.State.User                   (usersMapLookup_ToUser)
-import LN.View.Module.Gravatar         (renderGravatarForUser)
 import LN.View.Module.Loading          (renderLoading)
-import LN.View.Module.OrderBy          (renderOrderBy)
 import LN.View.Module.PageNumbers      (renderPageNumbers)
-import LN.T                            ( Size(Small)
-                                       , BucketRoundResponse(..), _BucketRoundResponse
-                                       , bucketRound_
-                                       , _TrainingNode)
+import LN.T (BucketRoundResponse(BucketRoundResponse), _TrainingNode)
 
 
 

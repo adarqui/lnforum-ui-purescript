@@ -11,7 +11,7 @@ import Halogen.HTML            as H
 import Halogen.HTML.Properties as P
 import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
-import Prelude                         (show, map, ($), (<>))
+import Prelude (map, show, ($))
 
 import LN.Internal.Leuron              (leuronToTyLeuron)
 import LN.Input.Types                  (Input)
@@ -23,7 +23,6 @@ import LN.State.Types                  (State)
 import LN.State.User                   (usersMapLookup_ToUser)
 import LN.View.Module.Gravatar         (renderGravatarForUser)
 import LN.View.Module.Loading          (renderLoading)
-import LN.View.Module.OrderBy          (renderOrderBy)
 import LN.View.Module.PageNumbers      (renderPageNumbers)
 import LN.View.Leurons.Show
 import LN.T                            ( Size(Small)

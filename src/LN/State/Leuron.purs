@@ -5,37 +5,9 @@ module LN.State.Leuron (
 ) where
 
 
-import LN.Internal.Leuron ( defaultFact
-                          , defaultFactList
-                          , defaultCard
-                          , defaultDCard
-                          , defaultDCardX
-                          , defaultAcronym
-                          , defaultSynonym
-                          , defaultAntonym
-                          , defaultTemplate
-                          , defaultImageAssociation
-                          , defaultLinearDemo
-                          , defaultTable
-                          , defaultScript
-                          , defaultQA)
+import LN.Internal.Leuron (defaultAcronym, defaultAntonym, defaultCard, defaultDCard, defaultDCardX, defaultFact, defaultFactList, defaultImageAssociation, defaultLinearDemo, defaultQA, defaultSynonym, defaultTable, defaultTemplate)
 
-import LN.T               ( TyLeuron(..)
-                          , LeuronData(..)
-                          , Fact
-                          , FactList
-                          , Card
-                          , DCard
-                          , DCardX
-                          , Acronym
-                          , Synonym
-                          , Antonym
-                          , Template
-                          , ImageAssociation
-                          , LinearDemo
-                          , Table
-                          , Script
-                          , QA)
+import LN.T (Acronym, Antonym, Card, DCard, DCardX, Fact, FactList, ImageAssociation, LeuronData(LnQA, LnTable, LnLinearDemo, LnImageAssociation, LnTemplate, LnAntonym, LnSynonym, LnAcronym, LnDCardX, LnDCard, LnCard, LnFactList, LnFact), LinearDemo, QA, Synonym, Table, Template, TyLeuron(TyLnQA, TyLnTable, TyLnLinearDemo, TyLnImageAssociation, TyLnTemplate, TyLnAntonym, TyLnSynonym, TyLnAcronym, TyLnDCardX, TyLnDCard, TyLnCard, TyLnFactList, TyLnFact))
 
 
 

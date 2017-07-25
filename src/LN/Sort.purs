@@ -6,13 +6,12 @@ module LN.Sort (
 
 import Data.Array   as A
 import Data.Map     as M
-import Optic.Core   ((^.), (..))
-import Prelude      (compare, ($), (<<<))
+import Prelude (compare, ($))
 
 import LN.ArrayList (listToArray)
-import LN.T
 
 
 
+sortMapBy :: forall t12 t5 t6. Ord t6 => (t5 -> t6) -> Map t12 t5 -> Array t5
 sortMapBy cmp posts_map =
   A.sortBy (\t1 t2 -> compare (cmp t1) (cmp t2)) $ listToArray $ M.values posts_map

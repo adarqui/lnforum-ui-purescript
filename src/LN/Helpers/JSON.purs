@@ -4,11 +4,10 @@ module LN.Helpers.JSON (
 
 
 
-import Data.Argonaut.Core
-import Data.Argonaut.Decode
-import Data.Argonaut.Parser
+import Data.Argonaut.Decode (class DecodeJson, decodeJson)
+import Data.Argonaut.Parser (jsonParser)
 import Data.Maybe
-import Data.Either
+import Data.Either (Either(..))
 
 
 {-

@@ -10,12 +10,11 @@ module LN.Eval.Leurons (
 import Data.Array                    (head, deleteAt, modifyAt, nub, (:))
 import Data.Either                   (Either(..))
 import Data.Functor                  (($>))
-import Data.Int                      (fromString)
 import Data.Map                      as M
 import Data.Maybe                    (Maybe(..), maybe)
 import Halogen                       (gets, modify)
-import Optic.Core                    ((^.), (..), (.~))
-import Prelude                       (class Eq, id, const, bind, pure, map, discard, ($), (<>), (<<<), (==))
+import Optic.Core ((..), (.~))
+import Prelude (class Eq, bind, const, discard, map, pure, void, ($), (<<<), (<>), (==))
 
 import LN.Api                        ( getLeuronsCount, getLeuronPack', getLeuronPacks
                                      , postLeuron_ByResourceId', putLeuron')
@@ -28,13 +27,7 @@ import LN.State.Leuron               (leuronRequestStateFromLeuronData)
 import LN.State.Loading              (l_currentLeuron, l_leurons)
 import LN.State.Loading.Helpers      (setLoading, clearLoading)
 import LN.State.PageInfo             (runPageInfo)
-import LN.T                          ( LeuronPackResponses(..), LeuronPackResponse(..)
-                                     , LeuronResponse(..)
-                                     , LeuronRequest(..)
-                                     , _LeuronRequest
-                                     , title_, description_, section_, examples_, page_
-                                     , LeuronData(..)
-                                     , Param(..), SortOrderBy(..))
+import LN.T (LeuronPackResponse(LeuronPackResponse), LeuronPackResponses(LeuronPackResponses), LeuronRequest(LeuronRequest), LeuronResponse(LeuronResponse), Param(SortOrder, Limit, ByResourceId), SortOrderBy(SortOrderBy_Rnd), _LeuronRequest, description_, examples_, section_, title_)
 
 
 
@@ -68,7 +61,7 @@ eval_GetLeurons eval (GetLeurons m_resource_id extra_params next) = do
               leurons_map = idmapFrom (\(LeuronPackResponse p) -> p.leuronId) leuron_packs.leuronPackResponses
 
 
-             eval (GetUsers_MergeMap_ByUser users next)
+             void $ eval (GetUsers_MergeMap_ByUser users next)
 
 
              modify (_{ leurons = leurons_map })
@@ -153,7 +146,7 @@ eval_Leuron eval (CompLeuron sub next) = do
              then pure next
              else do
                _ <- mod (\(LeuronRequest req)->Just $ LeuronRequest req{examples = Just $ maybe [ex] (\examples->examples <> [ex]) req.examples})
-               modSt (_{exampleItem = ""})
+               void $ modSt (_{exampleItem = ""})
                pure next
         EditExample idx new -> do
           if new == ""
@@ -163,7 +156,7 @@ eval_Leuron eval (CompLeuron sub next) = do
         ClearExamples       -> mod $ set (\req -> _LeuronRequest .. examples_ .~ Nothing $ req)
 
         SetData d           -> do
-          mod $ set (\(LeuronRequest req) -> LeuronRequest req{ dataP = d })
+          void $ mod $ set (\(LeuronRequest req) -> LeuronRequest req{ dataP = d })
           modSt (leuronRequestStateFromLeuronData d) $> next
 
         SetType ty          -> modSt (_{ty = ty}) $> next

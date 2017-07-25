@@ -5,7 +5,6 @@ module LN.Input.Leuron (
 
 
 
-import Data.Maybe         (Maybe)
 
 import LN.T               (TyLeuron, LeuronData)
 import LN.Internal.Leuron (LeuronSift)

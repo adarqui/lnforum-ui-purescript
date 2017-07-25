@@ -5,13 +5,10 @@ module LN.Input.ArrayString (
 
 
 
-import Data.Enum            (class Enum, class BoundedEnum, Cardinality(..), fromEnum, defaultSucc, defaultPred)
+import Data.Enum (class BoundedEnum, class Enum, Cardinality(Cardinality), defaultPred, defaultSucc)
 -- import Data.Function        (on)
 import Data.Maybe           (Maybe(..))
-import Prelude              ( class Show
-                            , class Eq
-                            , class Ord, Ordering(..), compare
-                            , class Bounded)
+import Prelude (class Bounded, class Eq, class Ord, class Show, Ordering(EQ))
 
 
 

@@ -6,26 +6,21 @@ module LN.View.Buckets.Rounds.Show (
 
 
 import Data.Maybe                      (Maybe(..))
-import CSS                             as CSS
-import Halogen.HTML.CSS        as HCSS
 import Halogen                         (ComponentHTML)
 import Halogen.HTML            as H
 import Halogen.HTML.Events     as E
 import Halogen.HTML.Properties as P
 import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
-import Prelude                         (show, map, ($), (<>))
+import Prelude (show, ($), (<>))
 
-import LN.Internal.Leuron
-import LN.Input.BucketRound
+import LN.Internal.Leuron (defaultLeuronResponse)
+import LN.Input.BucketRound (InputBucketRound(..))
 import LN.Input.Types                  (Input, cBucketRound)
-import LN.Router.Link                  (linkTo, linkToP, linkToP_Classes)
-import LN.Router.Types                 (Routes(..), CRUD(..))
-import LN.Router.Class.Params          (emptyParams)
 import LN.State.Loading                (getLoading, l_currentLeuron)
 import LN.State.Types                  (State)
 import LN.View.Module.Loading          (renderLoading)
-import LN.View.Leurons.Show            (renderView_Leurons_Show, renderLeuron)
+import LN.View.Leurons.Show (renderLeuron)
 import LN.T
 
 

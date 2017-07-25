@@ -6,19 +6,17 @@ module LN.Router.Class.Routes (
 
 
 
-import Data.Generic                (class Generic, gEq)
-import Data.Map                    as M
 import Data.Maybe                  (maybe)
 import Data.Tuple                  (Tuple(..), fst)
 import Optic.Core                  ((^.), (..))
-import Prelude                     (class Eq, class Show, show, (<>), ($), (==), (&&))
+import Prelude (class Show, show, ($), (<>))
 
 import LN.T
 import LN.Router.Util              (slash)
-import LN.Router.Class.CRUD
+import LN.Router.Class.CRUD (CRUD(..))
 import LN.Router.Class.Params      (Params, emptyParams, fixParams)
-import LN.Router.Class.Link
-import LN.Router.Class.OrderBy
+import LN.Router.Class.Link (class HasLink, link)
+import LN.Router.Class.OrderBy (class HasOrderBy)
 import LN.State.Internal.Types     (InternalState)
 -- import LN.State.Types              (DriverCh)
 

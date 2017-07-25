@@ -5,7 +5,6 @@ module LN.Input.BucketRound (
 
 
 
-import Data.Maybe              (Maybe)
 
 import LN.State.BucketRound    (BucketRoundRequestState)
 import LN.T                    (BucketRoundRequest)

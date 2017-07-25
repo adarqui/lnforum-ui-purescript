@@ -6,10 +6,9 @@ module LN.Ent (
 
 
 import Data.Maybe          (Maybe(..))
-import Prelude             (($))
 
 import LN.Input.Types
-import LN.T                (Param(..), Ent(..))
+import LN.T (Ent, Param)
 
 
 

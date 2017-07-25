@@ -13,39 +13,26 @@ import Control.Coroutine as CR
 import Control.Coroutine.Aff as CRA
 import Control.Monad.Aff (Aff)
 import Control.Monad.Aff.AVar (AVAR)
-import Control.Monad.Except (runExcept)
-import Control.Monad.Eff (Eff)
-import Control.Monad.Eff.Class (liftEff)
 import Data.Either (Either(..))
 import Data.NaturalTransformation
-import Data.Foreign (toForeign)
-import Data.String as Str
-import LN.ArrayList   (listToArray)
 import Data.Functor            ((<$))
 import Data.Int                (fromString)
 import Data.List               (List(..))
-import Data.Map                as M
 import Data.Maybe              (Maybe(..))
 import Data.String             (length)
-import Data.Tuple              (Tuple(..), uncurry, snd)
+import Data.Tuple (Tuple(Tuple), snd)
 import DOM (DOM)
-import DOM.Event.EventTarget (eventListener, addEventListener) as DOM
-import DOM.HTML (window) as DOM
-import DOM.HTML.Event.EventTypes as ET
-import DOM.HTML.Event.HashChangeEvent as HCE
-import DOM.HTML.Event.Types (HashChangeEvent, readHashChangeEvent) as DOM
-import DOM.HTML.Types (windowToEventTarget) as DOM
 -- import Halogen                 hiding (set)
 import Halogen as H
 import Halogen.Aff as HA
-import Prelude                 (Unit, bind, pure, const, unit, discard, (<$>), (<*>), ($), (<<<), (>), (>>=), (>>>), (/=))
+import Prelude (Unit, bind, discard, pure, ($), (<$>), (<*>), (>))
 import Routing                 (matchesAff)
 import Routing.Match           (Match(..))
-import Routing.Match.Class     (class MatchClass, lit, str, params)
+import Routing.Match.Class (class MatchClass, lit, params)
 import Routing.Types           (RoutePart(..))
 
 import LN.Input.Types          (Input(..))
-import LN.Router.Types         (Routing, Routes(..), CRUD(..))
+import LN.Router.Types (CRUD(ShowI, DeleteI, EditI, New, Index, Show), Routes(ViewExamples, Logout, Login, BucketsRounds, BucketsLeurons, BucketsResources, Buckets, Leurons, Resources, ResourcesSiftLeuronsRandom, ResourcesSiftLeuronsLinear, ResourcesSiftLeurons, ResourcesLeurons, Users, UsersLeurons, UsersResources, UsersSettings, UsersProfile, Portal, Home, Errors, Me, About))
 import LN.Router.Class.Params  (Params, emptyParams, psRoutingParamsToParams)
 
 
@@ -73,6 +60,7 @@ str1 = Match \route ->
 
 
 
+int :: Match Int
 int = Match \route ->
   case route of
     Cons (Path input) rs ->

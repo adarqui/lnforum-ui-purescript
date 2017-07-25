@@ -5,33 +5,29 @@ module LN.View.Buckets.Resources.Index (
 
 
 import Data.Map                        as Map
-import Data.Maybe
+import Data.Maybe (Maybe(..))
 import Halogen                         (ComponentHTML)
 import Halogen.HTML            as H
 import Halogen.HTML.Properties as P
 import Halogen.HTML.Events     as E
 import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
-import Prelude                         (show, map, not, ($), (<>), (<<<))
+import Prelude (map, not, show, ($), (<>))
 
 import LN.ArrayList           (listToArray)
 import LN.Input.Types                  (Input, cBucketMod)
-import LN.Input.Bucket
+import LN.Input.Bucket (Bucket_Mod(..))
 import LN.Router.Link                  (linkToP_Classes)
 import LN.Router.Types                 (Routes(..), CRUD(..))
 import LN.Router.Class.Params          (emptyParams)
-import LN.State.Loading
+import LN.State.Loading (getLoading, l_currentBucket)
 import LN.State.Types                  (State)
 import LN.State.User                   (usersMapLookup_ToUser)
 import LN.View.Module.Gravatar         (renderGravatarForUser)
 import LN.View.Module.Loading          (renderLoading)
-import LN.View.Module.OrderBy          (renderOrderBy)
 import LN.View.Module.PageNumbers      (renderPageNumbers)
 import LN.View.Buckets.Nav
-import LN.T                            ( Size(Small)
-                                       , ResourcePackResponse(..), _ResourceStatResponse, _ResourcePackResponse, _ResourceResponse
-                                       , stat_, resource_
-                                       , BucketPackResponse)
+import LN.T (BucketPackResponse, Size(Small), _ResourcePackResponse, _ResourceResponse, _ResourceStatResponse, resource_, stat_)
 
 
 

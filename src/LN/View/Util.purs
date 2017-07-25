@@ -16,7 +16,8 @@ import LN.T
 
 
 
-showIfSelf_UserName :: State -> String -> Array (HTML _ _) -> HTML _ _
+showIfSelf_UserName :: State -> String -> Array (HTML _
+ _) -> HTML _ _
 showIfSelf_UserName st user_name html =
   if b
      then H.div_ html

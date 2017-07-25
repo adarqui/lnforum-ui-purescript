@@ -14,7 +14,7 @@ import Halogen.HTML.Properties    as P
 import Prelude                            (show, ($), (<>))
 
 import LN.Input.Types                     (Input)
-import LN.Router.Link                     (linkTo', linkToHref)
+import LN.Router.Link (linkTo')
 import LN.Router.Types                    (Routes(..), CRUD(..))
 import LN.Router.Class.Params             (emptyParams)
 import LN.T

@@ -13,7 +13,7 @@ import Halogen.Themes.Bootstrap3       as B
 import Optic.Core                      ((^.), (..))
 
 import LN.Input.Types                  (Input)
-import LN.Router.Link                  (linkToP_Classes, linkToP)
+import LN.Router.Link (linkToP)
 import LN.Router.Types                 (Routes(..), CRUD(..))
 import LN.Router.Class.Params          (emptyParams)
 import LN.State.Loading                (getLoading, l_currentBucket)

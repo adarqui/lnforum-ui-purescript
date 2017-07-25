@@ -23,7 +23,7 @@ module LN.Internal.Leuron (
 
 import Data.Generic                (class Generic)
 import Data.Maybe                  (Maybe(..))
-import Prelude                     (class Eq, class Show, eq, show)
+import Prelude (class Eq, class Show)
 
 import LN.T                        ( LeuronResponse (..)
                                    , LeuronRequest, mkLeuronRequest, LeuronData(..), TyLeuron(..)
