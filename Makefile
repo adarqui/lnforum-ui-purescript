@@ -11,10 +11,15 @@ uglify:
 #	ccjs static/dist/bundle.js --compilation_level=ADVANCED_OPTIMIZATIONS > static/dist/bundle.min.js
 	uglifyjs --compress --mangle -- static/dist/bundle.js 2>/dev/null > static/dist/bundle.min.js
 
-all-upload: all uglify upload-ugly
+all-upload-uglify: all uglify upload-ugly
+
+all-upload: all upload
 
 upload-ugly:
 	rsync -av -e ssh ./static/dist/bundle.min.js lnotes:/projects/leuronet/lnotes-yesod/static/lnotes.dist/bundle.js
+
+upload:
+	rsync -av -e ssh ./static/dist/bundle.js lnotes:/projects/leuronet/lnotes-yesod/static/lnotes.dist/bundle.js
 
 build:
 	pulp -w build
