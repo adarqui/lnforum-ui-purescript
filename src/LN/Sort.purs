@@ -5,7 +5,9 @@ module LN.Sort (
 
 
 import Data.Array   as A
+import Data.Ord     (class Ord)
 import Data.Map     as M
+import Data.Map     (Map)
 import Prelude (compare, ($))
 
 import LN.ArrayList (listToArray)
