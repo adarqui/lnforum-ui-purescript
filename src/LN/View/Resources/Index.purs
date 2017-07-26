@@ -79,7 +79,7 @@ resources st =
                 ]
               , H.div [P.classes [B.colSm9]] [
                     H.div [P.class_ B.listGroup] [linkToP_Classes [B.listGroupItem] [] (Resources (Show $ show resource.id) emptyParams) resource.displayName]
-                  , H.p_ [H.text $ "TODO FIXME show resource.createdAt"] -- show resource.createdAt]
+                  , H.p_ [H.text $ show resource.createdAt]
                   , H.p_ [H.text $ resource.description]
                 ]
               , H.div [P.classes [B.colSm2, B.hiddenXs]] [
