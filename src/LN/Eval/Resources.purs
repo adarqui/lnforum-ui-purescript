@@ -11,7 +11,7 @@ module LN.Eval.Resources (
 
 
 import Control.Monad.Aff.Console     (log)
-import Data.Array (deleteAt, head, modifyAt, nub, length)
+import Data.Array (deleteAt, head, modifyAt, nub)
 import Data.Either                   (Either(..))
 import Data.Functor                  (($>))
 import Data.Map                      as M
@@ -69,11 +69,9 @@ eval_GetResources eval (GetResources extra_params next) = do
 
              void $ eval (GetUsers_MergeMap_ByUser users next)
 
-             H.liftAff $ log $ show $ length resource_packs.resourcePackResponses
-             H.liftAff $ log $ show $ M.size resources_map
+             let ids = map (\(ResourcePackResponse p) -> p.resourceId) resource_packs.resourcePackResponses
 
              modify (_{ resources = resources_map })
-             -- modify (_{ resources = M.empty :: M.Map Int ResourcePackResponse })
              pure next
 
 
