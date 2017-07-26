@@ -10,7 +10,6 @@ import Control.Monad.Eff.Exception (throwException)
 import Data.Array
 import Data.Either (Either(..))
 import Data.Foldable (foldMap)
-import Data.Foreign.Class (readProp)
 import Data.Functor (($>))
 -- import Data.JSON (eitherDecode, decode, encode)
 import Data.Maybe (Maybe(..), maybe, fromMaybe)
@@ -34,8 +33,6 @@ import DOM.HTML as DOM
 
 import Control.Monad.Eff
 import Control.Monad.Eff.Class
-
-import Control.Monad.Free (liftFI)
 
 import Control.Monad.Aff.Console (log)
 import Control.Monad.Eff.Console (CONSOLE())

@@ -3,19 +3,14 @@ module Main where
 
 
 import Control.Coroutine as CR
-import Control.Coroutine.Aff as CRA
-import Control.Monad.Aff           (runAff, forkAff)
-import Control.Monad.Aff.AVar      (makeVar, takeVar)
+import Control.Monad.Aff.AVar (makeVar)
 import Control.Monad.Eff           (Eff())
-import Control.Monad.Eff.Exception (throwException)
-import Control.Monad.Rec.Class     (forever)
-import Data.Maybe                  (Maybe(..))
 -- import Halogen                     (runUI, action)
 import Halogen as H
 import Halogen.Aff as HA
 import Halogen.VDom.Driver (runUI)
 -- import Halogen.Util                (awaitLoad, awaitBody, selectElement)
-import Prelude                     (Unit, unit, const, pure, bind, ($), (>>=))
+import Prelude (Unit, bind, discard, unit, void, ($))
 import Partial.Unsafe
 import Router                      as R
 
@@ -58,5 +53,5 @@ main = unsafePartial $ do
     body <- HA.awaitBody
     io <- runUI (Q.ui (S.initialState ch)) unit body
 
-    io.query $ H.action GetMe
+    void $ io.query $ H.action GetMe
     CR.runProcess (R.hashChangeProducer CR.$$ R.hashChangeConsumer io.query)
