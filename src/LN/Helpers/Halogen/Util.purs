@@ -14,8 +14,8 @@ module LN.Helpers.Halogen.Util (
 import Data.Array ((:))
 import Data.Maybe                      (Maybe(..))
 import DOM.HTML.Indexed.DirValue (DirValue)
-import DOM.Event.Types
-import DOM.HTML.Event.DragEvent
+import DOM.HTML.Event.Types (DragEvent)
+import DOM.Event.Types (ClipboardEvent, Event, FocusEvent, KeyboardEvent, MouseEvent, TouchEvent)
 import Halogen.HTML            (HTML(), ClassName())
 import Halogen.HTML.Core               as C
 import Halogen.HTML            as H

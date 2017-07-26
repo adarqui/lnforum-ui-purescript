@@ -8,7 +8,6 @@ module LN.Eval.Users (
 
 
 import Halogen                       (gets, modify)
-import LN.ArrayList         (arrayToList)
 import Data.Array                    (nub, filter)
 import Data.Either                   (Either(..))
 import Data.Map                      as M
@@ -17,6 +16,7 @@ import Data.Tuple                    (Tuple(..))
 import Optic.Core                    ((^.), (..))
 import Prelude                       (bind, pure, not, map, discard, ($), (==))
 
+import LN.ArrayList                  (arrayToList)
 import LN.Api                        (getUsersCount' , getUserSanitizedPacks
                                      , getUserSanitizedPacks_ByUsersIds')
 import LN.Helpers.Api                (rd)
@@ -30,6 +30,7 @@ import LN.T
 
 
 -- eval_GetUsers :: Partial => EvalEff
+{-
 eval_GetUsers :: forall t117 t118 t124 t131.
   Partial => Bind t117 => MonadState
                             { usersPageInfo :: { currentPage :: Int
@@ -49,6 +50,7 @@ eval_GetUsers :: forall t117 t118 t124 t131.
                                 )
                                 t117
                                => (Input t118 -> t117 t118) -> Input t118 -> t117 t118
+                               -}
 eval_GetUsers eval (GetUsers next) = do
 
   page_info <- gets _.usersPageInfo
