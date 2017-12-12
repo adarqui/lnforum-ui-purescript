@@ -3,8 +3,8 @@ all:
 	make sync
 
 sync:
-	mkdir -p /Users/x/code/github/adarqui/lnotes-yesod/static/lnotes.dist/
-	cp static/dist/bundle.js /Users/x/code/github/adarqui/lnotes-yesod/static/lnotes.dist/bundle.js
+	mkdir -p /Users/x/code/github/adarqui/lnforum-yesod/static/lnforum.dist/
+	cp static/dist/bundle.js /Users/x/code/github/adarqui/lnforum-yesod/static/lnforum.dist/bundle.js
 
 # https://www.npmjs.com/package/uglify-js
 uglify:
@@ -16,10 +16,10 @@ all-upload-uglify: all uglify upload-ugly
 all-upload: all upload
 
 upload-ugly:
-	rsync -av -e ssh ./static/dist/bundle.min.js lnotes:/projects/leuronet/lnotes-yesod/static/lnotes.dist/bundle.js
+	rsync -av -e ssh ./static/dist/bundle.min.js lnforum:/projects/leuronet/lnforum-yesod/static/lnforum.dist/bundle.js
 
 upload:
-	rsync -av -e ssh ./static/dist/bundle.js lnotes:/projects/leuronet/lnotes-yesod/static/lnotes.dist/bundle.js
+	rsync -av -e ssh ./static/dist/bundle.js lnforum:/projects/leuronet/lnforum-yesod/static/lnforum.dist/bundle.js
 
 build:
 	pulp -w build
